@@ -2895,24 +2895,25 @@ void CElementManager::OnFileImportJSON(CModeler1View* pView)
 		return;
 	CStringW fileName = dlg.GetPathName();
 	wstring doc = (LPTSTR)(LPCTSTR)fileName;
-}
 
-void CElementManager::OnFileExportJSON(CModeler1View* pView)
-{
-	CFileDialog dlg(TRUE);
-	if (dlg.DoModal() != IDOK)
-		return;
-	CStringW fileName = dlg.GetPathName();
-	wstring doc = (LPTSTR)(LPCTSTR)fileName;
-
-	web::json::value jdata = AsJSON();
-	wstring json = jdata.serialize();
-	AfxMessageBox(json.c_str());
+	wstring json = GetFileContent(doc);
 
 	m_objects.RemoveAll();
 	Invalidate(pView);
 
-	FromJSON(jdata.as_object());
+	try
+	{
+		web::json::value jdata = web::json::value::parse(json);
+		FromJSON(jdata.as_object());
+	}
+	catch (web::json::json_exception ex)
+	{
+		string str = ex.what();
+		wstring w(str.begin(), str.end());
+		AfxMessageBox(w.c_str());
+		return;
+	}
+
 	for (shared_ptr<CElement> pElement : GetObjects())
 	{
 		if (pElement->IsLine())
@@ -2931,5 +2932,25 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	BuildGroups();
 
 	BuildElementsCombo(pView);
+}
+
+void CElementManager::OnFileExportJSON(CModeler1View* pView)
+{
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+	CStringW fileName = dlg.GetPathName();
+	wstring doc = (LPTSTR)(LPCTSTR)fileName;
+
+	web::json::value jdata = AsJSON();
+	wstring json = jdata.serialize();
+
+	string str(json.begin(), json.end());
+
+	ofstream file(doc);
+	file << str;
+	file.close();
+
+	AfxMessageBox(json.c_str());
 }
 
