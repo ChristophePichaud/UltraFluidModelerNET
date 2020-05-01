@@ -75,7 +75,14 @@ using namespace std;
 
 #include "cpprest/json.h"
     
-#pragma comment (lib, "Libs\\cpprest141d_2_10.lib")
+//#pragma comment (lib, "Libs\\cpprest141d_2_10.lib")
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment (lib, "Libs\\cpprest_2_10d.lib")
+    #else    
+        #pragma comment (lib, "Libs\\cpprest_2_10.lib")
+    #endif
+#endif
 
 #define VERSION_COMMUNITY
 #define MAX_SHAPES          50

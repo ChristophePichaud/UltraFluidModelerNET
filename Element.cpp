@@ -293,6 +293,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_colorFill = (COLORREF)(object.at(U("ColorFill")).as_integer());
 	pElement->m_colorLine = (COLORREF)(object.at(U("ColorLine")).as_integer());
 	pElement->m_lineWidth = (COLORREF)(object.at(U("LineWidth")).as_integer());
+	pElement->m_image = object.at(U("Image")).as_string();;
 	pElement->m_bColorFill = (object.at(U("bColorFill")).as_integer()) == 1 ? true: false;
 	pElement->m_bColorLine = (object.at(U("bColorLine")).as_integer()) == 1 ? true : false;
 	pElement->m_bLineWidth = (object.at(U("bLineWidth")).as_integer()) == 1 ? true : false;
