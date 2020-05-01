@@ -2974,3 +2974,58 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	AfxMessageBox(json.c_str());
 }
 
+void CElementManager::OnElementsScalePlus(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		int fontSize = pElement->m_fontSize;
+		fontSize = fontSize * 2;
+		if (fontSize > 20 && (fontSize % 2 != 0))
+		{
+			fontSize++;
+		}
+		pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		x2 = x1 + (pElement->m_rect.Width() * 2);
+		y2 = y1 + (pElement->m_rect.Height() * 2);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	pView->Invalidate();
+}
+
+void CElementManager::OnElementsScaleMoins(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		int fontSize = pElement->m_fontSize;
+		fontSize = fontSize / 2;
+		if (fontSize > 20 && (fontSize % 2 != 0))
+		{
+			fontSize++;
+		}
+		pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		x2 = x1 + (pElement->m_rect.Width() / 2);
+		y2 = y1 + (pElement->m_rect.Height() / 2);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	pView->Invalidate();
+}

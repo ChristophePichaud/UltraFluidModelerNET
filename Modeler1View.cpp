@@ -196,6 +196,10 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SELECT_ONLY_FIRST_LINE, &CModeler1View::OnUpdateSelectOnlyFirstLine)
 	ON_COMMAND(ID_FILE_IMPORT_JSON, &CModeler1View::OnFileImportJSON)
 	ON_COMMAND(ID_FILE_EXPORT_JSON, &CModeler1View::OnFileExportJSON)
+	ON_COMMAND(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnElementsScalePlus)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnUpdateElementsScalePlus)
+	ON_COMMAND(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnElementsScaleMoins)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnUpdateElementsScaleMoins)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1374,4 +1378,23 @@ void CModeler1View::OnFileExportJSON()
 	GetManager()->OnFileExportJSON(this);
 }
 
+void CModeler1View::OnElementsScalePlus()
+{
+	GetManager()->OnElementsScalePlus(this);
+}
+
+void CModeler1View::OnUpdateElementsScalePlus(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnElementsScaleMoins()
+{
+	GetManager()->OnElementsScaleMoins(this);
+}
+
+void CModeler1View::OnUpdateElementsScaleMoins(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
 

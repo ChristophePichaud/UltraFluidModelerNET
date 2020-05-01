@@ -355,10 +355,10 @@ void CMainFrame::InitMainButton()
 
 	CMFCRibbonPanel* pPanelDesign = pCategory->AddPanel(_T("Design\nzd"), m_PanelImages.ExtractIcon(2));
 
-	pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECT, _T("Select\nc"), 2));
+	pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECT, _T("Select\nc"), 51));
 	//pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECTION, _T("Selection\nc"), 2));
 
-	CMFCRibbonButton* pBtnSelection = new CMFCRibbonButton(ID_DESIGN_SELECTION, _T("Selection\ns"), 2);
+	CMFCRibbonButton* pBtnSelection = new CMFCRibbonButton(ID_DESIGN_SELECTION, _T("Selection\ns"), 51);
 	pBtnSelection->SetMenu(IDR_SELECT_MENU);
 	pPanelDesign->Add(pBtnSelection);
 
@@ -436,6 +436,22 @@ void CMainFrame::InitMainButton()
 	apFontGroup->AddButton(m_pFontCombo);
 
 	m_pFontSizeCombo = new CMFCRibbonComboBox(ID_FONT_FONTSIZE, FALSE, 39);
+	for (int i = 6; i < 600; )
+	{
+		CString str;
+		str.Format(_T("%d"), i);
+		m_pFontSizeCombo->AddItem(str);
+
+		if (i >= 20)
+		{
+			i += 2;
+		}
+		else
+		{
+			++i;
+		}
+	}
+	/*
 	m_pFontSizeCombo->AddItem(_T("8"));
 	m_pFontSizeCombo->AddItem(_T("9"));
 	m_pFontSizeCombo->AddItem(_T("10"));
@@ -465,6 +481,7 @@ void CMainFrame::InitMainButton()
 	m_pFontSizeCombo->AddItem(_T("56"));
 	m_pFontSizeCombo->AddItem(_T("58"));
 	m_pFontSizeCombo->AddItem(_T("60"));
+	*/
 	m_pFontSizeCombo->SetWidth(15, TRUE); // Width in "floaty" mode
 	m_pFontSizeCombo->SelectItem(7);
 	apFontGroup->AddButton(m_pFontSizeCombo);
@@ -508,7 +525,7 @@ void CMainFrame::InitMainButton()
 	pPanelAction->Add(new CMFCRibbonButton(ID_DEBUG_DUMP_OBJECTS, _T("Dump\ndc"), 2));
 	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_FOLDERS, _T("Folders\nc"), 48));
 	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 47));
-	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconect\nc"), 50));
+	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
 	//m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
 	//m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
 	//pPanelAction->Add(m_pElementsCombo);
@@ -518,6 +535,8 @@ void CMainFrame::InitMainButton()
 	m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
 	m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
 	pPanelElements->Add(m_pElementsCombo);
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_PLUS, _T("Scale+\nc"), 52));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_MOINS, _T("Scale-\nc"), 53));
 
 	// Create "Format" panel
 	CMFCRibbonPanel* pPanelFormat = pCategory->AddPanel(_T("Format and Style\nzd"), m_PanelImages.ExtractIcon(2));

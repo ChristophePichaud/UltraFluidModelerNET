@@ -225,6 +225,8 @@ public:
 public:
 	void OnActionElements(CModeler1View* pView);
 	void BuildElementsCombo(CModeler1View* pView);
+	void OnElementsScalePlus(CModeler1View* pView);
+	void OnElementsScaleMoins(CModeler1View* pView);
 };
 
 enum FileType : int

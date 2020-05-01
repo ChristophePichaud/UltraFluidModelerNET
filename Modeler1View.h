@@ -218,6 +218,10 @@ public:
 	afx_msg void OnUpdateSelectOnlyFirstLine(CCmdUI* pCmdUI);
 	afx_msg void OnFileImportJSON();
 	afx_msg void OnFileExportJSON();
+	afx_msg void OnElementsScalePlus();
+	afx_msg void OnUpdateElementsScalePlus(CCmdUI* pCmdUI);
+	afx_msg void OnElementsScaleMoins();
+	afx_msg void OnUpdateElementsScaleMoins(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp
