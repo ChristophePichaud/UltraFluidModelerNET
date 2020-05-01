@@ -28,6 +28,8 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 	{
 		ar.SetObjectSchema(11);
 
+		pElementManager->ExpandGroupAttributes();
+
 		CTypedPtrList<CObList, CElement *> objects;
 		for( vector<std::shared_ptr<CElement>>::iterator i = m_objects.begin() ; i!=m_objects.end() ; i++ )
 		{

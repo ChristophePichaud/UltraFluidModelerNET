@@ -394,26 +394,10 @@ void CElement::Serialize(CArchive& ar)
 		ar << doct;
 
 		// The schema v9 contains extra info: names, elements
-		CString n;
-		CString elts;
-		for (shared_ptr<CElementGroup> pElementGroup : this->m_pManager->m_groups)
-		{
-			//elts += CString(_T("|"));
-			n += /*CString(_T("|")) +*/ CString(pElementGroup->m_name.c_str()) + CString(_T("|"));
-			for (shared_ptr<CElement> pElement : pElementGroup->m_Groups)
-			{
-				elts += CString(pElement->m_name.c_str()) + CString(_T(";"));
-			}
-			elts += CString(_T("|"));
-		}
-		CElement::m_elementGroupNames = n;
-		CElement::m_elementGroupElements = elts;
-		
 		CString names = W2T((LPTSTR)CElement::m_elementGroupNames.c_str());
 		ar << names;
 		CString elements = W2T((LPTSTR)CElement::m_elementGroupElements.c_str());
 		ar << elements;
-
 
 		// The schema v8 contains extra info: document
 		CString doc = W2T((LPTSTR)m_document.c_str());

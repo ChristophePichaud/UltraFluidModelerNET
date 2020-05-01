@@ -2507,6 +2507,8 @@ void CElementManager::BuildGroups()
 	//	}
 	//}
 
+	this->m_groups.clear();
+		
 	for (int j = 0; j < vlistes.size(); ++j)
 	{
 
@@ -2540,6 +2542,24 @@ void CElementManager::BuildGroups()
 		this->m_groups.push_back(speg);
 	}
 
+}
+
+void CElementManager::ExpandGroupAttributes()
+{
+	CString n;
+	CString elts;
+	for (shared_ptr<CElementGroup> pElementGroup : m_groups)
+	{
+		//elts += CString(_T("|"));
+		n += /*CString(_T("|")) +*/ CString(pElementGroup->m_name.c_str()) + CString(_T("|"));
+		for (shared_ptr<CElement> pElement : pElementGroup->m_Groups)
+		{
+			elts += CString(pElement->m_name.c_str()) + CString(_T(";"));
+		}
+		elts += CString(_T("|"));
+	}
+	CElement::m_elementGroupNames = n;
+	CElement::m_elementGroupElements = elts;
 }
 
 int CElementManager::GetEncoderClsid(const WCHAR* format, CLSID* pClsid)

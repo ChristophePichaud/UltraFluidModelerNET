@@ -182,6 +182,7 @@ public:
 	void OnEditUngroup(CModeler1View* pView);
 	std::vector<std::wstring> Split(const std::wstring& s, wchar_t delim);
 	void BuildGroups();
+	void ExpandGroupAttributes();
 
 // Managing Connecting
 public:
