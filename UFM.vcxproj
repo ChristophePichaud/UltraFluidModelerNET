@@ -263,6 +263,9 @@
     <Image Include="res\main.bmp" />
     <Image Include="res\menuimages.bmp" />
     <Image Include="res\menuimages24.bmp" />
+    <Image Include="res\Modeler1.bmp" />
+    <Image Include="res\Modeler1.ico" />
+    <Image Include="res\Modeler1Doc.ico" />
     <Image Include="res\nav_large.bmp" />
     <Image Include="res\nav_large_hc.bmp" />
     <Image Include="res\output_wnd.ico" />

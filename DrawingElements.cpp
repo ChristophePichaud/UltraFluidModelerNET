@@ -701,6 +701,15 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 		//stringFormat.SetLineAlignment(StringAlignmentCenter);
 		// Brush object
 		//SolidBrush solidBrush(Color(255, 0, 0, 0));
+
+		if (HasColorFill())
+		{
+			if (IsSolidColorFill())
+			{
+				graphics->FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
+			}
+		}
+
 		Color color;
 		color.SetFromCOLORREF(m_colorText);
 		SolidBrush solidBrush(color);
