@@ -6,7 +6,7 @@
 // CElementContainer Class
 //
 
-IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 11)
+IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 13)
 
 CElementContainer::CElementContainer()
 {
@@ -26,7 +26,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(11);
+		ar.SetObjectSchema(13);
 
 		pElementManager->ExpandGroupAttributes();
 
@@ -106,6 +106,14 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			// Schema v11
 			pNewElement->m_connectorDragHandle1 = pElement->m_connectorDragHandle1;
 			pNewElement->m_connectorDragHandle2 = pElement->m_connectorDragHandle2;
+
+			// Schema v12
+			pNewElement->m_version = pElement->m_version;
+			pNewElement->m_product = pElement->m_product;
+
+			// Schema v13
+			pNewElement->m_leftMargin = pElement->m_leftMargin;
+			pNewElement->m_topMargin = pElement->m_topMargin;
 
 
 			POSITION pos = /*pNewElement->m_pView =*/ ar.m_pDocument->GetFirstViewPosition(); //nullptr; // TODO

@@ -13,7 +13,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 11)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 13)
 
 CElementManager::CElementManager()
 {
@@ -106,7 +106,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(11);
+		ar.SetObjectSchema(13);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -670,6 +670,9 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			//pTextElement->m_code = pElement->m_code;
 			pTextElement->m_fontSize = pElement->m_fontSize;
 			pTextElement->m_colorText = pElement->m_colorText;
+			pTextElement->m_leftMargin = pElement->m_leftMargin;
+			pTextElement->m_topMargin = pElement->m_topMargin;
+
 			pTextElement->Draw(ctxt);
 		}
 
@@ -910,7 +913,7 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 	{
 
 #ifdef VERSION_COMMUNITY
-		if (CFactory::g_counter > MAX_SHAPES)
+		if (CFactory::g_counter > MAX_SHAPES && IsMyLocalDev() == false)
 		{
 			AfxMessageBox(_T("Maximum number or shapes reached !\nFor more, please buy the Architect Edition."));
 			return;
@@ -1429,9 +1432,19 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		pElement->m_code = value;
 	}
 
+	if (name == prop_Version)
+	{
+		pElement->m_version = value;
+	}
+
+	if (name == prop_Product)
+	{
+		pElement->m_product = value;
+	}
+
 	if (name == prop_Text_Align)
 	{
-		if (value == _T("Left") || value == _T("Center") || value == _T("Right"))
+		if (value == _T("None") || value == _T("Left") || value == _T("Center") || value == _T("Right"))
 		{
 			pElement->m_textAlign = value;
 		}
@@ -1560,6 +1573,16 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if (name == prop_Fixed)
 	{
 		pElement->m_bFixed = value == 0 ? false : true;
+	}
+
+	if (name == prop_Left_Margin)
+	{
+		pElement->m_leftMargin = value;
+	}
+
+	if (name == prop_Top_Margin)
+	{
+		pElement->m_topMargin = value;
 	}
 
 	InvalObj(pElement->GetView(), pElement);
@@ -2643,6 +2666,10 @@ void CElementManager::OnFileExportPNG(CModeler1View* pView)
 			pTextElement->m_rect = pElement->m_rect;
 			pTextElement->m_text = pElement->m_text;
 			pTextElement->m_textAlign = pElement->m_textAlign;
+			pTextElement->m_fontName = pElement->m_fontName;
+			pTextElement->m_fontSize = pElement->m_fontSize;
+			pTextElement->m_leftMargin = pElement->m_leftMargin;
+			pTextElement->m_topMargin = pElement->m_topMargin;
 			pTextElement->Draw(ctxt);
 		}
 
@@ -3033,4 +3060,23 @@ void CElementManager::OnElementsScaleMoins(CModeler1View* pView)
 	}
 
 	pView->Invalidate();
+}
+
+bool CElementManager::IsMyLocalDev()
+{
+	TCHAR szName[255];
+	DWORD dwSize = sizeof(szName);
+	if (::GetComputerName(szName, &dwSize) == 0)
+	{
+		return false;
+	}
+
+	//AfxMessageBox(szName);
+	wstring computerName = szName;
+	if (computerName == _T("DESKTOP-7VJOH39"))
+	{
+		return true;
+	}
+
+	return false;
 }

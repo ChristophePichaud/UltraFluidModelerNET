@@ -93,7 +93,7 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 11)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 13)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
@@ -110,7 +110,7 @@ CElement::CElement()
 	m_last = m_point;
 	m_text = _T("");
 	m_code = _T("");
-	m_textAlign = _T("Left");
+	m_textAlign = _T("None");
 	m_bColorFill = true;
 	m_colorFill = RGB(154, 200, 249);
 	m_bSolidColorFill = false;
@@ -127,6 +127,8 @@ CElement::CElement()
 	m_bUnderline = false;
 	m_bStrikeThrough = false;
 	m_colorText = RGB(0, 0, 0);
+	m_leftMargin = 10;
+	m_topMargin = 10;
 
 	m_pConnector = make_shared<CConnector>();
 	m_pConnector->m_pElement1 = nullptr;
@@ -139,6 +141,9 @@ CElement::CElement()
 	m_document = _T("");
 	m_documentType = DocumentType::document_none;
 	m_documentTypeText = _T("None");
+	m_version = _T("");
+	m_product = _T("");
+
 
 	m_bMoving = FALSE;
 
@@ -212,6 +217,8 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_bStrikeThrough = m_bStrikeThrough;
 		pNewElement->m_code = m_code;
 		pNewElement->m_fontSize = m_fontSize;
+		pNewElement->m_leftMargin = m_leftMargin;
+		pNewElement->m_topMargin = m_topMargin;
 		pNewElement->m_colorText = m_colorText;
 		pNewElement->m_document = m_document;
 		pNewElement->m_elementGroupNames = m_elementGroupNames;
@@ -219,6 +226,8 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_documentType = m_documentType;
 		pNewElement->m_connectorDragHandle1 = m_connectorDragHandle1;
 		pNewElement->m_connectorDragHandle2 = m_connectorDragHandle2;
+		pNewElement->m_version = m_version;
+		pNewElement->m_product= m_product;
 
 		return pNewElement;
 }
@@ -251,12 +260,16 @@ CElement::CElement(const CElement& element)
 	this->m_code = element.m_code;
 	this->m_fontSize = element.m_fontSize;
 	this->m_colorText = element.m_colorText;
-	this->m_document = m_document;
-	this->m_elementGroupNames = m_elementGroupNames;
-	this->m_elementGroupElements = m_elementGroupElements;
-	this->m_documentType = m_documentType;
-	this->m_connectorDragHandle1 = m_connectorDragHandle1;
-	this->m_connectorDragHandle2 = m_connectorDragHandle2;
+	this->m_leftMargin = element.m_leftMargin;
+	this->m_topMargin = element.m_topMargin;
+	this->m_document = element.m_document;
+	this->m_elementGroupNames = element.m_elementGroupNames;
+	this->m_elementGroupElements = element.m_elementGroupElements;
+	this->m_documentType = element.m_documentType;
+	this->m_connectorDragHandle1 = element.m_connectorDragHandle1;
+	this->m_connectorDragHandle2 = element.m_connectorDragHandle2;
+	this->m_version = element.m_version;
+	this->m_product = element.m_product;
 }
 
 CString CElement::ToString(shared_ptr<CElement> pElement)
@@ -315,6 +328,10 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_connectorDragHandle2 = object.at(U("ConnectorDragHandle2")).as_integer();
 	pElement->m_connectorName1 = object.at(U("ConnectorName1")).as_string();
 	pElement->m_connectorName2 = object.at(U("ConnectorName2")).as_string();
+	pElement->m_version = object.at(U("Version")).as_string();
+	pElement->m_product = object.at(U("Product")).as_string();
+	pElement->m_leftMargin = object.at(U("LeftMargin")).as_integer();
+	pElement->m_topMargin = object.at(U("TopMargin")).as_integer();
 
 	return pElement;
 }
@@ -362,6 +379,10 @@ web::json::value CElement::AsJSON() const
 	res[U("ConnectorDragHandle2")] = web::json::value::number(m_connectorDragHandle2);
 	res[U("ConnectorName1")] = web::json::value::string(m_connectorName1);
 	res[U("ConnectorName2")] = web::json::value::string(m_connectorName2);
+	res[U("Version")] = web::json::value::string(m_version);
+	res[U("Product")] = web::json::value::string(m_product);
+	res[U("LeftMargin")] = web::json::value::number(m_leftMargin);
+	res[U("TopMargin")] = web::json::value::number(m_topMargin);
 	return res;
 
 }
@@ -381,8 +402,17 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(11);
+		ar.SetObjectSchema(13);
 
+		// The schema v13 contains extra info: leftMargin, topMargin
+		ar << m_leftMargin;
+		ar << m_topMargin;
+
+		// The schema v12 contains extra info: version, product
+		CString version = W2T((LPTSTR)m_version.c_str());
+		ar << version;
+		CString product = W2T((LPTSTR)m_product.c_str());
+		ar << product;
 
 		// The schema v11 contains extra info: connectorDragHandle1 & 2
 		ar << m_connectorDragHandle1;
@@ -469,6 +499,22 @@ void CElement::Serialize(CArchive& ar)
 		// get the document back pointer from the archive
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
+
+		if (version >= 13)
+		{
+			ar >> m_leftMargin;
+			ar >> m_topMargin;
+		}
+
+		if (version >= 12)
+		{
+			CString version;
+			ar >> version;
+			m_version = T2W((LPTSTR)(LPCTSTR)version);
+			CString product;
+			ar >> product;
+			m_product = T2W((LPTSTR)(LPCTSTR)product);
+		}
 
 		if (version >= 11)
 		{

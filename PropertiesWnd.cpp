@@ -229,13 +229,20 @@ void CPropertiesWnd::InitPropList()
 	pProp->Enable(FALSE);
 	pGroup3->AddSubItem(pProp);
 	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Text"), (_variant_t) _T(""), _T("Specifies the object's text")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Comments"), (_variant_t)_T(""), _T("Specifies the object's commenst or code")));
-	pProp = new CMFCPropertyGridProperty(_T("Text Align"), _T(""), _T("Specifies the alignment of the text"));
+	pProp = new CMFCPropertyGridProperty(_T("Text Align"), _T("None"), _T("Specifies the alignment of the text"));
+	pProp->AddOption(_T("None"));
 	pProp->AddOption(_T("Left"));
 	pProp->AddOption(_T("Center"));
 	pProp->AddOption(_T("Right"));
 	pProp->AllowEdit(FALSE);
 	pGroup3->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Left Margin"), (_variant_t)(long)10, _T("Specifies the object's left margin"));
+	pProp->EnableSpinControl(TRUE, -2000, 2000);
+	pGroup3->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Top Margin"), (_variant_t)(long)10, _T("Specifies the object's top margin"));
+	pProp->EnableSpinControl(TRUE, -2000, 2000);
+	pGroup3->AddSubItem(pProp);
+	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Comments"), (_variant_t)_T(""), _T("Specifies the object's commenst or code")));
 	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Font Name"), (_variant_t) _T("Calibri"), _T("Specifies the font of the text")));
 
 	pProp = new CMFCPropertyGridProperty(_T("Font Size"), (_variant_t) (long)12, _T("Specifies the font's height of the text"));
@@ -274,7 +281,7 @@ void CPropertiesWnd::InitPropList()
 	pProp = new CMFCPropertyGridProperty(_T("Connector1 Handle"), _T(""), _T("Specifies the connector's handle"));
 	pProp->AddOption(_T(""));
 	pProp->AddOption(_T("TopLeft"));
-	pProp->AddOption(_T("Center"));
+	//pProp->AddOption(_T("Center"));
 	pProp->AddOption(_T("TopCenter"));
 	pProp->AddOption(_T("BottomCenter"));
 	pProp->AddOption(_T("LeftCenter"));
@@ -285,13 +292,16 @@ void CPropertiesWnd::InitPropList()
 	pProp = new CMFCPropertyGridProperty(_T("Connector2 Handle"), _T(""), _T("Specifies the connector's handle"));
 	pProp->AddOption(_T(""));
 	pProp->AddOption(_T("TopLeft"));
-	pProp->AddOption(_T("Center"));
+	//pProp->AddOption(_T("Center"));
 	pProp->AddOption(_T("TopCenter"));
 	pProp->AddOption(_T("BottomCenter"));
 	pProp->AddOption(_T("LeftCenter"));
 	pProp->AddOption(_T("RightCenter"));
 	pProp->AllowEdit(FALSE);
 	pGroup3->AddSubItem(pProp);
+
+	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Product"), (_variant_t)_T(""), _T("Specifies the product name")));
+	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Version"), (_variant_t)_T(""), _T("Specifies the version")));
 
 	m_wndPropList.AddProperty(pGroup3);
 
@@ -390,6 +400,13 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Document_Type, pObj->ToString(pObj->m_documentType));
 	UpdateProperty(prop_Connector1Handle, pObj->DragHandleToString(pObj->m_connectorDragHandle1));
 	UpdateProperty(prop_Connector2Handle, pObj->DragHandleToString(pObj->m_connectorDragHandle2));
+
+	UpdateProperty(prop_Version, pObj->m_version.c_str());
+	UpdateProperty(prop_Product, pObj->m_product.c_str());
+
+	UpdateProperty(prop_Left_Margin, (LONG)(pObj->m_leftMargin));
+	UpdateProperty(prop_Top_Margin, (LONG)(pObj->m_topMargin));
+
 }
 
 void CPropertiesWnd::UpdateProperty(std::wstring propertyName, COleVariant vNewValue)
@@ -502,7 +519,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 	}
 	else if (propName == prop_Text_Align)
 	{
-		if (propValueText == _T("Left") || propValueText == _T("Center") || propValueText == _T("Right"))
+		if (propValueText == _T("None") || propValueText == _T("Left") || propValueText == _T("Center") || propValueText == _T("Right"))
 		{
 			GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValueText);
 		}
@@ -534,6 +551,10 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}
 	else if( propName == prop_Font_Size )
+	{
+		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
+	}
+	else if (propName == prop_Left_Margin || propName == prop_Top_Margin)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}

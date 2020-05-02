@@ -644,7 +644,9 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 	//PointF pointF(p1.x, p1.y);
 	//SizeF sizeF(rect.Width(), rect.Height());
 	//RectF rectF(pointF, sizeF);
-	PointF pointText(rect.left + 10, rect.top + 10);
+	//PointF pointText(rect.left + 10, rect.top + 10);
+	//SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
+	PointF pointText(rect.left + m_leftMargin, rect.top + m_topMargin);
 	SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
 	RectF rectF(pointText, sizeF);
 
@@ -696,11 +698,11 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 		{
 			stringFormat.SetAlignment(StringAlignmentNear);
 		}
-		if (m_textAlign == _T("Center"))
+		else if (m_textAlign == _T("Center"))
 		{
 			stringFormat.SetAlignment(StringAlignmentCenter);
 		}
-		if (m_textAlign == _T("Right"))
+		else if (m_textAlign == _T("Right"))
 		{
 			stringFormat.SetAlignment(StringAlignmentFar);
 		}
@@ -733,7 +735,9 @@ void CSimpleTextElement::Draw(CDrawingContext & ctxt)
 	CPoint & p2 = ctxt.GetBottomRight();
 	SolidBrush & solidBrush = ctxt.GetBrushBlack();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
-	PointF pointText(rect.left + 10, rect.top + 10);
+	//PointF pointText(rect.left + 10, rect.top + 10);
+	//SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
+	PointF pointText(rect.left + m_leftMargin, rect.top + m_topMargin);
 	SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
 	RectF rectF(pointText, sizeF);
 
@@ -753,7 +757,9 @@ void CSimpleTextElement::Draw(CDrawingContext & ctxt)
 			stringFormat.SetAlignment(StringAlignmentFar);
 		}
 		// Font object
-		FontFamily fontFamily(L"Calibri");
+		//FontFamily fontFamily(L"Calibri");
+		CStringW fontName(m_fontName.c_str());
+		FontFamily fontFamily(fontName);
 		//Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);	
 		Gdiplus::Font font(&fontFamily, this->m_fontSize, FontStyleRegular, UnitPixel);
 		graphics->SetTextRenderingHint(TextRenderingHintAntiAlias);

@@ -263,6 +263,10 @@ public:
 	static std::wstring m_elementGroupElements;
 	DocumentType m_documentType;
 	std::wstring m_documentTypeText;
+	std::wstring m_version;
+	std::wstring m_product;
+	int m_leftMargin;
+	int m_topMargin;
 
 // Methods for Attributes
 public:

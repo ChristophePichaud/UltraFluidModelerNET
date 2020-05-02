@@ -227,6 +227,10 @@ public:
 	void BuildElementsCombo(CModeler1View* pView);
 	void OnElementsScalePlus(CModeler1View* pView);
 	void OnElementsScaleMoins(CModeler1View* pView);
+
+// Licensing
+public:
+	bool IsMyLocalDev();
 };
 
 enum FileType : int
