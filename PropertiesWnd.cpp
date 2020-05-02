@@ -229,6 +229,7 @@ void CPropertiesWnd::InitPropList()
 	pProp->Enable(FALSE);
 	pGroup3->AddSubItem(pProp);
 	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Text"), (_variant_t) _T(""), _T("Specifies the object's text")));
+	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Comments"), (_variant_t)_T(""), _T("Specifies the object's commenst or code")));
 	pProp = new CMFCPropertyGridProperty(_T("Text Align"), _T(""), _T("Specifies the alignment of the text"));
 	pProp->AddOption(_T("Left"));
 	pProp->AddOption(_T("Center"));
@@ -361,6 +362,7 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Bottom, pObj->m_rect.bottom);
 
 	UpdateProperty(prop_Text, pObj->m_text.c_str());
+	UpdateProperty(prop_Comments, pObj->m_code.c_str());
 	UpdateProperty(prop_Text_Align, pObj->m_textAlign.c_str());
 
 	// Font Name and Size

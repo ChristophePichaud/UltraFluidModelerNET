@@ -133,21 +133,18 @@ void CTabbedView::OnActivateView(CView* view)
 
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 		CElementManager* pManager = pFrame->GetManager();
-		if (pManager->HasSelection())
+		if (pManager->HasSelection() && pManager->m_selection.GetCount() == 1)
 		{
 			shared_ptr<CElement> pElement = nullptr;
 			pElement = pManager->m_selection.GetHead();
+			// Assign Tabbed View shared_ptr CElement of the selection
+			pSourceView->m_pElement = pElement;
 
-			pManager->m_bSavingCode = true;
-			//ctrlEdit.SetWindowText(pElement->m_text.c_str());
 			ctrlEdit.SetWindowText(pElement->m_code.c_str());
-			pManager->m_bSavingCode = false;
 		}
 		else
 		{
-			pManager->m_bSavingCode = true;
 			ctrlEdit.SetWindowText(_T("No selected element!"));
-			pManager->m_bSavingCode = false;
 		}
 	}
 }

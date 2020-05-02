@@ -1424,6 +1424,11 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		pElement->m_text = value;
 	}
 
+	if (name == prop_Comments)
+	{
+		pElement->m_code = value;
+	}
+
 	if (name == prop_Text_Align)
 	{
 		if (value == _T("Left") || value == _T("Center") || value == _T("Right"))

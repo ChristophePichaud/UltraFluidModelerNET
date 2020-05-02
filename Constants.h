@@ -4,6 +4,7 @@ const std::wstring prop_Name = L"Name";
 const std::wstring prop_ID = L"ID";
 const std::wstring prop_Caption = L"Caption";
 const std::wstring prop_Text = L"Text";
+const std::wstring prop_Comments = L"Comments";
 const std::wstring prop_Image = L"Image";
 const std::wstring prop_Fixed = L"Fixed";
 const std::wstring prop_Type = L"Type";

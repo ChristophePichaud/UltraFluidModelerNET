@@ -57,8 +57,11 @@ void CLineElement::Draw(CDrawingContext & ctxt)
 	}
 	else if( m_shapeType == ShapeType::line_left_right )
 	{
-		colorPen.SetStartCap(LineCapArrowAnchor);
-		colorPen.SetEndCap(LineCapArrowAnchor);
+		//colorPen.SetStartCap(LineCapArrowAnchor);
+		//colorPen.SetEndCap(LineCapArrowAnchor);
+		AdjustableArrowCap aac(10, 4);
+		colorPen.SetCustomStartCap(&aac);
+		colorPen.SetCustomEndCap(&aac);
 		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
 	}
 }
@@ -372,12 +375,15 @@ void CLineBrokenElement::Draw(CDrawingContext & ctxt)
 			GraphicsPath capPath;
 			capPath.AddLines(points, 3);
 			// Create a CustomLineCap object.
-			CustomLineCap custCap(NULL, &capPath); 
+			//CustomLineCap custCap(NULL, &capPath); 
 			// Set the start and end caps for custCap.
-			custCap.SetStrokeCap(LineCapTriangle);
+			//custCap.SetStrokeCap(LineCapTriangle);
 			// Create a Pen object, assign startStrokeCap and endStrokeCap as the 
 			// start and end caps, and draw a line.
-			colorPen.SetCustomEndCap(&custCap);
+			//colorPen.SetCustomEndCap(&custCap);
+			AdjustableArrowCap aac(10, 4);
+			//colorPen.SetCustomStartCap(&aac);
+			colorPen.SetCustomEndCap(&aac);
 		}
 			
 		graphics->DrawLines(&colorPen, points, npoints);

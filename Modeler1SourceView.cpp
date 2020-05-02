@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Modeler1.h"
+#include "Element.h"
 #include "Modeler1SourceView.h"
 #include "MainFrm.h"
 
@@ -13,6 +14,7 @@ IMPLEMENT_DYNCREATE(CModeler1SourceView, CEditView)
 
 CModeler1SourceView::CModeler1SourceView()
 {
+	m_pElement = nullptr;
 }
 
 CModeler1SourceView::~CModeler1SourceView()
@@ -46,19 +48,14 @@ void CModeler1SourceView::Dump(CDumpContext& dc) const
 void CModeler1SourceView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CEditView::OnChar(nChar, nRepCnt, nFlags);
+
 	CEdit& ctrlEdit = this->GetEditCtrl();
 
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CElementManager* pManager = pFrame->GetManager();
-	if (pManager->HasSelection())
+	if (m_pElement != nullptr)
 	{
-		shared_ptr<CElement> pElement = nullptr;
-		pElement = pManager->m_selection.GetHead();
-
 		CString text;
 		ctrlEdit.GetWindowText(text);
-		pElement->m_code = T2W((LPTSTR)(LPCTSTR)text);
-
+		m_pElement->m_code = T2W((LPTSTR)(LPCTSTR)text);
 	}
 }
 
