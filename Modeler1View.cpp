@@ -200,6 +200,10 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnUpdateElementsScalePlus)
 	ON_COMMAND(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnElementsScaleMoins)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnUpdateElementsScaleMoins)
+	ON_COMMAND(ID_FORMAT_ROTATE_RIGHT90, &CModeler1View::OnFomatRotateRight90)
+	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_RIGHT90, &CModeler1View::OnUpdateFomatRotateRight90)
+	ON_COMMAND(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnFomatRotateLeft90)
+	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnUpdateFomatRotateLeft90)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1398,3 +1402,22 @@ void CModeler1View::OnUpdateElementsScaleMoins(CCmdUI* pCmdUI)
 	pCmdUI->Enable(GetManager()->HasSelection() == true);
 }
 
+void CModeler1View::OnFomatRotateRight90()
+{
+	GetManager()->OnFomatRotateRight90(this);
+}
+
+void CModeler1View::OnUpdateFomatRotateRight90(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnFomatRotateLeft90()
+{
+	GetManager()->OnFomatRotateLeft90(this);
+}
+
+void CModeler1View::OnUpdateFomatRotateLeft90(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}

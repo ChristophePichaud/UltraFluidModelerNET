@@ -222,6 +222,10 @@ public:
 	afx_msg void OnUpdateElementsScalePlus(CCmdUI* pCmdUI);
 	afx_msg void OnElementsScaleMoins();
 	afx_msg void OnUpdateElementsScaleMoins(CCmdUI* pCmdUI);
+	afx_msg void OnFomatRotateRight90();
+	afx_msg void OnUpdateFomatRotateRight90(CCmdUI* pCmdUI);
+	afx_msg void OnFomatRotateLeft90();
+	afx_msg void OnUpdateFomatRotateLeft90(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

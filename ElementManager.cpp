@@ -577,6 +577,12 @@ void CElementManager::DrawConnector(Graphics& graphics, std::shared_ptr<CElement
 		}
 
 
+		// Here it's buggy for zomm in/out...
+		// Corrected ! Solution was to call ResetTransform because the graphics was already customized !
+
+		graphics.ResetTransform();
+		graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+
 		SolidBrush colorBrush(color); // Color::DarkOrange);
 		graphics.FillRectangle(&colorBrush, rect.left - 3, rect.top - 3, 7, 7);
 		Pen  colorPen(Color::Black);
@@ -597,7 +603,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 	// just like that
 	//graphics.ScaleTransform(0.75f, 0.75f);
 
-	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+	//graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	
 	// Iterate on Line elements
 	// if connector1 exists, its draghandle 1 is connector1.centeroint else nothing (its inner value)
@@ -673,8 +679,8 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		CDrawingContext ctxt(pElement);
 		ctxt.m_pGraphics = &graphics;
 
-		graphics.ResetTransform();
-		graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+		//graphics.ResetTransform();
+		//graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 		Matrix matrix;
 		CPoint pt = pElement->m_rect.CenterPoint();
 		PointF point;
@@ -683,6 +689,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		matrix.RotateAt(pElement->m_rotateAngle, point);
 		graphics.SetTransform(&matrix);
 		//graphics.RotateTransform(pElement->m_rotateAngle, MatrixOrder::MatrixOrderAppend);
+		graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 		//pElement->Draw(pView, pDC);
 		pElement->Draw(ctxt);
@@ -1040,15 +1047,23 @@ void CElementManager::OnLButtonDblClk(CModeler1View* pView, UINT nFlags, const C
 
 void CElementManager::DrawSelectionRect(CModeler1View *pView)
 {
-	CClientDC dc(pView);
-	Graphics graphics(dc.m_hDC);
-	//graphics.RotateTransform(10.0f, MatrixOrder::MatrixOrderAppend);
-	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
-
 	Color colorBlack(255, 0, 0, 0);
 	Pen penBlack(colorBlack);
 	CRect rect = m_selectionRect;
 	rect.NormalizeRect();
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+
+	CClientDC dc(pView);
+	Graphics graphics(dc.m_hDC);
+	Matrix matrix;
+	CPoint pt = rect.CenterPoint();
+	PointF point;
+	point.X = pt.x;
+	point.Y = pt.y;
+	matrix.RotateAt(pElement->m_rotateAngle, point);
+	graphics.SetTransform(&matrix);
+	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 	Invalidate(pView);
 	graphics.DrawRectangle(&penBlack, rect.left, rect.top, rect.Width(), rect.Height());
@@ -2278,7 +2293,6 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 			CClientDC dc(pView);
 			Graphics graphics(dc.m_hDC);
 			
-			graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 			Matrix matrix;
 			CPoint pt = pElement->m_rect.CenterPoint();
 			PointF point;
@@ -2286,6 +2300,7 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 			point.Y = pt.y;
 			matrix.RotateAt(pElement->m_rotateAngle, point);
 			graphics.SetTransform(&matrix);
+			graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 			SolidBrush solidBrush(Color::Yellow);
 			CRect rect = pElement->m_rect;
@@ -3166,4 +3181,36 @@ bool CElementManager::IsMyLocalDev()
 	}
 
 	return false;
+}
+
+void CElementManager::OnFomatRotateRight90(CModeler1View* pView)
+{
+	// For each elements, +=90 to the rotateAngle
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// rotateAngle
+		int angle = pElement->m_rotateAngle;
+		angle -= 90;
+		pElement->m_rotateAngle = angle;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
+}
+
+void CElementManager::OnFomatRotateLeft90(CModeler1View* pView)
+{
+	// For each elements, +=90 to the rotateAngle
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// rotateAngle
+		int angle = pElement->m_rotateAngle;
+		angle += 90;
+		pElement->m_rotateAngle = angle;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
 }

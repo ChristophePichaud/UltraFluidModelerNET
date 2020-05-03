@@ -228,6 +228,11 @@ public:
 	void OnElementsScalePlus(CModeler1View* pView);
 	void OnElementsScaleMoins(CModeler1View* pView);
 
+// Rotation
+public:
+	void OnFomatRotateRight90(CModeler1View* pView);
+	void OnFomatRotateLeft90(CModeler1View* pView);
+
 // Licensing
 public:
 	bool IsMyLocalDev();
