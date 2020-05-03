@@ -6,7 +6,7 @@
 // CElementContainer Class
 //
 
-IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 13)
+IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 14)
 
 CElementContainer::CElementContainer()
 {
@@ -26,7 +26,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(13);
+		ar.SetObjectSchema(14);
 
 		pElementManager->ExpandGroupAttributes();
 
@@ -114,6 +114,9 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			// Schema v13
 			pNewElement->m_leftMargin = pElement->m_leftMargin;
 			pNewElement->m_topMargin = pElement->m_topMargin;
+
+			// Schema v14
+			pNewElement->m_rotateAngle = pElement->m_rotateAngle;
 
 
 			POSITION pos = /*pNewElement->m_pView =*/ ar.m_pDocument->GetFirstViewPosition(); //nullptr; // TODO

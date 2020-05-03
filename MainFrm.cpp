@@ -612,6 +612,8 @@ void CMainFrame::InitMainButton()
 	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_RIGHT, _T("Align Right\nar"), 39));
 	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_TOP, _T("Align Top\nat"), 40));
 	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_BOTTOM, _T("Align Bottom\nab"), 41));
+	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_BOTTOM, _T("Rotate Right 90°\nc"), 54));
+	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_BOTTOM, _T("Rotate Left 90°\nc"), 55));
 
 	// Create "Position" panel
 	CMFCRibbonPanel* pPanelPosition = pCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));

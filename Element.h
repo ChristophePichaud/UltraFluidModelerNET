@@ -267,6 +267,7 @@ public:
 	std::wstring m_product;
 	int m_leftMargin;
 	int m_topMargin;
+	int m_rotateAngle;
 
 // Methods for Attributes
 public:

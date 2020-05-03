@@ -29,4 +29,5 @@ const std::wstring prop_Version = L"Version";
 const std::wstring prop_Product = L"Product";
 const std::wstring prop_Left_Margin = L"Left Margin";
 const std::wstring prop_Top_Margin = L"Top Margin";
+const std::wstring prop_Rotation_Angle = L"Rotation Angle";
 

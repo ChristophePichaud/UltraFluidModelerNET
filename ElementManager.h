@@ -82,10 +82,10 @@ public:
 	void ConnectToPropertyGrid();
 	virtual void Serialize(CArchive& ar);   // overridden for document i/o
 	void RemoveSelectedObjects(CModeler1View * pView);
-	void ViewToManager(CModeler1View * pView, CPoint & point);
-	void ViewToManager(CModeler1View * pView, CRect & rect);
-	void ManagerToView(CModeler1View * pView, CPoint & point);
-	void ManagerToView(CModeler1View * pView, CRect & rect);
+	void ViewToManager(CModeler1View * pView, CPoint & point, CElement* pElement = nullptr);
+	void ViewToManager(CModeler1View * pView, CRect & rect, CElement* pElement = nullptr);
+	void ManagerToView(CModeler1View * pView, CPoint & point, CElement* pElement = nullptr);
+	void ManagerToView(CModeler1View * pView, CRect & rect, CElement* pElement = nullptr);
 	COLORREF GetPaperColor() const { return m_paperColor; }
 	void Invalidate(CModeler1View * pView, std::shared_ptr<CElement> pElement);
 	void Invalidate(CModeler1View * pView);

@@ -248,6 +248,11 @@ void CPropertiesWnd::InitPropList()
 	pProp = new CMFCPropertyGridProperty(_T("Font Size"), (_variant_t) (long)12, _T("Specifies the font's height of the text"));
 	pProp->EnableSpinControl(TRUE, 0, 100);
 	pGroup3->AddSubItem(pProp);
+
+	pProp = new CMFCPropertyGridProperty(_T("Rotation Angle"), (_variant_t)(long)0, _T("Specifies the object rotation angle"));
+	pProp->EnableSpinControl(TRUE, -360, 360);
+	pGroup3->AddSubItem(pProp);
+
 	CString strFilter = _T("Image Files(*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All Files(*.*)|*.*||");
 	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Image"), TRUE, _T(""), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
 								strFilter, _T("Specifies the object's image"), 0));
@@ -407,6 +412,7 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Left_Margin, (LONG)(pObj->m_leftMargin));
 	UpdateProperty(prop_Top_Margin, (LONG)(pObj->m_topMargin));
 
+	UpdateProperty(prop_Rotation_Angle, (LONG)(pObj->m_rotateAngle));
 }
 
 void CPropertiesWnd::UpdateProperty(std::wstring propertyName, COleVariant vNewValue)
@@ -555,6 +561,10 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}
 	else if (propName == prop_Left_Margin || propName == prop_Top_Margin)
+	{
+		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
+	}
+	else if (propName == prop_Rotation_Angle)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}

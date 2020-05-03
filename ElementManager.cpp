@@ -13,7 +13,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 13)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 14)
 
 CElementManager::CElementManager()
 {
@@ -106,7 +106,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(13);
+		ar.SetObjectSchema(14);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -330,7 +330,7 @@ bool CElementManager::Deselect(std::shared_ptr<CElement> pElement)
 	return true;
 }
 
-void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point)
+void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point, CElement* pElement)
 {
 	// CScrollView changes the viewport origin and mapping mode.
 	// It's necessary to convert the point from device coordinates
@@ -348,6 +348,18 @@ void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point)
 
 	CClientDC dc(pView);
 	Graphics graphics(dc.m_hDC);
+
+	if (pElement != nullptr)
+	{
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
+	}
+	
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	Point points[1] = {Point(point.x, point.y)};
 	// Transform the points in the array from world to page coordinates.
@@ -360,7 +372,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point)
 	point.y = points[0].Y;
 }
 
-void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect)
+void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect, CElement* pElement)
 {
 	// CScrollView changes the viewport origin and mapping mode.
 	// It's necessary to convert the point from device coordinates
@@ -371,6 +383,18 @@ void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect)
 
 	CClientDC dc(pView);
 	Graphics graphics(dc.m_hDC);
+
+	if (pElement != nullptr)
+	{
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
+	}
+
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	CPoint point1 = rect.TopLeft();
 	CPoint point2 = rect.BottomRight();
@@ -390,7 +414,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect)
 	rect.SetRect(point1, point2);
 }
 
-void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point)
+void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point, CElement* pElement)
 {
 	//CClientDC dc(pView);
 	//pView->OnPrepareDC(&dc, NULL);
@@ -398,6 +422,18 @@ void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point)
 
 	CClientDC dc(pView);
 	Graphics graphics(dc.m_hDC);
+
+	if (pElement != nullptr)
+	{
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
+	}
+
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	Point points[1] = {Point(point.x, point.y)};
 	// Transform the points in the array from world to page coordinates.
@@ -410,7 +446,7 @@ void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point)
 	point.y = points[0].Y;
 }
 
-void CElementManager::ManagerToView(CModeler1View * pView, CRect & rect)
+void CElementManager::ManagerToView(CModeler1View * pView, CRect & rect, CElement* pElement)
 {
 	//CClientDC dc(pView);
 	//pView->OnPrepareDC(&dc, NULL);
@@ -418,6 +454,18 @@ void CElementManager::ManagerToView(CModeler1View * pView, CRect & rect)
 
 	CClientDC dc(pView);
 	Graphics graphics(dc.m_hDC);
+
+	if (pElement != nullptr)
+	{
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
+	}
+
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	CPoint point1 = rect.TopLeft();
 	CPoint point2 = rect.BottomRight();
@@ -548,6 +596,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 	Graphics graphics(pDC->m_hDC);
 	// just like that
 	//graphics.ScaleTransform(0.75f, 0.75f);
+
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	
 	// Iterate on Line elements
@@ -624,6 +673,17 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		CDrawingContext ctxt(pElement);
 		ctxt.m_pGraphics = &graphics;
 
+		graphics.ResetTransform();
+		graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
+		//graphics.RotateTransform(pElement->m_rotateAngle, MatrixOrder::MatrixOrderAppend);
+
 		//pElement->Draw(pView, pDC);
 		pElement->Draw(ctxt);
 
@@ -672,6 +732,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement->m_colorText = pElement->m_colorText;
 			pTextElement->m_leftMargin = pElement->m_leftMargin;
 			pTextElement->m_topMargin = pElement->m_topMargin;
+			pTextElement->m_rotateAngle = pElement->m_rotateAngle;
 
 			pTextElement->Draw(ctxt);
 		}
@@ -981,6 +1042,7 @@ void CElementManager::DrawSelectionRect(CModeler1View *pView)
 {
 	CClientDC dc(pView);
 	Graphics graphics(dc.m_hDC);
+	//graphics.RotateTransform(10.0f, MatrixOrder::MatrixOrderAppend);
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 	Color colorBlack(255, 0, 0, 0);
@@ -1242,7 +1304,7 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 void CElementManager::InvalObj(CModeler1View * pView, std::shared_ptr<CElement> pElement)
 {
 	CRect rect = pElement->m_rect;
-	ManagerToView(pView, rect);
+	ManagerToView(pView, rect, pElement.get());
 	if( pView->m_bActive && IsSelected(pElement) )
 	{
 		rect.left -= 4;
@@ -1583,6 +1645,11 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if (name == prop_Top_Margin)
 	{
 		pElement->m_topMargin = value;
+	}
+
+	if (name == prop_Rotation_Angle)
+	{
+		pElement->m_rotateAngle = value;
 	}
 
 	InvalObj(pElement->GetView(), pElement);
@@ -2210,7 +2277,16 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 		{
 			CClientDC dc(pView);
 			Graphics graphics(dc.m_hDC);
+			
 			graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+			Matrix matrix;
+			CPoint pt = pElement->m_rect.CenterPoint();
+			PointF point;
+			point.X = pt.x;
+			point.Y = pt.y;
+			matrix.RotateAt(pElement->m_rotateAngle, point);
+			graphics.SetTransform(&matrix);
+
 			SolidBrush solidBrush(Color::Yellow);
 			CRect rect = pElement->m_rect;
 			graphics.FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
@@ -2634,6 +2710,7 @@ void CElementManager::OnFileExportPNG(CModeler1View* pView)
 
 	// just like that
 	//graphics.ScaleTransform(0.75f, 0.75f);
+	//graphics.RotateTransform(10.0f, MatrixOrder::MatrixOrderAppend);
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 	// TODO: add draw code for native data here
@@ -2646,6 +2723,15 @@ void CElementManager::OnFileExportPNG(CModeler1View* pView)
 		// Construct the graphic context for each element
 		CDrawingContext ctxt(pElement);
 		ctxt.m_pGraphics = &graphics;
+
+		graphics.ResetTransform();
+		Matrix matrix;
+		CPoint pt = pElement->m_rect.CenterPoint();
+		PointF point;
+		point.X = pt.x;
+		point.Y = pt.y;
+		matrix.RotateAt(pElement->m_rotateAngle, point);
+		graphics.SetTransform(&matrix);
 
 		//pElement->Draw(pView, pDC);
 		pElement->Draw(ctxt);
@@ -2670,6 +2756,7 @@ void CElementManager::OnFileExportPNG(CModeler1View* pView)
 			pTextElement->m_fontSize = pElement->m_fontSize;
 			pTextElement->m_leftMargin = pElement->m_leftMargin;
 			pTextElement->m_topMargin = pElement->m_topMargin;
+			pTextElement->m_rotateAngle = pElement->m_rotateAngle;
 			pTextElement->Draw(ctxt);
 		}
 

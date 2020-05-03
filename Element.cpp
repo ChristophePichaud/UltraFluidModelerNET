@@ -93,7 +93,7 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 13)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 14)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
@@ -144,6 +144,7 @@ CElement::CElement()
 	m_version = _T("");
 	m_product = _T("");
 
+	m_rotateAngle = 0;
 
 	m_bMoving = FALSE;
 
@@ -228,6 +229,7 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_connectorDragHandle2 = m_connectorDragHandle2;
 		pNewElement->m_version = m_version;
 		pNewElement->m_product= m_product;
+		pNewElement->m_rotateAngle = m_rotateAngle;
 
 		return pNewElement;
 }
@@ -270,6 +272,7 @@ CElement::CElement(const CElement& element)
 	this->m_connectorDragHandle2 = element.m_connectorDragHandle2;
 	this->m_version = element.m_version;
 	this->m_product = element.m_product;
+	this->m_rotateAngle = element.m_rotateAngle;
 }
 
 CString CElement::ToString(shared_ptr<CElement> pElement)
@@ -332,6 +335,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_product = object.at(U("Product")).as_string();
 	pElement->m_leftMargin = object.at(U("LeftMargin")).as_integer();
 	pElement->m_topMargin = object.at(U("TopMargin")).as_integer();
+	pElement->m_rotateAngle = object.at(U("RotationAngle")).as_integer();
 
 	return pElement;
 }
@@ -383,6 +387,7 @@ web::json::value CElement::AsJSON() const
 	res[U("Product")] = web::json::value::string(m_product);
 	res[U("LeftMargin")] = web::json::value::number(m_leftMargin);
 	res[U("TopMargin")] = web::json::value::number(m_topMargin);
+	res[U("RotationAngle")] = web::json::value::number(m_rotateAngle);
 	return res;
 
 }
@@ -402,7 +407,10 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(13);
+		ar.SetObjectSchema(14);
+
+		// The schema v14 contains extra info: rotateAngle
+		ar << m_rotateAngle;
 
 		// The schema v13 contains extra info: leftMargin, topMargin
 		ar << m_leftMargin;
@@ -499,6 +507,11 @@ void CElement::Serialize(CArchive& ar)
 		// get the document back pointer from the archive
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
+
+		if (version >= 14)
+		{
+			ar >> m_rotateAngle;
+		}
 
 		if (version >= 13)
 		{
@@ -1089,12 +1102,12 @@ CRect CElement::GetHandleRect(int nHandleID, CModeler1View* pView)
 	// get the center of the handle in logical coords
 	CPoint point = GetHandle(nHandleID);
 	// convert to client/device coords
-	GetManager()->ManagerToView(pView, point);
+	GetManager()->ManagerToView(pView, point, this);
 	//pView->DocToClient(point);
 	// return CRect of handle in device coords
 	rect.SetRect(point.x-3, point.y-3, point.x+3, point.y+3);
 	//pView->ClientToDoc(rect);
-	GetManager()->ViewToManager(pView, rect);
+	GetManager()->ViewToManager(pView, rect, this);
 
 	return rect;
 }
