@@ -352,7 +352,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point, CElem
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = pElement->m_rect.CenterPoint();
+		CPoint pt = point; // pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -387,7 +387,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect, CElemen
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = pElement->m_rect.CenterPoint();
+		CPoint pt = rect.CenterPoint(); //pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -426,7 +426,7 @@ void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point, CElem
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = pElement->m_rect.CenterPoint();
+		CPoint pt = point; // pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -458,7 +458,7 @@ void CElementManager::ManagerToView(CModeler1View * pView, CRect & rect, CElemen
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = pElement->m_rect.CenterPoint();
+		CPoint pt = rect.CenterPoint(); // pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -943,6 +943,14 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 					}
 
 					pElement->m_bMoving = true;
+				}
+				else
+				{
+					// if shift or control i spressed, unselect the element
+					if ((nFlags & MK_SHIFT) || (nFlags & MK_CONTROL))
+					{
+						Deselect(pElement);
+					}
 				}
 
 				m_selectMode = SelectMode::move;
@@ -3190,7 +3198,7 @@ void CElementManager::OnFomatRotateRight90(CModeler1View* pView)
 	{
 		// rotateAngle
 		int angle = pElement->m_rotateAngle;
-		angle -= 90;
+		angle += 90;
 		pElement->m_rotateAngle = angle;
 	}
 
@@ -3201,12 +3209,12 @@ void CElementManager::OnFomatRotateRight90(CModeler1View* pView)
 
 void CElementManager::OnFomatRotateLeft90(CModeler1View* pView)
 {
-	// For each elements, +=90 to the rotateAngle
+	// For each elements, -=90 to the rotateAngle
 	for (shared_ptr<CElement> pElement : m_selection.m_objects)
 	{
 		// rotateAngle
 		int angle = pElement->m_rotateAngle;
-		angle += 90;
+		angle -= 90;
 		pElement->m_rotateAngle = angle;
 	}
 
