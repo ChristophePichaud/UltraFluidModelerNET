@@ -209,80 +209,89 @@ void CPropertiesWnd::InitPropList()
 	pSize->AddSubItem(pProp);
 	m_wndPropList.AddProperty(pSize);
 
-	CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Font"));
+	CMFCPropertyGridProperty* pIdentity = new CMFCPropertyGridProperty(_T("Identity"));
+	pProp = new CMFCPropertyGridProperty(_T("Name"), _T("Application"));
+	//pProp->Enable(FALSE);
+	pIdentity->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("ID"), (_variant_t)_T(""), _T("Specifies the object's ID"));
+	pProp->Enable(FALSE);
+	pIdentity->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Type"), (_variant_t)_T(""), _T("Specifies the object's type"));
+	pProp->Enable(FALSE);
+	pIdentity->AddSubItem(pProp);
+	m_wndPropList.AddProperty(pIdentity);
+
+	CMFCPropertyGridProperty* pTextPoliceFont = new CMFCPropertyGridProperty(_T("Text, Police and Font"));
 	LOGFONT lf;
 	CFont* font = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
 	font->GetLogFont(&lf);
 	lstrcpy(lf.lfFaceName, _T("Arial"));
-	pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Font"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Specifies the default font for the window")));
-	//pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Use System Font"), (_variant_t) true, _T("Specifies that the window uses MS Shell Dlg font")));
-	m_wndPropList.AddProperty(pGroup2);
-
-	CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Misc"));
-	pProp = new CMFCPropertyGridProperty(_T("Name"), _T("Application"));
-	//pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-	pProp = new CMFCPropertyGridProperty(_T("ID"), (_variant_t) _T(""), _T("Specifies the object's ID"));
-	pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-	pProp = new CMFCPropertyGridProperty(_T("Type"), (_variant_t) _T(""), _T("Specifies the object's type"));
-	pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Text"), (_variant_t) _T(""), _T("Specifies the object's text")));
+	pTextPoliceFont->AddSubItem(new CMFCPropertyGridFontProperty(_T("Font"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Specifies the default font for the window")));
+	//pTextPoliceFont->AddSubItem(new CMFCPropertyGridProperty(_T("Use System Font"), (_variant_t) true, _T("Specifies that the window uses MS Shell Dlg font")));
+	pTextPoliceFont->AddSubItem(new CMFCPropertyGridProperty(_T("Text"), (_variant_t)_T(""), _T("Specifies the object's text")));
 	pProp = new CMFCPropertyGridProperty(_T("Text Align"), _T("None"), _T("Specifies the alignment of the text"));
 	pProp->AddOption(_T("None"));
 	pProp->AddOption(_T("Left"));
 	pProp->AddOption(_T("Center"));
 	pProp->AddOption(_T("Right"));
 	pProp->AllowEdit(FALSE);
-	pGroup3->AddSubItem(pProp);
+	pTextPoliceFont->AddSubItem(pProp);
 	pProp = new CMFCPropertyGridProperty(_T("Left Margin"), (_variant_t)(long)10, _T("Specifies the object's left margin"));
 	pProp->EnableSpinControl(TRUE, -2000, 2000);
-	pGroup3->AddSubItem(pProp);
+	pTextPoliceFont->AddSubItem(pProp);
 	pProp = new CMFCPropertyGridProperty(_T("Top Margin"), (_variant_t)(long)10, _T("Specifies the object's top margin"));
 	pProp->EnableSpinControl(TRUE, -2000, 2000);
-	pGroup3->AddSubItem(pProp);
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Comments"), (_variant_t)_T(""), _T("Specifies the object's commenst or code")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Font Name"), (_variant_t) _T("Calibri"), _T("Specifies the font of the text")));
-
-	pProp = new CMFCPropertyGridProperty(_T("Font Size"), (_variant_t) (long)12, _T("Specifies the font's height of the text"));
+	pTextPoliceFont->AddSubItem(pProp);
+	pTextPoliceFont->AddSubItem(new CMFCPropertyGridProperty(_T("Comments"), (_variant_t)_T(""), _T("Specifies the object's commenst or code")));
+	pTextPoliceFont->AddSubItem(new CMFCPropertyGridProperty(_T("Font Name"), (_variant_t)_T("Calibri"), _T("Specifies the font of the text")));
+	pProp = new CMFCPropertyGridProperty(_T("Font Size"), (_variant_t)(long)12, _T("Specifies the font's height of the text"));
 	pProp->EnableSpinControl(TRUE, 0, 100);
-	pGroup3->AddSubItem(pProp);
+	pTextPoliceFont->AddSubItem(pProp);
+	m_wndPropList.AddProperty(pTextPoliceFont);
 
+	CMFCPropertyGridProperty* pMisc = new CMFCPropertyGridProperty(_T("Misc"));
 	pProp = new CMFCPropertyGridProperty(_T("Rotation Angle"), (_variant_t)(long)0, _T("Specifies the object rotation angle"));
 	pProp->EnableSpinControl(TRUE, -360, 360);
-	pGroup3->AddSubItem(pProp);
-
-	CString strFilter = _T("Image Files(*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All Files(*.*)|*.*||");
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Image"), TRUE, _T(""), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-								strFilter, _T("Specifies the object's image"), 0));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Fixed"), (_variant_t)false, _T("Specifies the object's image size")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Has Fill Color"), (_variant_t) false, _T("Specifies the object's fill color style")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Is Fill Solid Color"), (_variant_t) false, _T("Specifies the object's fill solid color style")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Has Line Color"), (_variant_t) true, _T("Specifies the object's line color style")));
-
+	pMisc->AddSubItem(pProp);
+	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("Has Fill Color"), (_variant_t) false, _T("Specifies the object's fill color style")));
+	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("Is Fill Solid Color"), (_variant_t) false, _T("Specifies the object's fill solid color style")));
+	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("Has Line Color"), (_variant_t) true, _T("Specifies the object's line color style")));
 	CMFCPropertyGridColorProperty* pFillColorProp = new CMFCPropertyGridColorProperty(_T("Fill Color"), RGB(255, 255, 255), NULL, _T("Specifies the object fill color"));
 	pFillColorProp->EnableOtherButton(_T("Other..."));
 	pFillColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
-	pGroup3->AddSubItem(pFillColorProp);
-
+	pMisc->AddSubItem(pFillColorProp);
 	CMFCPropertyGridColorProperty* pLineColorProp = new CMFCPropertyGridColorProperty(_T("Line Color"), RGB(0, 0, 0), NULL, _T("Specifies the object line color"));
 	pLineColorProp->EnableOtherButton(_T("Other..."));
 	pLineColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
-	pGroup3->AddSubItem(pLineColorProp);
+	pMisc->AddSubItem(pLineColorProp);
+	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Name "), (_variant_t)false, _T("Specifies the object's name viewing")));
+	m_wndPropList.AddProperty(pMisc);
 
+	CMFCPropertyGridProperty* pDiagram = new CMFCPropertyGridProperty(_T("Diagram Element"));
 	CString strFilter2 = _T("Diagram|*.sch;*.dia;*.dgm|All Files(*.*)|*.*||");
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Document"), TRUE, _T(""), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+	pDiagram->AddSubItem(new CMFCPropertyGridFileProperty(_T("Document"), TRUE, _T(""), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
 		strFilter2, _T("Specifies the file's document"), 0));
-
 	pProp = new CMFCPropertyGridProperty(_T("Document Type"), _T(""), _T("Specifies the type of document"));
 	pProp->AddOption(_T("None"));
 	pProp->AddOption(_T("File"));
 	pProp->AddOption(_T("Folder"));
 	pProp->AddOption(_T("Diagram"));
 	pProp->AllowEdit(FALSE);
-	pGroup3->AddSubItem(pProp);
+	pDiagram->AddSubItem(pProp);
+	m_wndPropList.AddProperty(pDiagram);
 
+	CMFCPropertyGridProperty* pImage = new CMFCPropertyGridProperty(_T("Image Element"));
+	CString strFilter = _T("Image Files(*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All Files(*.*)|*.*||");
+	pImage->AddSubItem(new CMFCPropertyGridFileProperty(_T("Image"), TRUE, _T(""), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		strFilter, _T("Specifies the object's image"), 0));
+	pImage->AddSubItem(new CMFCPropertyGridProperty(_T("Fixed"), (_variant_t)false, _T("Specifies the object's image size")));
+	m_wndPropList.AddProperty(pImage);
+
+	CMFCPropertyGridProperty* pConnector = new CMFCPropertyGridProperty(_T("Connector Element"));
+	pProp = new CMFCPropertyGridProperty(_T("Connector1"), _T(""), _T("Specifies the first connector's element"));
+	pConnector->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Connector2"), _T(""), _T("Specifies the second connector's element"));
+	pConnector->AddSubItem(pProp);
 	pProp = new CMFCPropertyGridProperty(_T("Connector1 Handle"), _T(""), _T("Specifies the connector's handle"));
 	pProp->AddOption(_T(""));
 	pProp->AddOption(_T("TopLeft"));
@@ -292,8 +301,7 @@ void CPropertiesWnd::InitPropList()
 	pProp->AddOption(_T("LeftCenter"));
 	pProp->AddOption(_T("RightCenter"));
 	pProp->AllowEdit(FALSE);
-	pGroup3->AddSubItem(pProp);
-
+	pConnector->AddSubItem(pProp);
 	pProp = new CMFCPropertyGridProperty(_T("Connector2 Handle"), _T(""), _T("Specifies the connector's handle"));
 	pProp->AddOption(_T(""));
 	pProp->AddOption(_T("TopLeft"));
@@ -303,12 +311,15 @@ void CPropertiesWnd::InitPropList()
 	pProp->AddOption(_T("LeftCenter"));
 	pProp->AddOption(_T("RightCenter"));
 	pProp->AllowEdit(FALSE);
-	pGroup3->AddSubItem(pProp);
+	pConnector->AddSubItem(pProp);
+	m_wndPropList.AddProperty(pConnector);
 
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Product"), (_variant_t)_T(""), _T("Specifies the product name")));
-	pGroup3->AddSubItem(new CMFCPropertyGridProperty(_T("Version"), (_variant_t)_T(""), _T("Specifies the version")));
-
-	m_wndPropList.AddProperty(pGroup3);
+	CMFCPropertyGridProperty* pBusiness = new CMFCPropertyGridProperty(_T("Businness Properties"));
+	pBusiness->AddSubItem(new CMFCPropertyGridProperty(_T("Team"), (_variant_t)_T(""), _T("Specifies the team")));
+	pBusiness->AddSubItem(new CMFCPropertyGridProperty(_T("Authors"), (_variant_t)_T(""), _T("Specifies the authors")));
+	pBusiness->AddSubItem(new CMFCPropertyGridProperty(_T("Product"), (_variant_t)_T(""), _T("Specifies the product name")));
+	pBusiness->AddSubItem(new CMFCPropertyGridProperty(_T("Version"), (_variant_t)_T(""), _T("Specifies the version")));
+	m_wndPropList.AddProperty(pBusiness);
 
 	/*
 	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchy"));
@@ -400,6 +411,8 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Has_Line_Color, vColorLine);
 	COleVariant vFixed((SHORT)(pObj->IsFixed()), VT_BOOL);
 	UpdateProperty(prop_Fixed, vFixed);
+	COleVariant vViewName((SHORT)(pObj->m_bShowElementName), VT_BOOL);
+	UpdateProperty(prop_ViewElementName, vViewName);
 
 	UpdateProperty(prop_Document, pObj->m_document.c_str());
 	UpdateProperty(prop_Document_Type, pObj->ToString(pObj->m_documentType));
@@ -408,11 +421,56 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 
 	UpdateProperty(prop_Version, pObj->m_version.c_str());
 	UpdateProperty(prop_Product, pObj->m_product.c_str());
+	UpdateProperty(prop_Team, CElement::m_team.c_str());
+	UpdateProperty(prop_Authors, CElement::m_authors.c_str());
 
 	UpdateProperty(prop_Left_Margin, (LONG)(pObj->m_leftMargin));
 	UpdateProperty(prop_Top_Margin, (LONG)(pObj->m_topMargin));
 
 	UpdateProperty(prop_Rotation_Angle, (LONG)(pObj->m_rotateAngle));
+
+	CMFCPropertyGridProperty* pProperty = m_wndPropList.GetProperty(7); // Connector Element
+	// Set Connector1 Element
+	CMFCPropertyGridProperty* pSubProperty = pProperty->GetSubItem(0);
+	pSubProperty->AddOption(_T("None"));
+	for (shared_ptr<CElement> pElement : GetManager()->GetObjects())
+	{
+		pSubProperty->AddOption(pElement->m_name.c_str());
+	}
+	if (pObj->m_pConnector->m_pElement1 != nullptr)
+	{
+		COleVariant vNewValue = pObj->m_pConnector->m_pElement1->m_name.c_str();
+		pSubProperty->SetValue(vNewValue);
+	}
+	else
+	{
+		COleVariant vNewValue = _T("None");
+		pSubProperty->SetValue(vNewValue);
+
+	}
+	pSubProperty->OnEndEdit();
+	pProperty->Redraw();
+
+	// Set Connector2 Element
+	pSubProperty = pProperty->GetSubItem(1);
+	pSubProperty->AddOption(_T("None"));
+	for (shared_ptr<CElement> pElement : GetManager()->GetObjects())
+	{
+		pSubProperty->AddOption(pElement->m_name.c_str());
+	}
+	if (pObj->m_pConnector->m_pElement2 != nullptr)
+	{
+		COleVariant vNewValue = pObj->m_pConnector->m_pElement2->m_name.c_str();
+		pSubProperty->SetValue(vNewValue);
+	}
+	else
+	{
+		COleVariant vNewValue = _T("None");
+		pSubProperty->SetValue(vNewValue);
+
+	}
+	pSubProperty->OnEndEdit();
+	pProperty->Redraw();
 }
 
 void CPropertiesWnd::UpdateProperty(std::wstring propertyName, COleVariant vNewValue)
@@ -517,9 +575,9 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 	if( GetProperty(prop_ID, strObjectId) == FALSE )
 		return 0;
 		
-	if( propName == prop_Fill_Color  || propName == prop_Line_Color )
+	if (propName == prop_Fill_Color || propName == prop_Line_Color)
 	{
-		CMFCPropertyGridColorProperty * pColorProp = (CMFCPropertyGridColorProperty *)pProp;
+		CMFCPropertyGridColorProperty* pColorProp = (CMFCPropertyGridColorProperty*)pProp;
 		COLORREF color = pColorProp->GetColor();
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, color);
 	}
@@ -539,7 +597,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 			GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValueText);
 		}
 	}
-	else if( propName == prop_Font )
+	else if (propName == prop_Font)
 	{
 		/*
 		CMFCPropertyGridFontProperty * pFontProp = (CMFCPropertyGridFontProperty *)pProp;
@@ -552,11 +610,11 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 		*/
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValueText);
 	}
-	else if( propName == prop_Left || propName == prop_Top || propName == prop_Right || propName == prop_Bottom )
+	else if (propName == prop_Left || propName == prop_Top || propName == prop_Right || propName == prop_Bottom)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}
-	else if( propName == prop_Font_Size )
+	else if (propName == prop_Font_Size)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}
@@ -568,9 +626,13 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, propValue.lVal);
 	}
-	else if(propName == prop_Fixed || propName == prop_Has_Fill_Color || propName == prop_Has_Line_Color || propName == prop_Is_Fill_Solid_Color )
+	else if (propName == prop_Fixed || propName == prop_Has_Fill_Color || propName == prop_Has_Line_Color || propName == prop_Is_Fill_Solid_Color)
 	{
-		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long) propValue.bVal);
+		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long)propValue.bVal);
+	}
+	else if (propName == prop_ViewElementName)
+	{
+		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long)propValue.bVal);
 	}
 	/*
 	else if (propName == prop_Document_Type)

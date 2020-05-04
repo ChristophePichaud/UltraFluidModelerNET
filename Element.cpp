@@ -93,11 +93,13 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 14)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 16)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
 std::wstring CElement::m_elementGroupElements = _T("");
+std::wstring CElement::m_team = _T("");
+std::wstring CElement::m_authors = _T("");
 
 CElement::CElement()
 {
@@ -146,7 +148,8 @@ CElement::CElement()
 
 	m_rotateAngle = 0;
 
-	m_bMoving = FALSE;
+	m_bMoving = false;
+	m_bShowElementName = false;
 
 	m_type = ElementType::type_unknown;
 	m_shapeType = ShapeType::unknown;
@@ -227,10 +230,12 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_documentType = m_documentType;
 		pNewElement->m_connectorDragHandle1 = m_connectorDragHandle1;
 		pNewElement->m_connectorDragHandle2 = m_connectorDragHandle2;
+		pNewElement->m_pConnector->m_pElement1 = m_pConnector->m_pElement1;
+		pNewElement->m_pConnector->m_pElement2 = m_pConnector->m_pElement2;
 		pNewElement->m_version = m_version;
 		pNewElement->m_product= m_product;
 		pNewElement->m_rotateAngle = m_rotateAngle;
-
+		pNewElement->m_bShowElementName = m_bShowElementName;
 		return pNewElement;
 }
 
@@ -273,6 +278,7 @@ CElement::CElement(const CElement& element)
 	this->m_version = element.m_version;
 	this->m_product = element.m_product;
 	this->m_rotateAngle = element.m_rotateAngle;
+	this->m_bShowElementName = element.m_bShowElementName;
 }
 
 CString CElement::ToString(shared_ptr<CElement> pElement)
@@ -333,9 +339,12 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_connectorName2 = object.at(U("ConnectorName2")).as_string();
 	pElement->m_version = object.at(U("Version")).as_string();
 	pElement->m_product = object.at(U("Product")).as_string();
+	pElement->m_team = object.at(U("Team")).as_string();
+	pElement->m_authors = object.at(U("Authors")).as_string();
 	pElement->m_leftMargin = object.at(U("LeftMargin")).as_integer();
 	pElement->m_topMargin = object.at(U("TopMargin")).as_integer();
 	pElement->m_rotateAngle = object.at(U("RotationAngle")).as_integer();
+	pElement->m_bShowElementName = object.at(U("bViewName")).as_integer();
 
 	return pElement;
 }
@@ -385,9 +394,12 @@ web::json::value CElement::AsJSON() const
 	res[U("ConnectorName2")] = web::json::value::string(m_connectorName2);
 	res[U("Version")] = web::json::value::string(m_version);
 	res[U("Product")] = web::json::value::string(m_product);
+	res[U("Team")] = web::json::value::string(m_team);
+	res[U("Authors")] = web::json::value::string(m_authors);
 	res[U("LeftMargin")] = web::json::value::number(m_leftMargin);
 	res[U("TopMargin")] = web::json::value::number(m_topMargin);
 	res[U("RotationAngle")] = web::json::value::number(m_rotateAngle);
+	res[U("bViewName")] = web::json::value::number((int)m_bShowElementName);
 	return res;
 
 }
@@ -407,7 +419,16 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(14);
+		ar.SetObjectSchema(15);
+
+		// The schema v16 contains extra info: showElementName
+		ar << m_bShowElementName;
+
+		// The schema v15 contains extra info: team, authors
+		CString team = W2T((LPTSTR)m_team.c_str());
+		ar << team;
+		CString authors = W2T((LPTSTR)m_authors.c_str());
+		ar << authors;
 
 		// The schema v14 contains extra info: rotateAngle
 		ar << m_rotateAngle;
@@ -507,6 +528,22 @@ void CElement::Serialize(CArchive& ar)
 		// get the document back pointer from the archive
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
+
+
+		if (version >= 16)
+		{
+			ar >> m_bShowElementName;
+		}
+
+		if (version >= 15)
+		{
+			CString team;
+			ar >> team;
+			m_team = T2W((LPTSTR)(LPCTSTR)team);
+			CString authors;
+			ar >> authors;
+			m_authors = T2W((LPTSTR)(LPCTSTR)authors);
+		}
 
 		if (version >= 14)
 		{
@@ -1063,6 +1100,11 @@ int CElement::HitTest(CPoint point, CModeler1View* pView, bool bSelected)
 		{
 			// GetHandleRect returns in logical coords
 			CRect rc = GetHandleRect(nHandle, pView);
+
+			// TODO
+			//Gdiplus::Region rc2;
+			//rc2.Transform(matrix);
+			
 
 			// Debugging
 			//str.Format(_T("HitTest try point{%d,%d} in rect{%d,%d,%d,%d}"), point.x, point.y, rc.left, rc.top, rc.right, rc.bottom);

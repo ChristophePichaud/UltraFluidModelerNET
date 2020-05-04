@@ -13,7 +13,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 14)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 18)
 
 CElementManager::CElementManager()
 {
@@ -106,7 +106,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(14);
+		ar.SetObjectSchema(15);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -352,7 +352,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CPoint & point, CElem
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = point; // pElement->m_rect.CenterPoint();
+		CPoint pt = pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -387,7 +387,7 @@ void CElementManager::ViewToManager(CModeler1View * pView, CRect & rect, CElemen
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = rect.CenterPoint(); //pElement->m_rect.CenterPoint();
+		CPoint pt = pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -426,7 +426,7 @@ void CElementManager::ManagerToView(CModeler1View * pView, CPoint & point, CElem
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = point; // pElement->m_rect.CenterPoint();
+		CPoint pt = pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -458,7 +458,7 @@ void CElementManager::ManagerToView(CModeler1View * pView, CRect & rect, CElemen
 	if (pElement != nullptr)
 	{
 		Matrix matrix;
-		CPoint pt = rect.CenterPoint(); // pElement->m_rect.CenterPoint();
+		CPoint pt = pElement->m_rect.CenterPoint();
 		PointF point;
 		point.X = pt.x;
 		point.Y = pt.y;
@@ -1535,6 +1535,40 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		}
 	}
 
+	if (name == prop_Connector1)
+	{
+		if (value == _T("") || value == _T(""))
+		{
+			pElement->m_pConnector->m_pElement1 = nullptr;
+		}
+		else
+		{
+			pElement->m_pConnector->m_pElement1 = m_objects.FindElementByName(value);
+		}
+	}
+
+	if (name == prop_Connector2)
+	{
+		if (value == _T("") || value == _T(""))
+		{
+			pElement->m_pConnector->m_pElement2 = nullptr;
+		}
+		else
+		{
+			pElement->m_pConnector->m_pElement2 = m_objects.FindElementByName(value);
+		}
+	}
+
+	if (name == prop_Team)
+	{
+		CElement::m_team = value;
+	}
+		
+	if (name == prop_Authors)
+	{
+		CElement::m_authors = value;
+	}
+
 	if (name == prop_Connector1Handle)
 	{
 		if (value == _T("") || value == _T("TopLeft") || value == _T("Center") || value == _T("TopCenter")
@@ -1673,6 +1707,11 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if (name == prop_Rotation_Angle)
 	{
 		pElement->m_rotateAngle = value;
+	}
+
+	if (name == prop_ViewElementName)
+	{
+		pElement->m_bShowElementName = value == 0 ? false : true;
 	}
 
 	InvalObj(pElement->GetView(), pElement);
@@ -2349,6 +2388,8 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 				pLineElement->m_pConnector->m_pElement2 = nullptr;
 			}
 		}
+
+		//UpdatePropertyGrid(pView, pLineElement);
 	}
 }
 

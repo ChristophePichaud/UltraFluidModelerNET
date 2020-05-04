@@ -268,6 +268,9 @@ public:
 	int m_leftMargin;
 	int m_topMargin;
 	int m_rotateAngle;
+	static std::wstring m_team;
+	static std::wstring m_authors;
+	bool m_bShowElementName;
 
 // Methods for Attributes
 public:
