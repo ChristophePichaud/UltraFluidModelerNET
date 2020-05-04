@@ -100,7 +100,7 @@ std::wstring CElement::m_elementGroupNames = _T("");
 std::wstring CElement::m_elementGroupElements = _T("");
 std::wstring CElement::m_team = _T("");
 std::wstring CElement::m_authors = _T("");
-
+bool CElement::m_bShowElementName = false;
 CElement::CElement()
 {
 	m_pManager = NULL;
@@ -149,7 +149,6 @@ CElement::CElement()
 	m_rotateAngle = 0;
 
 	m_bMoving = false;
-	m_bShowElementName = false;
 
 	m_type = ElementType::type_unknown;
 	m_shapeType = ShapeType::unknown;

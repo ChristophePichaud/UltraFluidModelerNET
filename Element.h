@@ -270,7 +270,7 @@ public:
 	int m_rotateAngle;
 	static std::wstring m_team;
 	static std::wstring m_authors;
-	bool m_bShowElementName;
+	static bool m_bShowElementName;
 
 // Methods for Attributes
 public:

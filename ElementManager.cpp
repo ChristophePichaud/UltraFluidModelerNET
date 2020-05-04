@@ -744,6 +744,70 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement->Draw(ctxt);
 		}
 
+		if (pElement->m_bShowElementName == true)
+		{
+			CPoint p1; 
+			CPoint p2;
+			
+			if (pElement->m_shapeType == ShapeType::line_right)
+			{
+				//
+				// Draw first text
+				//
+
+				std::shared_ptr<CElement> pTextElement(new CTextElement());
+
+				p1 = CPoint(pElement->m_rect.TopLeft().x, pElement->m_rect.TopLeft().y);
+				p2 = CPoint(pElement->m_rect.TopLeft().x + 200, pElement->m_rect.TopLeft().y + 30);
+				CRect rect(p1, p2);
+				rect.NormalizeRect();
+
+				pTextElement->m_rect = rect;
+				pTextElement->m_fontName = _T("Calibri");
+				pTextElement->m_fontSize = 12;
+				pTextElement->m_colorText = RGB(0, 255, 54);
+				pTextElement->m_text = pElement->m_name;
+
+				pTextElement->Draw(ctxt);
+
+				//
+				// Draw second text
+				//
+
+				std::shared_ptr<CElement> pTextElement2(new CTextElement());
+
+				p1 = CPoint(pElement->m_rect.BottomRight().x, pElement->m_rect.BottomRight().y);
+				p2 = CPoint(pElement->m_rect.BottomRight().x + 200, pElement->m_rect.BottomRight().y + 30);
+				CRect rect2(p1, p2);
+				rect2.NormalizeRect();
+
+				pTextElement2->m_rect = rect2;
+				pTextElement2->m_fontName = _T("Calibri");
+				pTextElement2->m_fontSize = 12;
+				pTextElement2->m_colorText = RGB(0, 255, 54); // Green
+				pTextElement2->m_text = pElement->m_name;
+
+				pTextElement2->Draw(ctxt);
+			}
+			else
+			{
+				std::shared_ptr<CElement> pTextElement(new CTextElement());
+
+				p1 = CPoint(pElement->m_rect.TopLeft().x, pElement->m_rect.TopLeft().y + 30);
+				p2 = CPoint(pElement->m_rect.TopLeft().x + 200, pElement->m_rect.TopLeft().y + 60);
+				CRect rect(p1, p2);
+				rect.NormalizeRect();
+
+				pTextElement->m_rect = rect;
+				pTextElement->m_fontName = _T("Calibri");
+				pTextElement->m_fontSize = 12;
+				pTextElement->m_colorText = RGB(0, 128, 255); // Blue
+				pTextElement->m_text = pElement->m_name;
+
+				pTextElement->Draw(ctxt);
+			}
+		}
+
 		//if( !pDC->IsPrinting() && IsSelected(pObj) )
 		//	DrawTracker(pObj, pDC, TrackerState::selected);
 		if (pView != NULL && pView->m_bActive && !pDC->IsPrinting() && IsSelected(pElement))
