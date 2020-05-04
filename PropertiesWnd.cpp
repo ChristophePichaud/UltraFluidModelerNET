@@ -264,7 +264,7 @@ void CPropertiesWnd::InitPropList()
 	pLineColorProp->EnableOtherButton(_T("Other..."));
 	pLineColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
 	pMisc->AddSubItem(pLineColorProp);
-	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Name"), (_variant_t)false, _T("Specifies the object's name viewing")));
+	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
 	m_wndPropList.AddProperty(pMisc);
 
 	CMFCPropertyGridProperty* pDiagram = new CMFCPropertyGridProperty(_T("Diagram Element"));

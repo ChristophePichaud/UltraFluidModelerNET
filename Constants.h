@@ -34,5 +34,5 @@ const std::wstring prop_Top_Margin = L"Top Margin";
 const std::wstring prop_Rotation_Angle = L"Rotation Angle";
 const std::wstring prop_Team = L"Team";
 const std::wstring prop_Authors = L"Authors";
-const std::wstring prop_ViewElementName = L"View Name";
+const std::wstring prop_ViewElementName = L"View Names";
 
