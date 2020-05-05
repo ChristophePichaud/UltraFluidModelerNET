@@ -86,7 +86,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>Include;$(IncludePath);C:\BCGSoft\BCGControlBarPro\BCGCBPro;E:\BCGSoft\BCGControlBarPro\BCGCBPro</IncludePath>
+    <IncludePath>I:\Dev\boost\Include;Include;$(IncludePath);C:\BCGSoft\BCGControlBarPro\BCGCBPro;E:\BCGSoft\BCGControlBarPro\BCGCBPro</IncludePath>
+    <LibraryPath>I:\Dev\boost\Lib;$(LibraryPath);C:\BCGSoft\BCGControlBarPro\bin64;E:\BCGSoft\BCGControlBarPro\bin64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -210,6 +211,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TabbedView.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="XMLData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppInit.cpp" />
@@ -233,6 +235,7 @@
     <ClCompile Include="RibbonListButton.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TabbedView.cpp" />
+    <ClCompile Include="XMLData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UFM.rc" />

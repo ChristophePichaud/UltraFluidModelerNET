@@ -90,6 +90,9 @@
     <ClInclude Include="AppInit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XMLData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -153,6 +156,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AppInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

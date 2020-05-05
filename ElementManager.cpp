@@ -8,7 +8,7 @@
 #include <sstream>
 #include "TabbedView.h"
 #include "Modeler1SourceView.h"
-
+#include "XMLData.h"
 //
 // CElementManager
 //
@@ -921,6 +921,17 @@ void CElementManager::DrawEx(CModeler1View * pView, CDC * pDC)
 	// Caution, it flicks !
 	//pView->LogDebug(_T("CElementManager::DrawEx"));
 }
+
+/*
+	Private Function RotatePoint(pointToRotate As PointF, centerPoint As PointF, angleInDegrees As Double) As PointF
+		Dim angleInRadians As Double = angleInDegrees * (Math.PI / 180)
+		Dim cosTheta As Double = Math.Cos(angleInRadians)
+		Dim sinTheta As Double = Math.Sin(angleInRadians)
+		Return New PointF() With {.X = CInt(cosTheta * (pointToRotate.X - centerPoint.X) - sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X), _
+								  .Y = CInt(sinTheta * (pointToRotate.X - centerPoint.X) + cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y)}
+	End Function
+*/
+
 
 void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPoint& cpoint)
 {
@@ -3219,6 +3230,145 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	file.close();
 
 	AfxMessageBox(json.c_str());
+}
+
+void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
+{
+	USES_CONVERSION;
+
+	CFileDialog dlg(FALSE);
+	if (dlg.DoModal() == IDCANCEL)
+		return;
+
+	CString strFileName = dlg.GetFileName();
+	CString strPath = dlg.GetFolderPath();
+	CString strFile;
+	strFile.Format(_T("%s\\%s"), strPath, strFileName);
+	std::wstring filename = T2W((LPTSTR)(LPCTSTR)strFile);
+
+	boost::shared_ptr<CShapeCollection> data(new CShapeCollection());
+
+	for (vector<std::shared_ptr<CElement>>::iterator i = m_objects.m_objects.begin(); i != m_objects.m_objects.end(); i++)
+	{
+		std::shared_ptr<CElement> pElement = *i;
+		boost::shared_ptr<CSimpleShape> pNewElement(new CSimpleShape());
+		pNewElement->m_name = pElement->m_name;
+		pNewElement->m_id = pElement->m_objectId;
+		pNewElement->m_type = pElement->m_type;
+		pNewElement->m_shapeType = pElement->m_shapeType;
+		pNewElement->m_caption = pElement->m_caption;
+		pNewElement->m_text = pElement->m_text;
+
+		CPoint p1 = pElement->m_rect.TopLeft();
+		CPoint p2 = pElement->m_rect.BottomRight();
+		pNewElement->m_x1 = p1.x;
+		pNewElement->m_y1 = p1.y;
+		pNewElement->m_x2 = p2.x;
+		pNewElement->m_y2 = p2.y;
+
+		pNewElement->m_colorFillR = GetRValue(pElement->m_colorFill);
+		pNewElement->m_colorFillG = GetGValue(pElement->m_colorFill);
+		pNewElement->m_colorFillB = GetBValue(pElement->m_colorFill);
+		pNewElement->m_colorLineR = GetRValue(pElement->m_colorLine);
+		pNewElement->m_colorLineG = GetGValue(pElement->m_colorLine);
+		pNewElement->m_colorLineB = GetBValue(pElement->m_colorLine);
+
+		pNewElement->m_bSolidColorFill = pElement->m_bSolidColorFill;
+		pNewElement->m_bColorLine = pElement->m_bColorLine;
+		pNewElement->m_bColorFill = pElement->m_bColorFill;
+
+		data->m_shapes.push_back(pNewElement);
+	}
+
+	/*
+	for( vector<std::shared_ptr<CElement>>::const_iterator i = GetObjects().begin() ; GetObjects.end() ; i++ )
+	{
+		const std::shared_ptr<CElement> pElement = *i;
+		std::shared_ptr<CElement> pElement
+	}
+	*/
+
+	//filename = _T("C:\\christophep\\temp\\mymodeler1.xml");
+	// load an archive
+	std::ofstream xofs(filename.c_str());
+	boost::archive::xml_oarchive xoa(xofs);
+	xoa << BOOST_SERIALIZATION_NVP(data);
+
+}
+
+void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
+{
+	USES_CONVERSION;
+
+	boost::shared_ptr<CShapeCollection> data(new CShapeCollection());
+
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() == IDCANCEL)
+		return;
+
+	CString strFileName = dlg.GetFileName();
+	CString strPath = dlg.GetFolderPath();
+	CString strFile;
+	strFile.Format(_T("%s\\%s"), strPath, strFileName);
+	std::wstring filename = T2W((LPTSTR)(LPCTSTR)strFile);
+
+	// load an archive
+	std::ifstream xifs(filename.c_str());
+	assert(xifs.good());
+	boost::archive::xml_iarchive xia(xifs);
+	//AfxMessageBox("xia >> BOOST_SERIALIZATION_NVP(data);...");
+	xia >> BOOST_SERIALIZATION_NVP(data);
+
+	int count = data->m_shapes.size();
+	CString str;
+	str.Format(_T("data read size=%d"), count);
+	//AfxMessageBox(str);
+
+	// Clear existing shapes
+	m_objects.RemoveAll();
+
+	for (vector<boost::shared_ptr<CSimpleShape> >::iterator i = data->m_shapes.begin(); i != data->m_shapes.end(); i++)
+	{
+		boost::shared_ptr<CSimpleShape> pElement = *i;
+		//AfxMessageBox(pElement->m_name + " " + pElement->m_id);
+
+		std::shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType((ElementType)pElement->m_type,
+			(ShapeType)pElement->m_shapeType);
+		pNewElement->m_name = pElement->m_name.c_str();
+		pNewElement->m_objectId = pElement->m_id.c_str();
+		pNewElement->m_caption = pElement->m_caption.c_str();
+		pNewElement->m_text = pElement->m_text.c_str();
+		pNewElement->m_pManager = this;
+		pNewElement->m_pView = pView;
+
+		CPoint p1;
+		CPoint p2;
+		p1.x = pElement->m_x1;
+		p1.y = pElement->m_y1;
+		p2.x = pElement->m_x2;
+		p2.y = pElement->m_y2;
+		pNewElement->m_rect = CRect(p1, p2);
+
+		int colorFillR = pElement->m_colorFillR;
+		int colorFillG = pElement->m_colorFillG;
+		int colorFillB = pElement->m_colorFillB;
+		pNewElement->m_colorFill = RGB(colorFillR, colorFillG, colorFillB);
+		int colorLineR = pElement->m_colorLineR;
+		int colorLineG = pElement->m_colorLineG;
+		int colorLineB = pElement->m_colorLineB;
+		pNewElement->m_colorLine = RGB(colorLineR, colorLineG, colorLineB);
+
+		pNewElement->m_bSolidColorFill = pElement->m_bSolidColorFill;
+		pNewElement->m_bColorLine = pElement->m_bColorLine;
+		pNewElement->m_bColorFill = pElement->m_bColorFill;
+
+		m_objects.AddTail(pNewElement);
+		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
+	}
+
+	// Redraw the view
+	Invalidate(pView);
+
 }
 
 void CElementManager::OnElementsScalePlus(CModeler1View* pView)

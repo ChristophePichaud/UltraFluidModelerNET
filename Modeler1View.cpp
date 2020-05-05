@@ -204,6 +204,8 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_RIGHT90, &CModeler1View::OnUpdateFomatRotateRight90)
 	ON_COMMAND(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnFomatRotateLeft90)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnUpdateFomatRotateLeft90)
+	ON_COMMAND(ID_FILE_IMPORT_XML, &CModeler1View::OnFileImportXML)
+	ON_COMMAND(ID_FILE_EXPORT_XML, &CModeler1View::OnFileExportXML)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1420,4 +1422,14 @@ void CModeler1View::OnFomatRotateLeft90()
 void CModeler1View::OnUpdateFomatRotateLeft90(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnFileImportXML()
+{
+	GetManager()->Serialize_LoadAsXML(this);
+}
+
+void CModeler1View::OnFileExportXML()
+{
+	GetManager()->Serialize_SaveAsXML(this);
 }
