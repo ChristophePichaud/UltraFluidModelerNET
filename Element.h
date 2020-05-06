@@ -271,6 +271,8 @@ public:
 	static std::wstring m_team;
 	static std::wstring m_authors;
 	static bool m_bShowElementName;
+	static COLORREF m_standardShapesTextColor;
+	static COLORREF m_connectorShapesTextColor;
 
 // Methods for Attributes
 public:

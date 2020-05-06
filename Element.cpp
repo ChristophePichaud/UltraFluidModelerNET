@@ -101,6 +101,10 @@ std::wstring CElement::m_elementGroupElements = _T("");
 std::wstring CElement::m_team = _T("");
 std::wstring CElement::m_authors = _T("");
 bool CElement::m_bShowElementName = false;
+COLORREF CElement::m_standardShapesTextColor = RGB(0, 128, 255);
+COLORREF CElement::m_connectorShapesTextColor = RGB(0, 255, 54);
+
+
 CElement::CElement()
 {
 	m_pManager = NULL;

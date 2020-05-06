@@ -35,4 +35,6 @@ const std::wstring prop_Rotation_Angle = L"Rotation Angle";
 const std::wstring prop_Team = L"Team";
 const std::wstring prop_Authors = L"Authors";
 const std::wstring prop_ViewElementName = L"View Names";
+const std::wstring prop_Standard_Shapes_Text_Color = L"Standard Shapes Color";
+const std::wstring prop_Connector_Shapes_Text_Color = L"Connector Shapes Color";
 

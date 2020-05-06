@@ -765,7 +765,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 				pTextElement->m_rect = rect;
 				pTextElement->m_fontName = _T("Calibri");
 				pTextElement->m_fontSize = 12;
-				pTextElement->m_colorText = RGB(0, 255, 54);
+				pTextElement->m_colorText = pTextElement->m_connectorShapesTextColor;
 				pTextElement->m_text = pElement->m_name;
 
 				pTextElement->Draw(ctxt);
@@ -784,7 +784,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 				pTextElement2->m_rect = rect2;
 				pTextElement2->m_fontName = _T("Calibri");
 				pTextElement2->m_fontSize = 12;
-				pTextElement2->m_colorText = RGB(0, 255, 54); // Green
+				pTextElement2->m_colorText = pTextElement2->m_connectorShapesTextColor;
 				pTextElement2->m_text = pElement->m_name;
 
 				pTextElement2->Draw(ctxt);
@@ -801,7 +801,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 				pTextElement->m_rect = rect;
 				pTextElement->m_fontName = _T("Calibri");
 				pTextElement->m_fontSize = 12;
-				pTextElement->m_colorText = RGB(0, 128, 255); // Blue
+				pTextElement->m_colorText = pTextElement->m_standardShapesTextColor;
 				pTextElement->m_text = pElement->m_name;
 
 				pTextElement->Draw(ctxt);
@@ -1710,6 +1710,16 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if (name == prop_Line_Color)
 	{
 		pElement->m_colorLine = color;
+	}
+
+	if (name == prop_Standard_Shapes_Text_Color)
+	{
+		pElement->m_standardShapesTextColor = color;
+	}
+	
+	if (name == prop_Connector_Shapes_Text_Color)
+	{
+		pElement->m_connectorShapesTextColor = color;
 	}
 
 	UpdateRibbonUI(pElement->GetView(), pElement);

@@ -264,8 +264,19 @@ void CPropertiesWnd::InitPropList()
 	pLineColorProp->EnableOtherButton(_T("Other..."));
 	pLineColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
 	pMisc->AddSubItem(pLineColorProp);
-	pMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
 	m_wndPropList.AddProperty(pMisc);
+
+	CMFCPropertyGridProperty* pGlobalMisc = new CMFCPropertyGridProperty(_T("Global Misc"));
+	pGlobalMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
+	CMFCPropertyGridColorProperty* pStandardShapeColorProp = new CMFCPropertyGridColorProperty(_T("Standard Shapes Color"), RGB(255, 255, 255), NULL, _T("Specifies the object name color"));
+	pStandardShapeColorProp->EnableOtherButton(_T("Other..."));
+	pStandardShapeColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
+	pGlobalMisc->AddSubItem(pStandardShapeColorProp);
+	CMFCPropertyGridColorProperty* pConnectorShapeColorProp = new CMFCPropertyGridColorProperty(_T("Connector Shapes Color"), RGB(255, 255, 255), NULL, _T("Specifies the object name color"));
+	pConnectorShapeColorProp->EnableOtherButton(_T("Other..."));
+	pConnectorShapeColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
+	pGlobalMisc->AddSubItem(pConnectorShapeColorProp);
+	m_wndPropList.AddProperty(pGlobalMisc);
 
 	CMFCPropertyGridProperty* pDiagram = new CMFCPropertyGridProperty(_T("Diagram Element"));
 	CString strFilter2 = _T("Diagram|*.sch;*.dia;*.dgm|All Files(*.*)|*.*||");
@@ -429,6 +440,9 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 
 	UpdateProperty(prop_Rotation_Angle, (LONG)(pObj->m_rotateAngle));
 
+	UpdateProperty(prop_Standard_Shapes_Text_Color, (LONG)(pObj->m_standardShapesTextColor));
+	UpdateProperty(prop_Connector_Shapes_Text_Color, (LONG)(pObj->m_connectorShapesTextColor));
+
 	CMFCPropertyGridProperty* pProperty = m_wndPropList.GetProperty(7); // Connector Element
 	// Set Connector1 Element
 	CMFCPropertyGridProperty* pSubProperty = pProperty->GetSubItem(0);
@@ -492,7 +506,7 @@ void CPropertiesWnd::UpdateProperty(std::wstring propertyName, COleVariant vNewV
 			std::wstring propName = subProp->GetName();
 			if( propName == propertyName )
 			{
-				if( propName == prop_Fill_Color || propName == prop_Line_Color )
+				if (propName == prop_Fill_Color || propName == prop_Line_Color || propName == prop_Standard_Shapes_Text_Color || propName == prop_Connector_Shapes_Text_Color)
 				{
 					CMFCPropertyGridColorProperty * pColorProp = (CMFCPropertyGridColorProperty *)subProp;
 					pColorProp->SetColor(vNewValue.lVal);
@@ -575,7 +589,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 	if( GetProperty(prop_ID, strObjectId) == FALSE )
 		return 0;
 		
-	if (propName == prop_Fill_Color || propName == prop_Line_Color)
+	if (propName == prop_Fill_Color || propName == prop_Line_Color || propName == prop_Standard_Shapes_Text_Color || propName == prop_Connector_Shapes_Text_Color)
 	{
 		CMFCPropertyGridColorProperty* pColorProp = (CMFCPropertyGridColorProperty*)pProp;
 		COLORREF color = pColorProp->GetColor();

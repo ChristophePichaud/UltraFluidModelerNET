@@ -75,6 +75,9 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_bSolidColorFill);
 		ar& BOOST_SERIALIZATION_NVP(m_bColorLine);
 		ar& BOOST_SERIALIZATION_NVP(m_bColorFill);
+		ar& BOOST_SERIALIZATION_NVP(m_lineWidth);
+		ar& BOOST_SERIALIZATION_NVP(m_image);
+		ar& BOOST_SERIALIZATION_NVP(m_textAlign);
 	}
 
 	template<class Archive>
@@ -102,6 +105,9 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_bSolidColorFill);
 		ar& BOOST_SERIALIZATION_NVP(m_bColorLine);
 		ar& BOOST_SERIALIZATION_NVP(m_bColorFill);
+		ar& BOOST_SERIALIZATION_NVP(m_lineWidth);
+		ar& BOOST_SERIALIZATION_NVP(m_image);
+		ar& BOOST_SERIALIZATION_NVP(m_textAlign);
 	}
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 
@@ -126,6 +132,19 @@ public:
 	bool m_bSolidColorFill;
 	bool m_bColorLine;
 	bool m_bColorFill;
+	int m_lineWidth;
+	wstring m_image;
+	wstring m_textAlign;
+	bool m_bFixed;
+	int m_fontSize;
+	wstring m_fontName;
+	wstring m_code;
+	bool m_bBold;
+	bool m_bItalic;
+	bool m_bUnderline;
+	bool m_bStrikeThrough;
+	wstring m_colorText;
+	wstring m_Connector1;
 };
 
 BOOST_CLASS_VERSION(CSimpleShape, 1)
