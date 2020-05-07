@@ -399,6 +399,8 @@ void CDevelopmentElement::Draw(CDrawingContext & ctxt)
 	Graphics * graphics = ctxt.GetGraphics();
 	Pen & colorPen = ctxt.GetPenColor();
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
+	CPoint& p1 = ctxt.GetTopLeft();
+	CPoint& p2 = ctxt.GetBottomRight();
 
 	if( m_shapeType == ShapeType::development_class )
 	{
@@ -442,6 +444,130 @@ void CDevelopmentElement::Draw(CDrawingContext & ctxt)
 		// middle fill
 		graphics->DrawRectangle(&colorPen, rect.left, rect.top, rect.Width(), rect.Height() /2);
 	}
+	if (m_shapeType == development_association)
+	{
+		Point points[5] = {Point(-5, 5), Point(-5, -5), Point(5, -5), Point(5, 5), Point(-5, 5) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 5);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		colorPen.SetCustomStartCap(&custCap);
+		colorPen.SetCustomEndCap(&custCap);
+
+		//AdjustableArrowCap aac(10, 4);
+		//colorPen.SetCustomEndCap(&aac);
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleSolid);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+	if (m_shapeType == development_aggregation)
+	{
+		Point points[5] = { Point(-5, 0), Point(0, -5), Point(5, 0), Point(0, 5), Point(-5, 0) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 5);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		colorPen.SetCustomStartCap(&custCap);
+		//colorPen.SetCustomEndCap(&custCap);
+
+		AdjustableArrowCap aac(10, 4);
+		colorPen.SetCustomEndCap(&aac);
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleSolid);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+
+	if (m_shapeType == development_composition)
+	{
+		Point points2[5] = { Point(rect.left -5, rect.top +0), Point(rect.left +0, rect.top -5), Point(rect.left +5, rect.top +0), 
+								Point(rect.left +0, rect.top +5), Point(rect.left -5, rect.top +0) };
+		SolidBrush solidBrush2(ctxt.GetColorBlack());
+		graphics->FillPolygon(&solidBrush2, points2, 5);
+
+		Point points[5] = { Point(-5, 0), Point(0, -5), Point(5, 0), Point(0, 5), Point(-5, 0) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 5);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		colorPen.SetCustomStartCap(&custCap);
+		//colorPen.SetCustomEndCap(&custCap);
+
+		AdjustableArrowCap aac(10, 4);
+		colorPen.SetCustomEndCap(&aac);
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleSolid);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+
+	if (m_shapeType == development_dependency)
+	{
+		Point points[3] = { Point(-5, -5), Point(0, 0), Point(5, -5) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 3);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		//colorPen.SetCustomStartCap(&custCap);
+		colorPen.SetCustomEndCap(&custCap);
+
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleDot);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+
+	if (m_shapeType == development_inheritance)
+	{
+		Point points[4] = { Point(-5, -5), Point(0, 0), Point(5, -5), Point(-5, -5) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 4);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		//colorPen.SetCustomStartCap(&custCap);
+		colorPen.SetCustomEndCap(&custCap);
+
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleSolid);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+
+	if (m_shapeType == development_package_import)
+	{
+		Point points[3] = { Point(-5, -5), Point(0, 0), Point(5, -5) };
+		GraphicsPath capPath;
+		capPath.AddLines(points, 3);
+
+		// Create a CustomLineCap object.
+		CustomLineCap custCap(NULL, &capPath);
+
+		// Create a Pen object, assign startStrokeCap and endStrokeCap as the
+		// start and end caps, and draw a line.
+		//colorPen.SetCustomStartCap(&custCap);
+		colorPen.SetCustomEndCap(&custCap);
+
+		// Set a triangular dash cap for the pen.
+		colorPen.SetDashStyle(DashStyle::DashStyleDot);
+		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
+	}
+
 }
 
 //
