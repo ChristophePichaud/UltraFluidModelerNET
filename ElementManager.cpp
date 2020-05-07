@@ -749,7 +749,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			CPoint p1; 
 			CPoint p2;
 			
-			if (pElement->m_shapeType == ShapeType::line_right)
+			if (pElement->IsLine() == true) //pElement->m_shapeType == ShapeType::line_right)
 			{
 				//
 				// Draw first text
@@ -825,9 +825,11 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			continue;
 		}
 
-		DrawConnector(graphics, pElement, ConnectorType::connector1);
-		DrawConnector(graphics, pElement, ConnectorType::connector2);
-
+		if (pElement->m_bShowConnectors == true)
+		{
+			DrawConnector(graphics, pElement, ConnectorType::connector1);
+			DrawConnector(graphics, pElement, ConnectorType::connector2);
+		}
 	}
 
 }
@@ -1797,6 +1799,11 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if (name == prop_ViewElementName)
 	{
 		pElement->m_bShowElementName = value == 0 ? false : true;
+	}
+
+	if (name == prop_ShowConnectors)
+	{
+		pElement->m_bShowConnectors = value == 0 ? false : true;
 	}
 
 	InvalObj(pElement->GetView(), pElement);

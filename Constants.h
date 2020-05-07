@@ -27,6 +27,7 @@ const std::wstring prop_Connector1 = L"Connector1";
 const std::wstring prop_Connector2 = L"Connector2";
 const std::wstring prop_Connector1Handle = L"Connector1 Handle";
 const std::wstring prop_Connector2Handle = L"Connector2 Handle";
+const std::wstring prop_ShowConnectors = L"Show Connectors";
 const std::wstring prop_Version = L"Version";
 const std::wstring prop_Product = L"Product";
 const std::wstring prop_Left_Margin = L"Left Margin";

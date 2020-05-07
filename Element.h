@@ -273,6 +273,7 @@ public:
 	static bool m_bShowElementName;
 	static COLORREF m_standardShapesTextColor;
 	static COLORREF m_connectorShapesTextColor;
+	static bool m_bShowConnectors;
 
 // Methods for Attributes
 public:

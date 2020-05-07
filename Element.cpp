@@ -103,7 +103,7 @@ std::wstring CElement::m_authors = _T("");
 bool CElement::m_bShowElementName = false;
 COLORREF CElement::m_standardShapesTextColor = RGB(0, 128, 255);
 COLORREF CElement::m_connectorShapesTextColor = RGB(0, 255, 54);
-
+bool CElement::m_bShowConnectors = false;
 
 CElement::CElement()
 {
@@ -1040,7 +1040,14 @@ bool CElement::IsLine()
 	if( m_shapeType == ShapeType::line ||  m_shapeType == ShapeType::line2 ||
 		m_shapeType == ShapeType::line_left_right ||
 		m_shapeType == ShapeType::line_broken ||  m_shapeType == line_broken_right ||
-		m_shapeType == ShapeType::line_right || m_shapeType == ShapeType::line_right2 )
+		m_shapeType == ShapeType::line_right || m_shapeType == ShapeType::line_right2 || //)
+		m_shapeType == ShapeType::line_left_right ||
+		m_shapeType == ShapeType::development_association ||
+		m_shapeType == ShapeType::development_aggregation ||
+		m_shapeType == ShapeType::development_composition ||
+		m_shapeType == ShapeType::development_dependency ||
+		m_shapeType == ShapeType::development_inheritance ||
+		m_shapeType == ShapeType::development_package_import )
 	{
 		return true;
 	}

@@ -268,6 +268,7 @@ void CPropertiesWnd::InitPropList()
 
 	CMFCPropertyGridProperty* pGlobalMisc = new CMFCPropertyGridProperty(_T("Global Misc"));
 	pGlobalMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
+	pGlobalMisc->AddSubItem(new CMFCPropertyGridProperty(_T("Show Connectors"), (_variant_t)false, _T("Specifies the object's connector handle visibility")));
 	CMFCPropertyGridColorProperty* pStandardShapeColorProp = new CMFCPropertyGridColorProperty(_T("Standard Shapes Color"), RGB(255, 255, 255), NULL, _T("Specifies the object name color"));
 	pStandardShapeColorProp->EnableOtherButton(_T("Other..."));
 	pStandardShapeColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
@@ -442,8 +443,10 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 
 	UpdateProperty(prop_Standard_Shapes_Text_Color, (LONG)(pObj->m_standardShapesTextColor));
 	UpdateProperty(prop_Connector_Shapes_Text_Color, (LONG)(pObj->m_connectorShapesTextColor));
+	COleVariant vShowConnector((SHORT)(pObj->m_bShowConnectors), VT_BOOL);
+	UpdateProperty(prop_ShowConnectors, vShowConnector);
 
-	CMFCPropertyGridProperty* pProperty = m_wndPropList.GetProperty(7); // Connector Element
+	CMFCPropertyGridProperty* pProperty = m_wndPropList.GetProperty(8); // Connector Element
 	// Set Connector1 Element
 	CMFCPropertyGridProperty* pSubProperty = pProperty->GetSubItem(0);
 	pSubProperty->AddOption(_T("None"));
@@ -645,6 +648,10 @@ LRESULT CPropertiesWnd::OnPropertyChanged (WPARAM,LPARAM lParam)
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long)propValue.bVal);
 	}
 	else if (propName == prop_ViewElementName)
+	{
+		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long)propValue.bVal);
+	}
+	else if (propName == prop_ShowConnectors)
 	{
 		GetManager()->UpdateFromPropertyGrid(strObjectId, propName, (long)propValue.bVal);
 	}
