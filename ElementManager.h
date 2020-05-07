@@ -121,6 +121,8 @@ public:
 	void AlignTextLeft(CModeler1View* pView);
 	void AlignTextCenter(CModeler1View* pView);
 	void AlignTextRight(CModeler1View* pView);
+	void ExpandHigh(CModeler1View* pView);
+	void ExpandLarge(CModeler1View* pView);
 
 // Managing Background drawing
 public:

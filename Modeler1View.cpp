@@ -206,6 +206,10 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnUpdateFomatRotateLeft90)
 	ON_COMMAND(ID_FILE_IMPORT_XML, &CModeler1View::OnFileImportXML)
 	ON_COMMAND(ID_FILE_EXPORT_XML, &CModeler1View::OnFileExportXML)
+	ON_COMMAND(ID_FORMAT_EXPAND_HIGH, &CModeler1View::OnFileFormatExpandHigh)
+	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_HIGH, &CModeler1View::OnUpdateFileFormatExpandHigh)
+	ON_COMMAND(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnFileFormatExpandLarge)
+	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnUpdateFileFormatExpandLarge)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1432,4 +1436,24 @@ void CModeler1View::OnFileImportXML()
 void CModeler1View::OnFileExportXML()
 {
 	GetManager()->Serialize_SaveAsXML(this);
+}
+
+void CModeler1View::OnFileFormatExpandHigh()
+{
+	GetManager()->ExpandHigh(this);
+}
+
+void CModeler1View::OnUpdateFileFormatExpandHigh(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection());
+}
+
+void CModeler1View::OnFileFormatExpandLarge()
+{
+	GetManager()->ExpandLarge(this);
+}
+
+void CModeler1View::OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection());
 }

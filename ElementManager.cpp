@@ -3494,3 +3494,45 @@ void CElementManager::OnFomatRotateLeft90(CModeler1View* pView)
 	UpdateUI(pView, pElement);
 	pView->Invalidate();
 }
+
+void CElementManager::ExpandHigh(CModeler1View* pView)
+{
+	if (HasSelection())
+	{
+		shared_ptr<CElement> pElementBase = m_selection.m_objects[0];
+
+		for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+		{
+			std::shared_ptr<CElement> pObj = *itSel;
+
+			int height = pElementBase->m_rect.Height();
+			pObj->m_rect.top = pObj->m_rect.top;
+			pObj->m_rect.bottom = pObj->m_rect.top + height;
+			pObj->m_point = pObj->m_rect.TopLeft();
+			InvalObj(pView, pObj);
+		}
+
+		pView->GetDocument()->SetModifiedFlag();
+	}
+}
+
+void CElementManager::ExpandLarge(CModeler1View* pView)
+{
+	if (HasSelection())
+	{
+		shared_ptr<CElement> pElementBase = m_selection.m_objects[0];
+
+		for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+		{
+			std::shared_ptr<CElement> pObj = *itSel;
+
+			int width = pElementBase->m_rect.Width();
+			pObj->m_rect.left = pObj->m_rect.left;
+			pObj->m_rect.right = pObj->m_rect.left + width;
+			pObj->m_point = pObj->m_rect.TopLeft();
+			InvalObj(pView, pObj);
+		}
+
+		pView->GetDocument()->SetModifiedFlag();
+	}
+}

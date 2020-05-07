@@ -357,20 +357,15 @@ void CMainFrame::InitMainButton()
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_CLIPBOARD_PASTE, _T("Paste\nc"), 11));
 
 	CMFCRibbonPanel* pPanelDesign = pCategory->AddPanel(_T("Design\nzd"), m_PanelImages.ExtractIcon(2));
-
 	pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECT, _T("Select\nc"), 51));
 	//pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECTION, _T("Selection\nc"), 2));
-
 	CMFCRibbonButton* pBtnSelection = new CMFCRibbonButton(ID_DESIGN_SELECTION, _T("Selection\ns"), 51);
 	pBtnSelection->SetMenu(IDR_SELECT_MENU);
 	pPanelDesign->Add(pBtnSelection);
-
 	pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECT_ALL, _T("Select All\nc"), 2));
-
 	//pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_RECTANGLE, _T("Rectangle\ng"), 2));
 	//pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_LINE, _T("Line\ng"), 2));
 	//pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_ELLIPSE, _T("Ellipse\ng"), 2));
-	
 	CMFCRibbonButton* pInsertPictureBtn = new CMFCRibbonButton(ID_DESIGN_IMAGE, _T("Picture"), 4, 4);
 	pPanelDesign->Add(pInsertPictureBtn);
 
@@ -555,7 +550,6 @@ void CMainFrame::InitMainButton()
 	pBtnFillColor->AddSubItem(new CMFCRibbonButton(ID_FORMAT_NOFILL, _T("&No Fill\nn"), -1));
 	pBtnFillColor->SetColor((COLORREF)-1);
 	pPanelFormat->Add(pBtnFillColor);
-
 	CMFCRibbonColorButton * pBtnLineColor = new CMFCRibbonColorButton(ID_FORMAT_LINECOLOR, _T("Line Color\nso"), FALSE, 3, -1);
 	pBtnLineColor->SetDefaultCommand(FALSE);
 	pBtnLineColor->EnableAutomaticButton(_T("&Automatic"), RGB(0, 0, 0));
@@ -568,7 +562,6 @@ void CMainFrame::InitMainButton()
 	pBtnLineColor->AddSubItem(new CMFCRibbonButton(ID_FORMAT_NOLINE, _T("&No Line\nn"), 2));
 	pBtnLineColor->SetColor((COLORREF)-1);
 	pPanelFormat->Add(pBtnLineColor);
-
 	CStringArray sa;
 	sa.Add(_T("1 pt"));
 	sa.Add(_T("2 pt"));
@@ -577,12 +570,10 @@ void CMainFrame::InitMainButton()
 	sa.Add(_T("5 pt"));
 	sa.Add(_T("6 pt"));
 	sa.Add(_T("7 pt"));
-	
 	CRibbonListButton * pBtnLineWeight = new CRibbonListButton(ID_FORMAT_LINEWIDTH, _T("Line Width\nsw"), 4, -1, IDB_LINEWEIGHT, 96, sa);
 	pBtnLineWeight->AddSubItem(new CMFCRibbonButton(ID_FORMAT_LINEWIDTH_MORE, _T("More &Lines..."), 5, -1));
 	pBtnLineWeight->EnableMenuResize(TRUE, TRUE); // Vertical only
 	pPanelFormat->Add(pBtnLineWeight);
-
 	CMFCRibbonColorButton * pBtnPageColor = new CMFCRibbonColorButton(ID_FORMAT_PAGECOLOR, _T("Page Color\npo"), TRUE, -1, 26);
 	pBtnPageColor->SetDefaultCommand(FALSE);
 	pBtnPageColor->EnableAutomaticButton(_T("&Automatic"), RGB(0, 0, 0));
@@ -606,17 +597,6 @@ void CMainFrame::InitMainButton()
 	pBtnZoom->AddItem(_T("400%"));
 	pBtnZoom->SelectItem(3);
 	pPanelFormat->Add(pBtnZoom);
-	pPanelFormat->AddSeparator();
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_LEFT, _T("Text Align Left\nal"), 28));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_CENTER, _T("Text Align Center\nac"), 29));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_RIGHT, _T("Text Align Right\nar"), 30));
-	pPanelFormat->AddSeparator();
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_LEFT, _T("Align Left\nal"), 38));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_RIGHT, _T("Align Right\nar"), 39));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_TOP, _T("Align Top\nat"), 40));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_BOTTOM, _T("Align Bottom\nab"), 41));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_RIGHT90, _T("Rotate Right 90°\nc"), 54));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_LEFT90, _T("Rotate Left 90°\nc"), 55));
 
 	// Create "Position" panel
 	CMFCRibbonPanel* pPanelPosition = pCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
@@ -625,6 +605,30 @@ void CMainFrame::InitMainButton()
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVEBACKWARD, _T("Move Backward\nc"), -1, 25));
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVETOBACK, _T("Move to Back\nc"), -1, 23));
 
+
+	CMFCRibbonCategory* pDesignCategory = m_wndRibbonBar.AddCategory(_T("&Design"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
+	// Create "Position" panel
+	CMFCRibbonPanel* pPanelPosition2 = pDesignCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
+	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVETOFRONT, _T("Move to Front\nc"), -1, 22));
+	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVEFORWARD, _T("Move Forward\nc"), -1, 24));
+	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVEBACKWARD, _T("Move Backward\nc"), -1, 25));
+	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVETOBACK, _T("Move to Back\nc"), -1, 23));
+
+	// Create "Format" panel
+	CMFCRibbonPanel* pPanelStyle = pDesignCategory->AddPanel(_T("Style\nzd"), m_PanelImages.ExtractIcon(2));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_LEFT, _T("Text Align Left\nal"), 28));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_CENTER, _T("Text Align Center\nac"), 29));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_RIGHT, _T("Text Align Right\nar"), 30));
+	pPanelStyle->AddSeparator();
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_LEFT, _T("Align Left\nal"), 38));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_RIGHT, _T("Align Right\nar"), 39));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_TOP, _T("Align Top\nat"), 40));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ALIGN_BOTTOM, _T("Align Bottom\nab"), 41));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_EXPAND_HIGH, _T("Expand High"), 56));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_EXPAND_LARGE, _T("Expand Large\nab"), 57));
+	pPanelStyle->AddSeparator();
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_RIGHT90, _T("Rotate Right 90°\nc"), 54));
+	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_LEFT90, _T("Rotate Left 90°\nc"), 55));
 
 }
 

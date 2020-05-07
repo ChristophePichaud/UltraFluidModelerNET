@@ -228,6 +228,10 @@ public:
 	afx_msg void OnUpdateFomatRotateLeft90(CCmdUI* pCmdUI);
 	afx_msg void OnFileImportXML();
 	afx_msg void OnFileExportXML();
+	afx_msg void OnFileFormatExpandHigh();
+	afx_msg void OnUpdateFileFormatExpandHigh(CCmdUI* pCmdUI);
+	afx_msg void OnFileFormatExpandLarge();
+	afx_msg void OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp
