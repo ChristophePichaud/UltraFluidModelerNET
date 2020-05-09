@@ -223,6 +223,12 @@ std::shared_ptr<CElement> CElementContainer::ObjectAt(const CRect& rect, SelectT
 	{
 		std::shared_ptr<CElement> pElement = *i;
 
+		//if (pElement == pElement->GetManager()->pSelectionElement) //pElement->m_shapeType == ShapeType::selection)
+		if (pElement->m_shapeType == ShapeType::selection)
+		{
+			continue;
+		}
+
 		// If Intersects, we have a candidate but...
 		if (pElement->Intersects(rect))
 		{
@@ -405,6 +411,11 @@ vector<std::shared_ptr<CElement>> CElementContainer::ObjectsInRectEx(const CRect
 	for (vector<std::shared_ptr<CElement>>::reverse_iterator i = m_objects.rbegin(); i != m_objects.rend(); i++)
 	{
 		std::shared_ptr<CElement> pElement = *i;
+
+		if (pElement->m_shapeType == ShapeType::selection)
+		{
+			continue;
+		}
 
 		// If Intersects, we have a candidate but...
 		if (pElement->Intersects(rect))

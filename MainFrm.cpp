@@ -597,7 +597,6 @@ void CMainFrame::InitMainButton()
 	pBtnZoom->AddItem(_T("400%"));
 	pBtnZoom->SelectItem(3);
 	pPanelFormat->Add(pBtnZoom);
-
 	// Create "Position" panel
 	CMFCRibbonPanel* pPanelPosition = pCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVETOFRONT, _T("Move to Front\nc"), -1, 22));
@@ -606,16 +605,16 @@ void CMainFrame::InitMainButton()
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVETOBACK, _T("Move to Back\nc"), -1, 23));
 
 
-	CMFCRibbonCategory* pDesignCategory = m_wndRibbonBar.AddCategory(_T("&Design"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
+	CMFCRibbonCategory* pFormatCategory = m_wndRibbonBar.AddCategory(_T("&Format"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
 	// Create "Position" panel
-	CMFCRibbonPanel* pPanelPosition2 = pDesignCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
+	CMFCRibbonPanel* pPanelPosition2 = pFormatCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVETOFRONT, _T("Move to Front\nc"), -1, 22));
 	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVEFORWARD, _T("Move Forward\nc"), -1, 24));
 	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVEBACKWARD, _T("Move Backward\nc"), -1, 25));
 	pPanelPosition2->Add(new CMFCRibbonButton(ID_POSITION_MOVETOBACK, _T("Move to Back\nc"), -1, 23));
 
 	// Create "Format" panel
-	CMFCRibbonPanel* pPanelStyle = pDesignCategory->AddPanel(_T("Style\nzd"), m_PanelImages.ExtractIcon(2));
+	CMFCRibbonPanel* pPanelStyle = pFormatCategory->AddPanel(_T("Style\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_LEFT, _T("Text Align Left\nal"), 28));
 	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_CENTER, _T("Text Align Center\nac"), 29));
 	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_TEXT_ALIGN_RIGHT, _T("Text Align Right\nar"), 30));

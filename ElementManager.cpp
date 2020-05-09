@@ -1033,8 +1033,6 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 				m_selectMode = SelectMode::move;
 				pView->LogDebug(_T("selectMode == move"));
 
-				// Update UI
-				UpdateUI(pView, pElement);
 				// Redraw
 				Invalidate(pView, pElement);
 			}
@@ -1269,44 +1267,6 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 	CPoint point = cpoint;
 	ViewToManager(pView, point);
 
-	/*
-	if (m_selectMode == SelectMode::netselect)
-	{
-		//m_selectionRect
-		POINT p;
-		p.x = point.x;
-		p.y = point.y;
-
-		for (vector<std::shared_ptr<CElement>>::const_iterator i = GetObjects().begin(); i != GetObjects().end(); i++)
-		{
-			std::shared_ptr<CElement> pElement = *i;
-
-			for (int y = 0; y < p.y; ++y)
-			{
-				for (int x = 0; x < p.x; ++x)
-				{
-					POINT pToCheck;
-					pToCheck.x = x;
-					pToCheck.y = y;
-
-					CRect rect = pElement->m_rect;
-					if (rect.PtInRect(pToCheck) == TRUE)
-					{
-						if (IsSelected(pElement) == false)
-						{
-							Select(pElement);
-						}
-						goto label1;
-					}
-				}
-			}
-
-		label1:
-			bool b = true;
-		}
-	}
-	*/
-
 	// Caution, it flicks !
 	//pView->LogDebug(_T("CElementManager::OnLButtonUp"));
 
@@ -1377,6 +1337,9 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 					if (pElement->m_bGrouping == false)
 					{
 						Select(pElement);
+
+						// Update UI
+						UpdateUI(pView, pElement);
 					}
 				}
 			}
@@ -1393,7 +1356,7 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 
 	pElement->m_bMoving = FALSE;
 	// Update UI
-	UpdateUI(pView, pElement);
+	//UpdateUI(pView, pElement);
 	// Redraw
 	InvalObj(pView, pElement);	
 
