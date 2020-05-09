@@ -1033,6 +1033,8 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 				m_selectMode = SelectMode::move;
 				pView->LogDebug(_T("selectMode == move"));
 
+				// Update UI
+				UpdateUI(pView, pElement);
 				// Redraw
 				Invalidate(pView, pElement);
 			}
@@ -3256,6 +3258,47 @@ void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 		pNewElement->m_bSolidColorFill = pElement->m_bSolidColorFill;
 		pNewElement->m_bColorLine = pElement->m_bColorLine;
 		pNewElement->m_bColorFill = pElement->m_bColorFill;
+		pNewElement->m_lineWidth = pElement->m_lineWidth;
+
+		pNewElement->m_image = pElement->m_image;
+		pNewElement->m_textAlign = pElement->m_textAlign;
+
+		pNewElement->m_bFixed = pElement->m_bFixed;
+		pNewElement->m_fontSize = pElement->m_fontSize;
+		pNewElement->m_fontName = pElement->m_fontName;
+		pNewElement->m_code = pElement->m_code;
+		pNewElement->m_bBold = pElement->m_bBold;
+		pNewElement->m_bItalic = pElement->m_bItalic;
+		pNewElement->m_bUnderline = pElement->m_bUnderline;
+		pNewElement->m_bStrikeThrough = pElement->m_bStrikeThrough;
+		pNewElement->m_colorTextR = GetRValue(pElement->m_colorText);
+		pNewElement->m_colorTextG = GetGValue(pElement->m_colorText);
+		pNewElement->m_colorTextB = GetBValue(pElement->m_colorText);
+		pNewElement->m_connectorName1 = pElement->m_connectorName1;
+		pNewElement->m_connectorName2 = pElement->m_connectorName2;
+		pNewElement->m_connectorDragHandle1 = pElement->m_connectorDragHandle1;
+		pNewElement->m_connectorDragHandle2 = pElement->m_connectorDragHandle2;
+		pNewElement->m_document = pElement->m_document;
+		pNewElement->m_elementGroupNames = pElement->m_elementGroupNames;
+		pNewElement->m_elementGroupElements = pElement->m_elementGroupElements;
+		pNewElement->m_documentType = pElement->m_documentType;
+		pNewElement->m_documentTypeText = pElement->m_documentTypeText;
+		pNewElement->m_version = pElement->m_version;
+		pNewElement->m_product = pElement->m_product;
+		pNewElement->m_leftMargin = pElement->m_leftMargin;
+		pNewElement->m_topMargin = pElement->m_topMargin;
+		pNewElement->m_rotateAngle = pElement->m_rotateAngle;
+		pNewElement->m_team = pElement->m_team;
+		pNewElement->m_authors = pElement->m_authors;
+		pNewElement->m_bShowElementName = pElement->m_bShowElementName;
+		pNewElement->m_standardShapesTextColorR = GetRValue(pElement->m_standardShapesTextColor);
+		pNewElement->m_standardShapesTextColorG = GetGValue(pElement->m_standardShapesTextColor);
+		pNewElement->m_standardShapesTextColorB = GetBValue(pElement->m_standardShapesTextColor);
+		pNewElement->m_connectorShapesTextColorR = GetRValue(pElement->m_connectorShapesTextColor);
+		pNewElement->m_connectorShapesTextColorG = GetGValue(pElement->m_connectorShapesTextColor);
+		pNewElement->m_connectorShapesTextColorB = GetBValue(pElement->m_connectorShapesTextColor);;
+		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
+
 
 		data->m_shapes.push_back(pNewElement);
 	}
@@ -3314,10 +3357,10 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 
 		std::shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType((ElementType)pElement->m_type,
 			(ShapeType)pElement->m_shapeType);
-		pNewElement->m_name = pElement->m_name.c_str();
-		pNewElement->m_objectId = pElement->m_id.c_str();
-		pNewElement->m_caption = pElement->m_caption.c_str();
-		pNewElement->m_text = pElement->m_text.c_str();
+		pNewElement->m_name = pElement->m_name;
+		pNewElement->m_objectId = pElement->m_id;
+		pNewElement->m_caption = pElement->m_caption;
+		pNewElement->m_text = pElement->m_text;
 		pNewElement->m_pManager = this;
 		pNewElement->m_pView = pView;
 
@@ -3342,9 +3385,70 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 		pNewElement->m_bColorLine = pElement->m_bColorLine;
 		pNewElement->m_bColorFill = pElement->m_bColorFill;
 
+		pNewElement->m_image = pElement->m_image;
+		pNewElement->m_textAlign = pElement->m_textAlign;
+
+		pNewElement->m_bFixed = pElement->m_bFixed;
+		pNewElement->m_fontSize = pElement->m_fontSize;
+		pNewElement->m_fontName = pElement->m_fontName;
+		pNewElement->m_code = pElement->m_code;
+		pNewElement->m_bBold = pElement->m_bBold;
+		pNewElement->m_bItalic = pElement->m_bItalic;
+		pNewElement->m_bUnderline = pElement->m_bUnderline;
+		pNewElement->m_bStrikeThrough = pElement->m_bStrikeThrough;
+		int colorTextR = GetRValue(pElement->m_colorTextR);
+		int colorTextG = GetGValue(pElement->m_colorTextG);
+		int colorTextB = GetBValue(pElement->m_colorTextB);
+		pNewElement->m_colorText = RGB(colorTextR, colorTextG, colorTextB);
+		pNewElement->m_connectorName1 = pElement->m_connectorName1;
+		pNewElement->m_connectorName2 = pElement->m_connectorName2;
+		pNewElement->m_connectorDragHandle1 = pElement->m_connectorDragHandle1;
+		pNewElement->m_connectorDragHandle2 = pElement->m_connectorDragHandle2;
+		pNewElement->m_document = pElement->m_document;
+		pNewElement->m_elementGroupNames = pElement->m_elementGroupNames;
+		pNewElement->m_elementGroupElements = pElement->m_elementGroupElements;
+		pNewElement->m_documentType = (DocumentType)pElement->m_documentType;
+		pNewElement->m_documentTypeText = pElement->m_documentTypeText;
+		pNewElement->m_version = pElement->m_version;
+		pNewElement->m_product = pElement->m_product;
+		pNewElement->m_leftMargin = pElement->m_leftMargin;
+		pNewElement->m_topMargin = pElement->m_topMargin;
+		pNewElement->m_rotateAngle = pElement->m_rotateAngle;
+		pNewElement->m_team = pElement->m_team;
+		pNewElement->m_authors = pElement->m_authors;
+		pNewElement->m_bShowElementName = pElement->m_bShowElementName;
+		int standardShapesTextColorR = GetRValue(pElement->m_standardShapesTextColorR);
+		int standardShapesTextColorG = GetGValue(pElement->m_standardShapesTextColorG);
+		int standardShapesTextColorB = GetBValue(pElement->m_standardShapesTextColorB);
+		pNewElement->m_standardShapesTextColor = RGB(standardShapesTextColorR, standardShapesTextColorG, standardShapesTextColorB);
+		int connectorShapesTextColorR = GetRValue(pElement->m_connectorShapesTextColorR);
+		int connectorShapesTextColorG = GetGValue(pElement->m_connectorShapesTextColorG);
+		int connectorShapesTextColorB = GetBValue(pElement->m_connectorShapesTextColorB);
+		pNewElement->m_connectorShapesTextColor = RGB(connectorShapesTextColorR, connectorShapesTextColorG, connectorShapesTextColorB);
+		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
+
 		m_objects.AddTail(pNewElement);
 		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
 	}
+
+	for (shared_ptr<CElement> pElement : GetObjects())
+	{
+		if (pElement->IsLine())
+		{
+			pElement->m_pConnector->m_pElement1 = m_objects.FindElementByName(pElement->m_connectorName1);
+			pElement->m_pConnector->m_pElement2 = m_objects.FindElementByName(pElement->m_connectorName2);
+		}
+
+		pElement->m_pManager = this; // TODO
+
+		POSITION pos = /*pNewElement->m_pView =*/ pView->GetDocument()->GetFirstViewPosition(); //nullptr; // TODO
+		pElement->m_pView = (CModeler1View*)(pView->GetDocument()->GetNextView(pos)); //()->GetRoutingView();
+	}
+
+	// Build groups
+	BuildGroups();
+
+	BuildElementsCombo(pView);
 
 	// Redraw the view
 	Invalidate(pView);
