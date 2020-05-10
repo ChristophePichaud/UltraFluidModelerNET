@@ -133,3 +133,34 @@ class CDiagramElement : public CElement
 public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
+
+class CCourbe1Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CCourbe2Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CCurveElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CPatateElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CCurveFuzzyElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+

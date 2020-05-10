@@ -27,12 +27,23 @@ ShapeType CShapeType::ToShapeType(int value)
 		case notimpl_multi_line:
 		case arrow_right:
 		case arrow_down:
+		case parenthese_left:
+		case parenthese_right:
+		case courbe1:
+		case courbe2:
 		case line2:
 		case line_right2:
 		case line_left_right:
-		case parenthese_left:
-		case parenthese_right:
+		case line_broken2:
+		case line_broken_right2:
+		case line_broken_left_right:
 		case star:
+		case curve:
+		case curve_right:
+		case curve_left_right:
+		case patate:
+		case courbe2_bis:
+		case curve_fuzzy:
 			ret = (ShapeType)value;
 			break;
 		case image_fixed:
@@ -1047,7 +1058,11 @@ bool CElement::IsLine()
 		m_shapeType == ShapeType::development_composition ||
 		m_shapeType == ShapeType::development_dependency ||
 		m_shapeType == ShapeType::development_inheritance ||
-		m_shapeType == ShapeType::development_package_import )
+		m_shapeType == ShapeType::development_package_import ||
+		m_shapeType == ShapeType::line_broken2 ||
+		m_shapeType == ShapeType::line_broken_right2 ||
+		m_shapeType == ShapeType::line_broken_left_right )
+
 	{
 		return true;
 	}

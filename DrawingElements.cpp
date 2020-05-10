@@ -342,6 +342,184 @@ void CParentheseRightElement::Draw(CDrawingContext & ctxt)
 }
 
 //
+// CCourbe1Element class
+//
+void CCourbe1Element::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * 1 * * * * * * * *
+	// * * * * * * * 2 * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * 3
+	// * * * * * * * * * *
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 2, rect.top),
+		/*2*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 1),
+		/*3*/ Point(rect.left + step1_10_x * 9, rect.top + step1_10_y * 9)};
+	int npoints = 3;
+	graphics->DrawCurve(&colorPen, points, npoints);
+}
+
+//
+// CCourbe2Element class
+//
+void CCourbe2Element::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * * 4 * * * *
+	// * * * * 3 * 5 * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * 2 * * * * * * 6
+	// 1 * * * * * * * * *
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 1, rect.top + step1_10_y * 9),
+		/*2*/ Point(rect.left + step1_10_x * 3, rect.top + step1_10_y * 8),
+		/*3*/ Point(rect.left + step1_10_x * 5, rect.top + step1_10_y * 1),
+		/*4*/ Point(rect.left + step1_10_x * 6, rect.top + step1_10_y * 0),
+		/*5*/ Point(rect.left + step1_10_x * 7, rect.top + step1_10_y * 1),
+		/*6*/ Point(rect.left + step1_10_x * 9, rect.top + step1_10_y * 8) };
+	int npoints = 6;
+	graphics->DrawCurve(&colorPen, points, npoints);
+}
+
+//
+//  CPatateElement class
+//
+void CPatateElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * * * * 1 * *
+	// * 2 * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * 6 *
+	// * * * * * * * * * 5
+	// * 3 * * * * * * * *
+	// * * * * * * * * 4 *
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 0),
+		/*2*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 2),
+		/*3*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 8),
+		/*4*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 9),
+		/*5*/ Point(rect.left + step1_10_x * 9, rect.top + step1_10_y * 7),
+		/*6*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 6),
+		/*7*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 0) };
+	int npoints = 7;
+	graphics->DrawCurve(&colorPen, points, npoints);
+}
+
+//
+//  CCurveElement class
+//
+void CCurveElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * * * * * * *
+	// * 1 * * * * * * * *
+	// * * * * * * * 2 * *
+	// * * * * * * * * 3 *
+	// * * * * * * * 4 * *
+	// * * 5 * * * * * * *
+	// * 6 * * * * * * * *
+	// * * 7 * * * * * * *
+	// * * * * * * * * 8 *
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[8] = {/*1*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 1),
+		/*2*/ Point(rect.left + step1_10_x * 7, rect.top + step1_10_y * 2),
+		/*3*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 3),
+		/*4*/ Point(rect.left + step1_10_x * 7, rect.top + step1_10_y * 4),
+		/*5*/ Point(rect.left + step1_10_x * 3, rect.top + step1_10_y * 5),
+		/*6*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 6),
+		/*7*/ Point(rect.left + step1_10_x * 3, rect.top + step1_10_y * 7),
+		/*8*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 8) };
+	int npoints = 8;
+
+	if (m_shapeType == curve_right)
+	{
+		AdjustableArrowCap aac(10, 4);
+		//colorPen.SetCustomStartCap(&aac);
+		colorPen.SetCustomEndCap(&aac);
+	}
+
+	if (m_shapeType == curve_left_right)
+	{
+		AdjustableArrowCap aac(10, 4);
+		colorPen.SetCustomStartCap(&aac);
+		colorPen.SetCustomEndCap(&aac);
+	}
+
+
+	graphics->DrawCurve(&colorPen, points, npoints);
+}
+
+//
+//  CCurveFuzzyElement class
+//
+void CCurveFuzzyElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * 1 * * * * *
+	// * * * * * * * * * *
+	// * * * * * * 3 * * *
+	// * * 2 * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * 4 * *
+	// * * * * * * * * * *
+	// * * * * * 5 * * * *
+	// * * * * * * * 6 * *
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[6] = {/*1*/ Point(rect.left + step1_10_x * 4, rect.top + step1_10_y * 0),
+		/*2*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 3),
+		/*3*/ Point(rect.left + step1_10_x * 6, rect.top + step1_10_y * 2),
+		/*4*/ Point(rect.left + step1_10_x * 7, rect.top + step1_10_y * 5),
+		/*5*/ Point(rect.left + step1_10_x * 5, rect.top + step1_10_y * 8),
+		/*6*/ Point(rect.left + step1_10_x * 7, rect.top + step1_10_y * 9) };
+	int npoints = 6;
+
+	graphics->DrawCurve(&colorPen, points, npoints);
+}
+
+
+//
 // CLineBrokenElement class
 //
 void CLineBrokenElement::Draw(CDrawingContext & ctxt)
@@ -352,7 +530,8 @@ void CLineBrokenElement::Draw(CDrawingContext & ctxt)
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
 
-	if( m_shapeType == ShapeType::line_broken ||  m_shapeType == line_broken_right )
+	if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+		m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
 	{
 		// 1 * * * 2 * * * * *
 		// * * * * * * * * * *
@@ -367,25 +546,20 @@ void CLineBrokenElement::Draw(CDrawingContext & ctxt)
 							Point(rect.right, rect.bottom)};
 		int npoints = 4;
 
-		if( m_shapeType == line_broken_right )
+		if( m_shapeType == line_broken_right || m_shapeType == line_broken_right2 )
 		{
-			//colorPen.SetEndCap(LineCapArrowAnchor);
-			//Create a Path, and add two lines to it.
-			Point points[3] = {Point(-5, -5), Point(0, 0), Point(5, -5)};
-			GraphicsPath capPath;
-			capPath.AddLines(points, 3);
-			// Create a CustomLineCap object.
-			//CustomLineCap custCap(NULL, &capPath); 
-			// Set the start and end caps for custCap.
-			//custCap.SetStrokeCap(LineCapTriangle);
-			// Create a Pen object, assign startStrokeCap and endStrokeCap as the 
-			// start and end caps, and draw a line.
-			//colorPen.SetCustomEndCap(&custCap);
 			AdjustableArrowCap aac(10, 4);
 			//colorPen.SetCustomStartCap(&aac);
 			colorPen.SetCustomEndCap(&aac);
 		}
 			
+		if (m_shapeType == line_broken_left_right )
+		{
+			AdjustableArrowCap aac(10, 4);
+			colorPen.SetCustomStartCap(&aac);
+			colorPen.SetCustomEndCap(&aac);
+		}
+
 		graphics->DrawLines(&colorPen, points, npoints);
 	}
 }

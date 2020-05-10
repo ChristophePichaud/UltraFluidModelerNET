@@ -97,8 +97,54 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 			}
 			case line_broken:
 			case line_broken_right:
+			case line_broken2:
+			case line_broken_right2:
+			case line_broken_left_right:
 			{
 				std::shared_ptr<CElement> apNewElement(new CLineBrokenElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case courbe1:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCourbe1Element());
+				pNewElement = apNewElement;
+				break;
+			}
+			case courbe2:
+			case courbe2_bis:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCourbe2Element());
+				pNewElement = apNewElement;
+				break;
+			}
+			case curve:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCurveElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case curve_right:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCurveElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case curve_left_right:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCurveElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case patate:
+			{
+				std::shared_ptr<CElement> apNewElement(new CPatateElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case curve_fuzzy:
+			{
+				std::shared_ptr<CElement> apNewElement(new CCurveFuzzyElement());
 				pNewElement = apNewElement;
 				break;
 			}
