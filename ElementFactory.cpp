@@ -166,6 +166,18 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 				pNewElement = apNewElement;
 				break;
 			}
+			case basic_losange:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicLosangeElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case basic_round_rectangle:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicRoundRectangleElement());
+				pNewElement = apNewElement;
+				break;
+			}
 			case notimp_igloo:
 			case notimpl_multi_line:
 			default:

@@ -181,3 +181,16 @@ class CBasicRectangle3Element : public CElement
 public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
+
+class CBasicLosangeElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CBasicRoundRectangleElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+

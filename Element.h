@@ -78,6 +78,8 @@ enum ShapeType : int
 	basic_rectangle,
 	basic_rectangle2,
 	basic_rectangle3,
+	basic_losange,
+	basic_round_rectangle,
 	// Image
 	image_fixed = OffsetShapes_Image,
 	image_scaled,

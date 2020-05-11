@@ -1298,3 +1298,102 @@ void CBasicRectangle3Element::Draw(CDrawingContext& ctxt)
 		graphics->DrawPolygon(&colorPen, points, npoints);
 	}
 }
+
+//
+// CBasicLosangeElement class
+//
+void CBasicLosangeElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * 1 * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 4 * * * * * * * * 2
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * 3 * * * * *
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[5] = {/*1*/ Point(rect.left + rect.Width() / 2, rect.top),
+		/*2*/ Point(rect.right, rect.top + rect.Height() / 2),
+		/*3*/ Point(rect.left + rect.Width() / 2, rect.bottom),
+		/*4*/ Point(rect.left, rect.top + rect.Height() / 2),
+		/*5*/ Point(rect.left + rect.Width() / 2, rect.top) };
+	int npoints = 5;
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPolygon(&solidBrush, points, npoints);
+		else
+			graphics->FillPolygon(&lgBrush, points, npoints);
+	}
+	if (HasColorLine())
+	{
+		graphics->DrawPolygon(&colorPen, points, npoints);
+	}
+}
+
+//
+// CBasicRoundRectangleElement class
+//
+void CBasicRoundRectangleElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * 2 * * * * * * 3 *
+	// 1 * * * * * * * * 4
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 8 * * * * * * * * 5
+	// * 7 * * * * * * 6 *
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[9] = {/*1*/ Point(rect.left + step1_10_x * 0, rect.top + step1_10_y * 1),
+		/*2*/ Point(rect.left + step1_10_x * 1, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 9, rect.top),
+		/*4*/ Point(rect.left + step1_10_x * 10, rect.top + step1_10_y * 1),
+		/*5*/ Point(rect.left + step1_10_x * 10, rect.top + step1_10_y * 9),
+		/*6*/ Point(rect.left + step1_10_x * 9, rect.bottom),
+		/*7*/ Point(rect.left + step1_10_x * 1, rect.bottom),
+		/*8*/ Point(rect.left + step1_10_x * 0, rect.top + step1_10_y * 9),
+		/*9*/ Point(rect.left + step1_10_x * 0, rect.top + step1_10_y * 1)};
+	int npoints = 9;
+
+	GraphicsPath gp;
+	gp.AddCurve(points, npoints);
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPath(&solidBrush, &gp);
+		else
+			graphics->FillPath(&lgBrush, &gp);
+	}
+
+	//	if (HasColorLine())
+	//{
+	//}
+
+	graphics->DrawPath(&colorPen, &gp);
+}

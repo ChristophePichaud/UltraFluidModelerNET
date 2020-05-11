@@ -47,6 +47,8 @@ ShapeType CShapeType::ToShapeType(int value)
 		case basic_rectangle:
 		case basic_rectangle2:
 		case basic_rectangle3:
+		case basic_losange:
+		case basic_round_rectangle:
 			ret = (ShapeType)value;
 			break;
 		case image_fixed:
