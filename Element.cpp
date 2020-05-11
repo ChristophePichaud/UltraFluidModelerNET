@@ -816,6 +816,43 @@ CString CElement::ToString(ShapeType type)
 			str = _T("star");
 			break;
 
+		case curve:
+			str = _T("curve");
+			break;
+		case curve_right:
+			str = _T("curve_right");
+			break;
+		case curve_left_right:
+			str = _T("curve_left_right");
+			break;
+		case courbe2_bis:
+			str = _T("courbe2_bis");
+			break;
+		case patate:
+			str = _T("patate");
+			break;
+		case curve_fuzzy:
+			str = _T("curve_fuzzy");
+			break;
+		case basic_rectangle:
+			str = _T("basic_rectangle");
+			break;
+		case basic_rectangle2:
+			str = _T("basic_rectangle2");
+			break;
+		case basic_rectangle3:
+			str = _T("basic_rectangle3");
+			break;
+		case basic_losange:
+			str = _T("basic_losange");
+			break;
+		case basic_round_rectangle:
+			str = _T("basic_round_rectangle");
+			break;
+		case basic_database:
+			str = _T("basic_database");
+			break;
+
 		case image_fixed:
 			str = _T("image_fixed");
 			break;

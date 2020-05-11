@@ -349,6 +349,10 @@ void CMainFrame::InitMainButton()
 	pMainPanel->AddRecentFilesList(_T("Recent Documents"));
 	pMainPanel->AddToBottom(new CMFCRibbonMainPanelButton(ID_APP_EXIT, _T("E&xit"), 27));
 
+	//
+	// Category Home
+	//
+
 	CMFCRibbonCategory* pCategory = m_wndRibbonBar.AddCategory(_T("&Home"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
 	// Create "Design" panel
 	CMFCRibbonPanel* pPanelClipboard = pCategory->AddPanel(_T("Clipboard\nc"), m_PanelImages.ExtractIcon(2));
@@ -405,6 +409,11 @@ void CMainFrame::InitMainButton()
 
 	pPanelDesign->Add(new CMFCRibbonButton(ID_ACTION_DIAGRAM, _T("Diagram\nc"), 49));
 
+
+	CMFCRibbonPanel* pPanelConnectors = pCategory->AddPanel(_T("Connectors\npa"), m_PanelImages.ExtractIcon(2));
+	pPanelConnectors->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 58));
+	pPanelConnectors->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
+
 	// Create "Planning" panel
 	CMFCRibbonPanel* pPanelPlanning = pCategory->AddPanel(_T("Planning\npa"), m_PanelImages.ExtractIcon(2));
 	pPanelPlanning->Add(new CMFCRibbonButton(ID_DESIGN_TASK, _T("Task\ntt"), 36));
@@ -449,37 +458,6 @@ void CMainFrame::InitMainButton()
 			++i;
 		}
 	}
-	/*
-	m_pFontSizeCombo->AddItem(_T("8"));
-	m_pFontSizeCombo->AddItem(_T("9"));
-	m_pFontSizeCombo->AddItem(_T("10"));
-	m_pFontSizeCombo->AddItem(_T("11"));
-	m_pFontSizeCombo->AddItem(_T("12"));
-	m_pFontSizeCombo->AddItem(_T("14"));
-	m_pFontSizeCombo->AddItem(_T("16"));
-	m_pFontSizeCombo->AddItem(_T("18"));
-	m_pFontSizeCombo->AddItem(_T("20"));
-	m_pFontSizeCombo->AddItem(_T("22"));
-	m_pFontSizeCombo->AddItem(_T("24"));
-	m_pFontSizeCombo->AddItem(_T("26"));
-	m_pFontSizeCombo->AddItem(_T("28"));
-	m_pFontSizeCombo->AddItem(_T("30"));
-	m_pFontSizeCombo->AddItem(_T("32"));
-	m_pFontSizeCombo->AddItem(_T("34"));
-	m_pFontSizeCombo->AddItem(_T("36"));
-	m_pFontSizeCombo->AddItem(_T("38"));
-	m_pFontSizeCombo->AddItem(_T("40"));
-	m_pFontSizeCombo->AddItem(_T("42"));
-	m_pFontSizeCombo->AddItem(_T("44"));
-	m_pFontSizeCombo->AddItem(_T("46"));
-	m_pFontSizeCombo->AddItem(_T("48"));
-	m_pFontSizeCombo->AddItem(_T("50"));
-	m_pFontSizeCombo->AddItem(_T("52"));
-	m_pFontSizeCombo->AddItem(_T("54"));
-	m_pFontSizeCombo->AddItem(_T("56"));
-	m_pFontSizeCombo->AddItem(_T("58"));
-	m_pFontSizeCombo->AddItem(_T("60"));
-	*/
 	m_pFontSizeCombo->SetWidth(15, TRUE); // Width in "floaty" mode
 	m_pFontSizeCombo->SelectItem(7);
 	apFontGroup->AddButton(m_pFontSizeCombo);
@@ -509,32 +487,6 @@ void CMainFrame::InitMainButton()
 
 	pFontColorHighlightBtn->SetColorBoxSize(CSize(26, 26));
 	pFontColorHighlightBtn->AddSubItem(new CMFCRibbonButton(ID_STOP_HIGHLIGHTING, _T("&Stop Highlighting")));
-
-	// Create "Show/Hide" panel:
-	CMFCRibbonPanel* pPanelShow = pCategory->AddPanel(_T("Show/Hide\nzs"), m_PanelImages.ExtractIcon(4));
-	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_FILE_VIEW, _T("Solution\nc")));
-	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_CLASS_VIEW, _T("Class\nc")));
-	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_PROPERTIES, _T("Properties\np")));
-
-	// Create "Action" panel
-	CMFCRibbonPanel* pPanelAction = pCategory->AddPanel(_T("Action\nzd"), m_PanelImages.ExtractIcon(2));
-	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_REMOVE, _T("Remove\nc"), 12));
-	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_LOAD_MODULE, _T("Import\nin"), 35));
-	pPanelAction->Add(new CMFCRibbonButton(ID_DEBUG_DUMP_OBJECTS, _T("Dump\ndc"), 2));
-	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_FOLDERS, _T("Folders\nc"), 48));
-	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 47));
-	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
-	//m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
-	//m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
-	//pPanelAction->Add(m_pElementsCombo);
-
-	// Create "Elements" panel
-	CMFCRibbonPanel* pPanelElements = pCategory->AddPanel(_T("Elements\nzd"), m_PanelImages.ExtractIcon(2));
-	m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
-	m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
-	pPanelElements->Add(m_pElementsCombo);
-	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_PLUS, _T("Scale+\nc"), 52));
-	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_MOINS, _T("Scale-\nc"), 53));
 
 	// Create "Format" panel
 	CMFCRibbonPanel* pPanelFormat = pCategory->AddPanel(_T("Format and Style\nzd"), m_PanelImages.ExtractIcon(2));
@@ -585,8 +537,10 @@ void CMainFrame::InitMainButton()
 	pBtnPageColor->AddColorsGroup(_T("Standard Colors"), m_lstStandardColors);
 	pPanelFormat->Add(pBtnPageColor);
 	pPanelFormat->AddSeparator();
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ZOOM_IN, _T("Zoom In\ni"), -1));
-	pPanelFormat->Add(new CMFCRibbonButton(ID_FORMAT_ZOOM_OUT, _T("Zoom Out\no"), -1));
+	// Create "Zoom" panel
+	CMFCRibbonPanel* pPanelZoom = pCategory->AddPanel(_T("Zoom\nzz"), m_PanelImages.ExtractIcon(2));
+	pPanelZoom->Add(new CMFCRibbonButton(ID_FORMAT_ZOOM_IN, _T("Zoom In\ni"), -1));
+	pPanelZoom->Add(new CMFCRibbonButton(ID_FORMAT_ZOOM_OUT, _T("Zoom Out\no"), -1));
 	CMFCRibbonComboBox *pBtnZoom = new CMFCRibbonComboBox(ID_FORMAT_ZOOM, FALSE, 50, _T("Zoom: "), -1);
 	pBtnZoom->AddItem(_T("25%"));
 	pBtnZoom->AddItem(_T("50%"));
@@ -596,7 +550,7 @@ void CMainFrame::InitMainButton()
 	pBtnZoom->AddItem(_T("200%"));
 	pBtnZoom->AddItem(_T("400%"));
 	pBtnZoom->SelectItem(3);
-	pPanelFormat->Add(pBtnZoom);
+	pPanelZoom->Add(pBtnZoom);
 	// Create "Position" panel
 	CMFCRibbonPanel* pPanelPosition = pCategory->AddPanel(_T("Position\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVETOFRONT, _T("Move to Front\nc"), -1, 22));
@@ -604,6 +558,9 @@ void CMainFrame::InitMainButton()
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVEBACKWARD, _T("Move Backward\nc"), -1, 25));
 	pPanelPosition->Add(new CMFCRibbonButton(ID_POSITION_MOVETOBACK, _T("Move to Back\nc"), -1, 23));
 
+	//
+	// Category Format
+	//
 
 	CMFCRibbonCategory* pFormatCategory = m_wndRibbonBar.AddCategory(_T("&Format"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
 	// Create "Position" panel
@@ -628,6 +585,39 @@ void CMainFrame::InitMainButton()
 	pPanelStyle->AddSeparator();
 	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_RIGHT90, _T("Rotate Right 90°\nc"), 54));
 	pPanelStyle->Add(new CMFCRibbonButton(ID_FORMAT_ROTATE_LEFT90, _T("Rotate Left 90°\nc"), 55));
+
+	// Create "Elements" panel
+	CMFCRibbonPanel* pPanelElements = pFormatCategory->AddPanel(_T("Elements\nzd"), m_PanelImages.ExtractIcon(2));
+	m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
+	m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
+	pPanelElements->Add(m_pElementsCombo);
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_PLUS, _T("Scale+\nc"), 52));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_MOINS, _T("Scale-\nc"), 53));
+
+	//
+	// Category Features
+	//
+
+	CMFCRibbonCategory* pFeaturesCategory = m_wndRibbonBar.AddCategory(_T("F&eatures"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
+	// Create "Action" panel
+	CMFCRibbonPanel* pPanelAction = pFeaturesCategory->AddPanel(_T("Action\nzd"), m_PanelImages.ExtractIcon(2));
+	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_REMOVE, _T("Remove\nc"), 12));
+	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_LOAD_MODULE, _T("Import\nin"), 35));
+	pPanelAction->Add(new CMFCRibbonButton(ID_DEBUG_DUMP_OBJECTS, _T("Dump\ndc"), 2));
+	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_FOLDERS, _T("Folders\nc"), 48));
+	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 58));
+	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
+
+	//
+	// Category Options
+	//
+
+	CMFCRibbonCategory* pOptionsCategory = m_wndRibbonBar.AddCategory(_T("&Options"), IDB_RIBBON_WRITESMALL, IDB_RIBBON_WRITELARGE);
+	// Create "Show/Hide" panel:
+	CMFCRibbonPanel* pPanelShow = pOptionsCategory->AddPanel(_T("Show/Hide\nzs"), m_PanelImages.ExtractIcon(4));
+	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_FILE_VIEW, _T("Solution\nc")));
+	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_CLASS_VIEW, _T("Class\nc")));
+	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_PROPERTIES, _T("Properties\np")));
 
 }
 

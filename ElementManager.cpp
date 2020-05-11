@@ -3462,7 +3462,7 @@ void CElementManager::OnElementsScalePlus(CModeler1View* pView)
 	{
 		// m_ font size
 		int fontSize = pElement->m_fontSize;
-		fontSize = fontSize * 2;
+		fontSize = fontSize + 4;
 		if (fontSize > 20 && (fontSize % 2 != 0))
 		{
 			fontSize++;
@@ -3474,12 +3474,14 @@ void CElementManager::OnElementsScalePlus(CModeler1View* pView)
 		int y1 = pElement->m_rect.top;
 		int x2 = pElement->m_rect.right;
 		int y2 = pElement->m_rect.bottom;
-		x2 = x1 + (pElement->m_rect.Width() * 2);
-		y2 = y1 + (pElement->m_rect.Height() * 2);
+		x2 = x1 + (pElement->m_rect.Width() * 1.25);
+		y2 = y1 + (pElement->m_rect.Height() * 1.25);
 		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
 		pElement->m_rect = rect;
 	}
 
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
 	pView->Invalidate();
 }
 
@@ -3490,7 +3492,7 @@ void CElementManager::OnElementsScaleMoins(CModeler1View* pView)
 	{
 		// m_ font size
 		int fontSize = pElement->m_fontSize;
-		fontSize = fontSize / 2;
+		fontSize = fontSize - 4;
 		if (fontSize > 20 && (fontSize % 2 != 0))
 		{
 			fontSize++;
@@ -3502,12 +3504,14 @@ void CElementManager::OnElementsScaleMoins(CModeler1View* pView)
 		int y1 = pElement->m_rect.top;
 		int x2 = pElement->m_rect.right;
 		int y2 = pElement->m_rect.bottom;
-		x2 = x1 + (pElement->m_rect.Width() / 2);
-		y2 = y1 + (pElement->m_rect.Height() / 2);
+		x2 = x1 + (pElement->m_rect.Width() / 1.25);
+		y2 = y1 + (pElement->m_rect.Height() / 1.25);
 		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
 		pElement->m_rect = rect;
 	}
 
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
 	pView->Invalidate();
 }
 
