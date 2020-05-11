@@ -481,7 +481,6 @@ void CCurveElement::Draw(CDrawingContext& ctxt)
 		colorPen.SetCustomEndCap(&aac);
 	}
 
-
 	graphics->DrawCurve(&colorPen, points, npoints);
 }
 
@@ -1163,5 +1162,139 @@ void CDiagramElement::Draw(CDrawingContext& ctxt)
 		int width = rect.Width() - 20; //*0.75;
 		int height = 20; //Height()-20; //*0.25;
 		graphics->DrawLine(&colorPen, rect.left + width, rect.top, rect.right, rect.top + height);
+	}
+}
+
+//
+// CBasicRectangleElement class
+//
+void CBasicRectangleElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// 1 * * * * * * * * 2
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 4 * * * * * * * * 3
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+	Point points[5] = {/*1*/ Point(rect.left, rect.top),
+		/*2*/ Point(rect.right, rect.top),
+		/*3*/ Point(rect.right, rect.bottom),
+		/*4*/ Point(rect.left, rect.bottom),
+		/*5*/ Point(rect.left, rect.top) };
+	int npoints = 5;
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPolygon(&solidBrush, points, npoints);
+		else
+			graphics->FillPolygon(&lgBrush, points, npoints);
+	}
+	if (HasColorLine())
+	{
+		graphics->DrawPolygon(&colorPen, points, npoints);
+	}
+}
+
+//
+// CBasicRectangle2Element class
+//
+void CBasicRectangle2Element::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * 1 * * * * * * 2
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 4 * * * * * * 3 * *
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[5] = {/*1*/ Point(rect.left + step1_10_x * 2, rect.top),
+		/*2*/ Point(rect.right, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 8, rect.bottom),
+		/*4*/ Point(rect.left, rect.bottom),
+		/*5*/ Point(rect.left + step1_10_x * 2, rect.top) };
+	int npoints = 5;
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPolygon(&solidBrush, points, npoints);
+		else
+			graphics->FillPolygon(&lgBrush, points, npoints);
+	}
+	if (HasColorLine())
+	{
+		graphics->DrawPolygon(&colorPen, points, npoints);
+	}
+}
+
+//
+// CBasicRectangle3Element class
+//
+void CBasicRectangle3Element::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// 1 * * * * * * * * 2
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * 4 * * * * 3 * *
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[5] = {/*1*/ Point(rect.left + step1_10_x * 0, rect.top),
+		/*2*/ Point(rect.right, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 8, rect.bottom),
+		/*4*/ Point(rect.left + step1_10_x * 2, rect.bottom),
+		/*5*/ Point(rect.left + step1_10_x * 0, rect.top) };
+	int npoints = 5;
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPolygon(&solidBrush, points, npoints);
+		else
+			graphics->FillPolygon(&lgBrush, points, npoints);
+	}
+	if (HasColorLine())
+	{
+		graphics->DrawPolygon(&colorPen, points, npoints);
 	}
 }

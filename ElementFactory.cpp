@@ -148,6 +148,24 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 				pNewElement = apNewElement;
 				break;
 			}
+			case basic_rectangle:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicRectangleElement());
+				pNewElement = apNewElement;
+				break;
+			}
+			case basic_rectangle2:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicRectangle2Element());
+				pNewElement = apNewElement;
+				break;
+			}
+			case basic_rectangle3:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicRectangle3Element());
+				pNewElement = apNewElement;
+				break;
+			}
 			case notimp_igloo:
 			case notimpl_multi_line:
 			default:

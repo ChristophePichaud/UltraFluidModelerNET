@@ -164,3 +164,20 @@ public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
 
+class CBasicRectangleElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CBasicRectangle2Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CBasicRectangle3Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};

@@ -44,6 +44,9 @@ ShapeType CShapeType::ToShapeType(int value)
 		case patate:
 		case courbe2_bis:
 		case curve_fuzzy:
+		case basic_rectangle:
+		case basic_rectangle2:
+		case basic_rectangle3:
 			ret = (ShapeType)value;
 			break;
 		case image_fixed:

@@ -75,6 +75,9 @@ enum ShapeType : int
 	courbe2_bis,
 	patate,
 	curve_fuzzy,
+	basic_rectangle,
+	basic_rectangle2,
+	basic_rectangle3,
 	// Image
 	image_fixed = OffsetShapes_Image,
 	image_scaled,
