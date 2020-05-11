@@ -232,6 +232,8 @@ public:
 	afx_msg void OnUpdateFileFormatExpandHigh(CCmdUI* pCmdUI);
 	afx_msg void OnFileFormatExpandLarge();
 	afx_msg void OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI);
+	//afx_msg void OnShapesLeftTop();
+	//afx_msg void OnShapesCenter();
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

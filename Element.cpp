@@ -1035,6 +1035,60 @@ DocumentType CElement::FromString(wstring type)
 	return doctype;
 }
 
+ElementType CElement::From(ShapeType type)
+{
+/*
+	type_unknown,
+	type_select,
+	type_shapes_simple,
+	type_image,
+	type_shapes_infrastructure,
+	type_text,
+	type_shapes_development,
+	type_shapes_import,
+	type_shapes_planning,
+	type_selection,
+	type_connection,
+	type_file
+};
+
+#define OffsetShapes_Simple			0
+#define OffsetShapes_Image			50
+#define OffsetShapes_Infrastructure 100
+#define OffsetShapes_Text			200
+#define OffsetShapes_Development	300
+#define OffsetShapes_Import			400
+#define OffsetShapes_Planning		500
+*/
+
+	if (type < OffsetShapes_Image)
+	{
+		return ElementType::type_shapes_simple;
+	}
+	if (type < OffsetShapes_Infrastructure)
+	{
+		return ElementType::type_image;
+	}
+	if (type < OffsetShapes_Text)
+	{
+		return ElementType::type_shapes_infrastructure;
+	}
+	if (type < OffsetShapes_Development)
+	{
+		return ElementType::type_text;
+	}
+	if (type < OffsetShapes_Import)
+	{
+		return ElementType::type_shapes_development;
+	}
+	if (type < OffsetShapes_Planning)
+	{
+		return ElementType::type_shapes_import;
+	}
+
+	return ElementType::type_shapes_planning;
+}
+
 /*
 bool CElement::IsDrawable(ElementType type)
 {

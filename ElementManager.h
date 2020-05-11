@@ -5,6 +5,12 @@
 
 class CCodeFile;
 
+enum View
+{
+	Modeling,
+	Source
+};
+
 class CElementManager : public CObject
 {
 private:
@@ -88,7 +94,7 @@ public:
 	void ManagerToView(CModeler1View * pView, CRect & rect, CElement* pElement = nullptr);
 	COLORREF GetPaperColor() const { return m_paperColor; }
 	void Invalidate(CModeler1View * pView, std::shared_ptr<CElement> pElement);
-	void Invalidate(CModeler1View * pView);
+	void Invalidate(CModeler1View * pView, BOOL erase = TRUE);
 	void InvalObj(CModeler1View * pView, std::shared_ptr<CElement> pElement);
 	CSize GetSize() const { return m_size; }
 	void UpdateFromPropertyGrid(std::wstring objectId, std::wstring name, std::wstring value);
@@ -229,6 +235,8 @@ public:
 	void BuildElementsCombo(CModeler1View* pView);
 	void OnElementsScalePlus(CModeler1View* pView);
 	void OnElementsScaleMoins(CModeler1View* pView);
+	void OnShapesLeftTop(CModeler1View* pView, ShapeType shapeType);
+	void OnShapesCenter(CModeler1View* pView, ShapeType shapeType);
 
 // Rotation
 public:
@@ -238,6 +246,10 @@ public:
 // Licensing
 public:
 	bool IsMyLocalDev();
+
+// ActiveViews
+public:
+	void SetActiveView(CModeler1View* pView, View view);
 };
 
 enum FileType : int

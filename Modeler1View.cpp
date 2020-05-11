@@ -210,6 +210,8 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_HIGH, &CModeler1View::OnUpdateFileFormatExpandHigh)
 	ON_COMMAND(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnFileFormatExpandLarge)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnUpdateFileFormatExpandLarge)
+	//ON_COMMAND(ID_SHAPES_LEFT_TOP, OnShapesLeftTop)
+	//ON_COMMAND(ID_SHAPES_CENTER, OnShapesCenter)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1457,3 +1459,37 @@ void CModeler1View::OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetManager()->HasSelection());
 }
+
+//void CModeler1View::OnShapesLeftTop()
+//{
+//	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+//	//pMainFrame->GetManager()->OnShapesLeftTop();
+//
+//	HTREEITEM hTreeItem = pMainFrame->m_m_wndFileView.GetSelectedItem();
+//	if (hTreeItem == NULL)
+//	{
+//		return;
+//	}
+//
+//	CString text = m_wndFileView.GetItemText(hTreeItem);
+//	DWORD data = m_wndFileView.GetItemData(hTreeItem);
+//
+//	//AfxMessageBox(text);
+//
+//	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+//	pMainFrame->GetManager()->OnShapesLeftTop();
+//}
+//
+//void CModeler1View::OnShapesCenter()
+//{
+//	HTREEITEM hTreeItem = m_wndFileView.GetSelectedItem();
+//	if (hTreeItem == NULL)
+//	{
+//		return;
+//	}
+//
+//	CString text = m_wndFileView.GetItemText(hTreeItem);
+//	DWORD data = m_wndFileView.GetItemData(hTreeItem);
+//
+//	AfxMessageBox(text);
+//}

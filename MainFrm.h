@@ -85,6 +85,15 @@ public:
 		return m_pManager;
 	}
 
+	CModeler1View* GetView() const
+	{
+		return m_pModelerView;
+	}
+
+// Extra
+public:
+	CModeler1View* GetActiveView();
+
 protected:
 	CMFCRibbonBar     m_wndRibbonBar;
 	CMFCRibbonApplicationButton m_MainButton;

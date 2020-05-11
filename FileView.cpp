@@ -152,7 +152,7 @@ void CFileViewBar::InitFileView()
 	}
 
 	m_wndFileView.Expand(m_hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(m_hSrc, TVE_EXPAND);
+	//m_wndFileView.Expand(m_hSrc, TVE_EXPAND);
 	/*
 	m_wndFileView.Expand(hBasicShape, TVE_EXPAND);
 	m_wndFileView.Expand(hTextShape, TVE_EXPAND);
@@ -160,6 +160,7 @@ void CFileViewBar::InitFileView()
 	m_wndFileView.Expand(hInfrastructureShape, TVE_EXPAND);
 	m_wndFileView.Expand(hDevelopmentShape, TVE_EXPAND);
 	m_wndFileView.Expand(hPlanningShape, TVE_EXPAND);
+	*/
 }
 
 void CFileViewBar::UpdateFromObject(std::shared_ptr<CElement> pElement)
@@ -211,14 +212,6 @@ void CFileViewBar::OnContextMenu(CWnd* pWnd, CPoint point)
 		{
 			return;
 		}
-
-		//if (data == 0)
-		//{
-		//	if (text != _T("line"))
-		//	{
-		//		return;
-		//	}
-		//}
 	}
 
 	pWndTree->SetFocus();
@@ -328,11 +321,31 @@ void CFileViewBar::OnShapesLeftTop()
 	}
 
 	CString text = m_wndFileView.GetItemText(hTreeItem);
-	DWORD data = m_wndFileView.GetItemData(hTreeItem);
+	DWORD type = m_wndFileView.GetItemData(hTreeItem);
 
-	AfxMessageBox(text);
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CModeler1View* pView = pMainFrame->GetActiveView();
+	if (pView != nullptr)
+	{
+		pMainFrame->GetManager()->OnShapesLeftTop(pView, (ShapeType)type);
+	}
 }
 
 void CFileViewBar::OnShapesCenter()
 {
+	HTREEITEM hTreeItem = m_wndFileView.GetSelectedItem();
+	if (hTreeItem == NULL)
+	{
+		return;
+	}
+
+	CString text = m_wndFileView.GetItemText(hTreeItem);
+	DWORD type = m_wndFileView.GetItemData(hTreeItem);
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CModeler1View* pView = pMainFrame->GetActiveView();
+	if (pView != nullptr)
+	{
+		pMainFrame->GetManager()->OnShapesCenter(pView, (ShapeType)type);
+	}
 }

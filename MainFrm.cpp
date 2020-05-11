@@ -819,7 +819,7 @@ void CMainFrame::InitClassView()
 
 void CMainFrame::UpdateClassViewFromObject(std::shared_ptr<CElement> pElement)
 {
-	//m_wndClassView.UpdateFromObject(pElement);
+	m_wndClassView.UpdateFromObject(pElement);
 }
 
 void CMainFrame::InitFileView()
@@ -829,7 +829,7 @@ void CMainFrame::InitFileView()
 
 void CMainFrame::UpdateFileViewFromObject(std::shared_ptr<CElement> pElement)
 {
-	//m_wndFileView.UpdateFromObject(pElement);
+	m_wndFileView.UpdateFromObject(pElement);
 }
 
 void CMainFrame::SetManager(CElementManager * pManager)
@@ -1099,6 +1099,31 @@ void CMainFrame::OnActionElements(CModeler1View* pView)
 	GetManager()->InvalObj(pView, pElement);
 }
 
+CModeler1View* CMainFrame::GetActiveView()
+{
+	CMainFrame* pMainFrame = this; // (CMainFrame*)AfxGetMainWnd();
+	CFrameWnd* pFrame = ((CMDIFrameWnd*)pMainFrame)->MDIGetActive();
+	if (pFrame == nullptr)
+	{
+		return nullptr;
+	}
+
+	CDocument* pDoc = pFrame->GetActiveDocument();
+	if (pDoc == nullptr)
+	{
+		return nullptr;
+	}
+
+	CModeler1Doc* pDocument = (CModeler1Doc*)pDoc;
+	POSITION pos = pDocument->GetFirstViewPosition();
+	CModeler1View* pView = (CModeler1View*)(pDocument->GetNextView(pos));
+	if (pView != nullptr)
+	{
+		return pView;
+	}
+
+	return nullptr;
+}
 /*
 BOOL CMainFrame::OnEraseBkgnd(CDC* pDC)
 {

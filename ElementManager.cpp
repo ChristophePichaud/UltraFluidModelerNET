@@ -1384,9 +1384,9 @@ void CElementManager::InvalObj(CModeler1View * pView, std::shared_ptr<CElement> 
 	Invalidate(pView, pElement);
 }
 
-void CElementManager::Invalidate(CModeler1View * pView)
+void CElementManager::Invalidate(CModeler1View * pView, BOOL erase)
 {
-	pView->Invalidate(FALSE);
+	pView->Invalidate(erase);
 }
 
 void CElementManager::Invalidate(CModeler1View * pView, std::shared_ptr<CElement> pElement)
@@ -3606,4 +3606,101 @@ void CElementManager::ExpandLarge(CModeler1View* pView)
 
 		pView->GetDocument()->SetModifiedFlag();
 	}
+}
+
+void CElementManager::SetActiveView(CModeler1View* pView, View view)
+{
+	CRuntimeClass* prt = RUNTIME_CLASS(CTabbedView);
+	CView* pview = NULL;
+	// Continue search in inactive View by T(o)m
+	CModeler1Doc* pDoc = pView->GetDocument();
+	POSITION pos = pDoc->GetFirstViewPosition();
+	while (pos != NULL)
+	{
+		pview = pDoc->GetNextView(pos);
+		CRuntimeClass* pRT = pview->GetRuntimeClass();
+
+		if (prt = pRT)
+		{
+			CTabbedView* pTView = (CTabbedView*)pview;
+
+			if (view == View::Source)
+			{
+				pTView->SetActiveView(1);
+			}
+			else
+			{
+				pTView->SetActiveView(0);
+			}
+
+			break;
+		}
+		pView = NULL;       // not valid vie
+	}
+}
+
+void CElementManager::OnShapesLeftTop(CModeler1View* pView, ShapeType shapeType)
+{
+	//AfxMessageBox(_T("CElementManager::OnShapesLeftTop"));
+
+	ElementType type = CElement::From(shapeType);
+	shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(type, shapeType);
+	pNewElement->m_point = CPoint(10, 10);
+	pNewElement->m_rect = CRect(10, 10, 100, 100);
+	pNewElement->m_pManager = this;
+	pNewElement->m_pView = pView;
+	pNewElement->m_text = _T("");
+
+	m_objects.AddTail(pNewElement);
+
+	SelectNone();
+	Select(pNewElement);
+
+	Invalidate(pView);
+	UpdateUI(pView, pNewElement);
+
+	pView->GetDocument()->SetModifiedFlag();
+
+	SetActiveView(pView, View::Source);
+	SetActiveView(pView, View::Modeling);
+
+	/*
+	RECT rect;
+	rect.left = 0;
+	rect.right = m_size.cx;
+	rect.top = 0;
+	rect.bottom = m_size.cy;
+	::InvalidateRect(pView->m_hWnd, &rect, TRUE);
+	*/
+	//SendMessage(pView->m_hWnd, WM_PAINT, 0, 0);
+	//SetActiveView(pView, View::Source);
+	//SetActiveView(pView, View::Modeling);
+	//SendMessage(pView->m_hWnd, WM_LBUTTONDOWN, 0, 0);
+	//pView->SetFocus();
+}
+
+void CElementManager::OnShapesCenter(CModeler1View* pView, ShapeType shapeType)
+{
+	//AfxMessageBox(_T("CElementManager::OnShapesCenter"));
+
+	ElementType type = CElement::From(shapeType);
+	shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(type, shapeType);
+	pNewElement->m_point = CPoint(500, 500);
+	pNewElement->m_rect = CRect(500, 500, 600, 600);
+	pNewElement->m_pManager = this;
+	pNewElement->m_pView = pView;
+	pNewElement->m_text = _T("");
+
+	m_objects.AddTail(pNewElement);
+
+	SelectNone();
+	Select(pNewElement);
+
+	Invalidate(pView);
+	UpdateUI(pView, pNewElement);
+
+	pView->GetDocument()->SetModifiedFlag();
+
+	SetActiveView(pView, View::Source);
+	SetActiveView(pView, View::Modeling);
 }
