@@ -87,8 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>I:\Dev\boost\Include;Include;$(IncludePath);C:\BCGSoft\BCGControlBarPro\BCGCBPro;E:\BCGSoft\BCGControlBarPro\BCGCBPro</IncludePath>
-    <LibraryPath>I:\Dev\boost\Lib;$(LibraryPath);C:\BCGSoft\BCGControlBarPro\bin64;E:\BCGSoft\BCGControlBarPro\bin64</LibraryPath>
+    <IncludePath>Include;$(IncludePath);C:\BCGSoft\BCGControlBarPro\BCGCBPro;E:\BCGSoft\BCGControlBarPro\BCGCBPro</IncludePath>
+    <LibraryPath>Lib;$(LibraryPath);C:\BCGSoft\BCGControlBarPro\bin64;E:\BCGSoft\BCGControlBarPro\bin64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
