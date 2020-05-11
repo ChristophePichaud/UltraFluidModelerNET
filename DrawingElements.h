@@ -194,3 +194,8 @@ public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
 
+class CBasicDatabaseElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};

@@ -178,6 +178,12 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 				pNewElement = apNewElement;
 				break;
 			}
+			case basic_database:
+			{
+				std::shared_ptr<CElement> apNewElement(new CBasicDatabaseElement());
+				pNewElement = apNewElement;
+				break;
+			}
 			case notimp_igloo:
 			case notimpl_multi_line:
 			default:

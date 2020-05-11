@@ -1397,3 +1397,56 @@ void CBasicRoundRectangleElement::Draw(CDrawingContext& ctxt)
 
 	graphics->DrawPath(&colorPen, &gp);
 }
+
+//
+// CBasicDatabaseElement class
+//
+void CBasicDatabaseElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// * * * * * * * * * *
+	// 4 * * * * * * * * 1
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 3 * * * * * * * * 2
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[4] = {
+		/*1*/ Point(rect.right, rect.top + step1_10_y * 1 ),
+		/*2*/ Point(rect.right, rect.bottom),
+		/*3*/ Point(rect.left + step1_10_x * 0, rect.bottom),
+		/*4*/ Point(rect.left + step1_10_x * 0, rect.top + step1_10_y * 1) };
+	int npoints = 4;
+
+	GraphicsPath gp;
+	gp.SetFillMode(FillMode::FillModeWinding);
+	gp.AddLines(points, npoints);
+	//gp.AddRectangle(Rect(rect.left, rect.top + step1_10_y * 1, rect.Width(), rect.Height()));
+	gp.AddEllipse(Rect(rect.left, rect.top, rect.Width(), step1_10_y * 2));
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+			graphics->FillPath(&solidBrush, &gp);
+		else
+			graphics->FillPath(&lgBrush, &gp);
+	}
+
+	//	if (HasColorLine())
+	//{
+	//}
+
+	graphics->DrawPath(&colorPen, &gp);
+}
