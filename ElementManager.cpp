@@ -3659,11 +3659,13 @@ void CElementManager::OnShapesLeftTop(CModeler1View* pView, ShapeType shapeType)
 	Invalidate(pView);
 	UpdateUI(pView, pNewElement);
 
+	pView->GetDocument()->UpdateAllViews(pView);
+	//SetActiveView(pView, View::Source);
+	//SetActiveView(pView, View::Modeling);
+
 	pView->GetDocument()->SetModifiedFlag();
 
-	SetActiveView(pView, View::Source);
-	SetActiveView(pView, View::Modeling);
-
+	//pView->UpdateWindow();
 	/*
 	RECT rect;
 	rect.left = 0;
@@ -3699,8 +3701,10 @@ void CElementManager::OnShapesCenter(CModeler1View* pView, ShapeType shapeType)
 	Invalidate(pView);
 	UpdateUI(pView, pNewElement);
 
+	pView->GetDocument()->UpdateAllViews(pView);
+	//SetActiveView(pView, View::Source);
+	//SetActiveView(pView, View::Modeling);
+
 	pView->GetDocument()->SetModifiedFlag();
 
-	SetActiveView(pView, View::Source);
-	SetActiveView(pView, View::Modeling);
 }
