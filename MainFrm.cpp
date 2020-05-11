@@ -637,16 +637,16 @@ void CMainFrame::InitTabButtons()
 BOOL CMainFrame::CreateDockingWindows()
 {
 	// Crate class view:
-	if (!m_wndClassView.Create(_T("Class View"), this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASS, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	if (!m_wndClassView.Create(_T("Solution Explorer"), this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASS, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
-		TRACE0("Failed to create Class View bar\n");
+		TRACE0("Failed to create Solution Explorer bar\n");
 		return FALSE;      // fail to create
 	}
 
 	// Create file view:
-	if (!m_wndFileView.Create(_T("Solution Explorer"), this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	if (!m_wndFileView.Create(_T("Shapes Explorer"), this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
-		TRACE0("Failed to create Solution Explorer bar\n");
+		TRACE0("Failed to create Shapes Explorer bar\n");
 		return FALSE;      // fail to create
 	}
 
