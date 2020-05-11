@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(CFileViewBar, CDockablePane)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+	ON_COMMAND(ID_SHAPES_LEFT_TOP, OnShapesLeftTop)
+	ON_COMMAND(ID_SHAPES_CENTER, OnShapesCenter)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -65,7 +67,6 @@ int CFileViewBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	OnChangeVisualStyle();
 
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
-
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
 
 	m_wndToolBar.SetOwner(this);
@@ -90,40 +91,80 @@ void CFileViewBar::InitFileView()
 {
 	m_wndFileView.DeleteAllItems();
 
-	m_hRoot = m_wndFileView.InsertItem(_T("Solution files"), 0, 0);
+	m_hRoot = m_wndFileView.InsertItem(_T("Shapes Collection"), 0, 0);
 	m_wndFileView.SetItemState(m_hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	m_hSrc = m_wndFileView.InsertItem(_T("Source Files"), 0, 0, m_hRoot);
-	//m_wndFileView.InsertItem(_T("Hello.cpp"), 1, 1, m_hSrc);
-	//m_wndFileView.InsertItem(_T("Hello.rc"), 1, 1, m_hSrc);
-	//m_wndFileView.InsertItem(_T("HelloDoc.cpp"), 1, 1, m_hSrc);
-	//m_wndFileView.InsertItem(_T("HelloView.cpp"), 1, 1, m_hSrc);
-	//m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, m_hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, m_hSrc);
+	//m_hSrc = m_wndFileView.InsertItem(_T("Basic Shapes"), 0, 0, m_hRoot);
 
-	m_hInc = m_wndFileView.InsertItem(_T("Header Files"), 0, 0, m_hRoot);
-	//m_wndFileView.InsertItem(_T("Hello.h"), 2, 2, m_hInc);
-	//m_wndFileView.InsertItem(_T("HelloDoc.h"), 2, 2, m_hInc);
-	//m_wndFileView.InsertItem(_T("HelloView.h"), 2, 2, m_hInc);
-	m_wndFileView.InsertItem(_T("resource.h"), 2, 2, m_hInc);
-	//m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, m_hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, m_hInc);
 
-	m_hRes = m_wndFileView.InsertItem(_T("Resource Files"), 0, 0, m_hRoot);
-	//m_wndFileView.InsertItem(_T("Hello.ico"), 2, 2, m_hRes);
-	//m_wndFileView.InsertItem(_T("Hello.rc2"), 2, 2, m_hRes);
-	//m_wndFileView.InsertItem(_T("HelloDoc.ico"), 2, 2, m_hRes);
-	//m_wndFileView.InsertItem(_T("Toolbar.bmp"), 2, 2, m_hRes);
+	HTREEITEM hParent = nullptr;
+	HTREEITEM hBasicShape = nullptr;
+	HTREEITEM hTextShape = nullptr;
+	HTREEITEM hImageShape = nullptr;
+	HTREEITEM hInfrastructureShape = nullptr;
+	HTREEITEM hDevelopmentShape = nullptr;
+	HTREEITEM hPlanningShape = nullptr;
 
-	m_hOthers = m_wndFileView.InsertItem(_T("Others Files"), 0, 0, m_hRoot);
+	for (int ishape = 0; ishape < 600; ++ishape)
+	{
+
+		if (ishape == OffsetShapes_Simple)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Basic Shapes"), 0, 0, m_hRoot);
+			hBasicShape = hParent;
+		}
+		if (ishape == OffsetShapes_Text)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Text Shapes"), 0, 0, m_hRoot);
+			hTextShape = hParent;
+		}
+		if (ishape == OffsetShapes_Image)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Images Shapes"), 0, 0, m_hRoot);
+			hImageShape = hParent;
+		}
+		if (ishape == OffsetShapes_Infrastructure)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Infrastructure Shapes"), 0, 0, m_hRoot);
+			hInfrastructureShape = hParent;
+		}
+		if (ishape == OffsetShapes_Development)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Development Shapes"), 0, 0, m_hRoot);
+			hDevelopmentShape = hParent;
+		}
+		if (ishape == OffsetShapes_Planning)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Planning Shapes"), 0, 0, m_hRoot);
+			hPlanningShape = hParent;
+		}
+
+
+		CString str = CElement::static_ToString((ShapeType)ishape);
+
+		if (str == _T(""))
+		{
+			continue;
+		}
+
+		HTREEITEM hItem = m_wndFileView.InsertItem(str, 1, 1, hParent);
+		m_wndFileView.SetItemData(hItem, ishape);
+	}
 
 	m_wndFileView.Expand(m_hRoot, TVE_EXPAND);
 	m_wndFileView.Expand(m_hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(m_hInc, TVE_EXPAND);
+	/*
+	m_wndFileView.Expand(hBasicShape, TVE_EXPAND);
+	m_wndFileView.Expand(hTextShape, TVE_EXPAND);
+	m_wndFileView.Expand(hImageShape, TVE_EXPAND);
+	m_wndFileView.Expand(hInfrastructureShape, TVE_EXPAND);
+	m_wndFileView.Expand(hDevelopmentShape, TVE_EXPAND);
+	m_wndFileView.Expand(hPlanningShape, TVE_EXPAND);
 }
 
 void CFileViewBar::UpdateFromObject(std::shared_ptr<CElement> pElement)
 {
+	/*
 	CString str;
 	HTREEITEM hParent;
 	if( pElement->m_type == ElementType::type_shapes_infrastructure )
@@ -137,6 +178,7 @@ void CFileViewBar::UpdateFromObject(std::shared_ptr<CElement> pElement)
 	m_wndFileView.InsertItem(str, 1, 1, hParent);
 	str.Format(_T("%s_%s.h"), pElement->m_text.c_str(), pElement->m_name.c_str());
 	m_wndFileView.InsertItem(str, 1, 1, m_hInc);
+	*/
 }
 
 void CFileViewBar::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -162,10 +204,39 @@ void CFileViewBar::OnContextMenu(CWnd* pWnd, CPoint point)
 		{
 			pWndTree->SelectItem(hTreeItem);
 		}
+
+		CString text = m_wndFileView.GetItemText(hTreeItem);
+		DWORD data = m_wndFileView.GetItemData(hTreeItem);
+		if ((data == 0) && (text != _T("line")))
+		{
+			return;
+		}
+
+		//if (data == 0)
+		//{
+		//	if (text != _T("line"))
+		//	{
+		//		return;
+		//	}
+		//}
 	}
 
 	pWndTree->SetFocus();
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_SOLUTION, point.x, point.y, this, TRUE);
+	CMenu menu;
+	menu.LoadMenu(IDR_POPUP_SHAPES);
+
+	CMenu* pSumMenu = menu.GetSubMenu(0);
+
+	if (AfxGetMainWnd()->IsKindOf(RUNTIME_CLASS(CMDIFrameWndEx)))
+	{
+		CMFCPopupMenu* pPopupMenu = new CMFCPopupMenu;
+
+		if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pSumMenu->m_hMenu, FALSE, TRUE))
+			return;
+
+		((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
+		UpdateDialogControls(this, FALSE);
+	}
 }
 
 void CFileViewBar::AdjustLayout()
@@ -182,6 +253,11 @@ void CFileViewBar::AdjustLayout()
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
+}
+
+BOOL CFileViewBar::PreTranslateMessage(MSG* pMsg)
+{
+	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
 void CFileViewBar::OnProperties()
@@ -241,34 +317,22 @@ void CFileViewBar::OnSetFocus(CWnd* pOldWnd)
 
 void CFileViewBar::OnChangeVisualStyle()
 {
-	/*
-	m_wndToolBar.CleanUpLockedImages();
-	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SOLUTION_EXPLORER_24 : IDR_SOLUTION_EXPLORER, 0, 0, TRUE);
+}
 
-	m_FileViewImages.DeleteImageList();
-
-	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW24 : IDB_FILE_VIEW;
-
-	CBitmap bmp;
-	if (!bmp.LoadBitmap(uiBmpId))
+void CFileViewBar::OnShapesLeftTop()
+{
+	HTREEITEM hTreeItem = m_wndFileView.GetSelectedItem();
+	if (hTreeItem == NULL)
 	{
-		TRACE(_T("Can't load bitmap: %x\n"), uiBmpId);
-		ASSERT(FALSE);
 		return;
 	}
 
-	BITMAP bmpObj;
-	bmp.GetBitmap(&bmpObj);
+	CString text = m_wndFileView.GetItemText(hTreeItem);
+	DWORD data = m_wndFileView.GetItemData(hTreeItem);
 
-	UINT nFlags = ILC_MASK;
-
-	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
-
-	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
-	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
-
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
-	*/
+	AfxMessageBox(text);
 }
 
-
+void CFileViewBar::OnShapesCenter()
+{
+}

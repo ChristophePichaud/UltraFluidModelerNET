@@ -29,14 +29,15 @@ protected:
 	// Root element
 	HTREEITEM m_hRoot;
 	HTREEITEM m_hSrc;
-	HTREEITEM m_hInc;
-	HTREEITEM m_hRes;
-	HTREEITEM m_hOthers;
 
 // Operations
 public:
 	void InitFileView();
 	void UpdateFromObject(std::shared_ptr<CElement> pElement);
+
+// Overrides
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 // Implementation
 public:
@@ -55,6 +56,8 @@ protected:
 	afx_msg void OnEditClear();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg void OnShapesLeftTop();
+	afx_msg void OnShapesCenter();
 
 	DECLARE_MESSAGE_MAP()
 };

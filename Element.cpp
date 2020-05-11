@@ -764,6 +764,11 @@ CString CElement::ToString(ElementType type)
 
 CString CElement::ToString(ShapeType type)
 {
+	return CElement::static_ToString(type);
+}
+
+CString CElement::static_ToString(ShapeType type)
+{
 	CString str = _T("");
 	switch(type)
 	{
@@ -965,10 +970,17 @@ CString CElement::ToString(ShapeType type)
 			str = _T("development_package_import");
 			break;
 		case development_connector:
-			str = _T("development_connector");
+			str = _T("development_connector0");
 			break;
 		case development_component:
 			str = _T("development_component");
+			break;
+
+		case planning_month:
+			str = _T("planning_month");
+			break;
+		case planning_task:
+			str = _T("planning_task");
 			break;
 	}
 	return str;

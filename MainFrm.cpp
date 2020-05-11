@@ -819,7 +819,7 @@ void CMainFrame::InitClassView()
 
 void CMainFrame::UpdateClassViewFromObject(std::shared_ptr<CElement> pElement)
 {
-	m_wndClassView.UpdateFromObject(pElement);
+	//m_wndClassView.UpdateFromObject(pElement);
 }
 
 void CMainFrame::InitFileView()
@@ -829,7 +829,7 @@ void CMainFrame::InitFileView()
 
 void CMainFrame::UpdateFileViewFromObject(std::shared_ptr<CElement> pElement)
 {
-	m_wndFileView.UpdateFromObject(pElement);
+	//m_wndFileView.UpdateFromObject(pElement);
 }
 
 void CMainFrame::SetManager(CElementManager * pManager)

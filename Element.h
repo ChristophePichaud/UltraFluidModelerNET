@@ -204,6 +204,7 @@ public:
 	CString ToString();
 	CString ToString(ElementType type);
 	CString ToString(ShapeType type);
+	static CString static_ToString(ShapeType type);
 	CString ToString(shared_ptr<CConnector> pConnector);
 	CString ToString(DocumentType type);
 	DocumentType FromString(wstring type);
