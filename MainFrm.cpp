@@ -411,6 +411,9 @@ void CMainFrame::InitMainButton()
 
 
 	CMFCRibbonPanel* pPanelConnectors = pCategory->AddPanel(_T("Connectors\npa"), m_PanelImages.ExtractIcon(2));
+	m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
+	m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
+	pPanelConnectors->Add(m_pElementsCombo);
 	pPanelConnectors->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 58));
 	pPanelConnectors->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
 
@@ -588,9 +591,6 @@ void CMainFrame::InitMainButton()
 
 	// Create "Elements" panel
 	CMFCRibbonPanel* pPanelElements = pFormatCategory->AddPanel(_T("Elements\nzd"), m_PanelImages.ExtractIcon(2));
-	m_pElementsCombo = new CMFCRibbonComboBox(ID_ACTION_ELEMENTS, FALSE, 39);
-	m_pElementsCombo->SetWidth(100, TRUE); // Width in "floaty" mode
-	pPanelElements->Add(m_pElementsCombo);
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_PLUS, _T("Scale+\nc"), 52));
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_MOINS, _T("Scale-\nc"), 53));
 

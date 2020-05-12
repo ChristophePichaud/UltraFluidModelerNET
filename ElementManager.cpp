@@ -37,6 +37,9 @@ CElementManager::CElementManager()
 	m_selectType = SelectType::intuitive;
 	m_elementGroup = _T("ElementGroup");
 
+	m_connectorInUse = ConnectorType::connector2;
+	m_bDrawRect = false;
+
 	// Initiate the connection with the Property Window
 	ConnectToPropertyGrid();
 }
@@ -814,6 +817,31 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pElement->DrawTracker(ctxt, TrackerState::selected);
 	}
 
+	graphics.ResetTransform();
+	Matrix matrix;
+	//CPoint pt = pElement->m_rect.CenterPoint();
+	//PointF point;
+	//point.X = pt.x;
+	//point.Y = pt.y;
+	//matrix.RotateAt(pElement->m_rotateAngle, point);
+	//graphics.SetTransform(&matrix);
+	//graphics.RotateTransform(pElement->m_rotateAngle, MatrixOrder::MatrixOrderAppend);
+	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+
+	//m_bDrawRect = true;
+	if (m_bDrawRect == true)
+	{
+		//m_DrawRect;
+		SolidBrush solidBrush(Color::Yellow);
+		graphics.FillRectangle(&solidBrush, m_DrawRect.left, m_DrawRect.top, m_DrawRect.Width(), m_DrawRect.Height());
+		//m_DractRectTracker;
+		SolidBrush solidBrushTracker(Color::Green);
+		graphics.FillRectangle(&solidBrushTracker, m_DractRectTracker.left, m_DractRectTracker.top, m_DractRectTracker.Width(), m_DractRectTracker.Height());
+		Pen pen(Color::Violet);
+		graphics.DrawEllipse(&pen, m_DractRectTracker.left, m_DractRectTracker.top, m_DractRectTracker.Width(), m_DractRectTracker.Height());
+	}
+
+
 	// Last....
 	// Add connector shape to the handles
 	for (vector<std::shared_ptr<CElement>>::const_iterator i = GetObjects().begin(); i != GetObjects().end(); i++)
@@ -980,6 +1008,22 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 				str.Format(_T("m_nDragHandle=%d - selectMode == sized"), m_nDragHandle);
 				pView->LogDebug(str);
 				//pView->LogDebug(_T("selectMode == sized"));
+
+				if (m_nDragHandle == 2)
+				{
+					m_connectorInUse = ConnectorType::connector2;
+					//pView->LogDebug(_T("LDown Handle=5 => conector2"));
+				}
+				else
+				{
+					m_connectorInUse = ConnectorType::connector1;
+					//pView->LogDebug(_T("LDown Handle!5 => conector1"));
+				}
+			}
+			else
+			{
+				m_connectorInUse = ConnectorType::connector2;
+				//pView->LogDebug(_T("LDown default => conector2"));
 			}
 		}
 
@@ -994,6 +1038,7 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 				//	pView->LogDebug("selection cleared");
 				//	SelectNone();
 				//}
+
 
 				pView->LogDebug(_T("object found ->") + pElement->ToString());
 				if( IsSelected(pElement) == false )
@@ -1109,6 +1154,7 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 		pView->LogDebug(_T("selectMode == size"));
 
 		m_nDragHandle = 1;
+		m_connectorInUse = ConnectorType::connector2;
 		FindAConnectionFor(pNewElement, point, pView, ConnectorType::connector1);
 
 		pView->GetDocument()->SetModifiedFlag();
@@ -1222,7 +1268,8 @@ void CElementManager::OnMouseMove(CModeler1View* pView, UINT nFlags, const CPoin
 
 					std::shared_ptr<CElement> pObj = m_selection.GetHead();
 					pObj->MoveHandleTo(m_nDragHandle, point, pView);
-					FindAConnectionFor(pElement, point, pView, ConnectorType::connector2);
+					//FindAConnectionFor(pElement, point, pView, ConnectorType::connector2);
+					FindAConnectionFor(pElement, point, pView, m_connectorInUse);
 					InvalObj(pView, pObj);
 
 					pView->GetDocument()->SetModifiedFlag();
@@ -1239,7 +1286,8 @@ void CElementManager::OnMouseMove(CModeler1View* pView, UINT nFlags, const CPoin
 		
 			pElement->m_last = point;
 			pElement->InvalidateObj();
-			FindAConnectionFor(pElement, point, pView, ConnectorType::connector2);
+			//FindAConnectionFor(pElement, point, pView, ConnectorType::connector2);
+			FindAConnectionFor(pElement, point, pView, m_connectorInUse);
 			InvalObj(pView, pElement);
 
 			pView->GetDocument()->SetModifiedFlag();
@@ -1355,6 +1403,8 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 
 	// Set selectType to default
 	m_selectType = SelectType::intuitive;
+	m_connectorInUse = ConnectorType::connector2;
+	m_bDrawRect = false;
 
 	pElement->m_bMoving = FALSE;
 	// Update UI
@@ -2394,38 +2444,63 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 		std::shared_ptr<CElement> pElement = m_objects.ObjectExceptLinesAt(point, pLineElement);
 		if (pElement != NULL)
 		{
-			CClientDC dc(pView);
+			CRect rect = pElement->m_rect;
+			/*CClientDC dc(pView);
 			Graphics graphics(dc.m_hDC);
 			
 			Matrix matrix;
 			CPoint pt = pElement->m_rect.CenterPoint();
-			PointF point;
-			point.X = pt.x;
-			point.Y = pt.y;
-			matrix.RotateAt(pElement->m_rotateAngle, point);
+			PointF pointf;
+			pointf.X = pt.x;
+			pointf.Y = pt.y;
+			matrix.RotateAt(pElement->m_rotateAngle, pointf);
 			graphics.SetTransform(&matrix);
 			graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 			SolidBrush solidBrush(Color::Yellow);
-			CRect rect = pElement->m_rect;
 			graphics.FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
+			*/
+
+			m_bDrawRect = true;
+			m_DrawRect = rect;
+
+			int nHandle = pElement->HitTest(point, pView, true);
+			if (nHandle != 0)
+			{
+				CRect rectTracker = pElement->GetHandleRect(nHandle, pView);
+				rectTracker.left -= 3;
+				rectTracker.top -= 3;
+				rectTracker.right += 3;
+				rectTracker.bottom += 3;
+
+				m_DractRectTracker = rectTracker;
+				/*
+				ViewToManager(pView, rectTracker);
+				SolidBrush solidBrushTracker(Color::Green);
+				graphics.FillRectangle(&solidBrushTracker, rectTracker.left, rectTracker.top, rectTracker.Width(), rectTracker.Height());
+				Pen pen(Color::Violet);
+				graphics.DrawEllipse(&pen, rectTracker.left, rectTracker.top, rectTracker.Width(), rectTracker.Height());
+				*/
+			}
 
 			// Register the connector
 			// if start, we take only the first connector in handle
 			if (connector == ConnectorType::connector1) 
 			{
-				pView->LogDebug(_T("FindAConnectionFor:: if (connector == ConnectorType::connector1)"));
+				//pView->LogDebug(_T("FindAConnectionFor:: if (connector == ConnectorType::connector1)"));
 				pLineElement->m_pConnector->m_pElement1 = pElement;
-				pLineElement->m_connectorDragHandle1 = 2;
+				//pLineElement->m_connectorDragHandle1 = 2;
+				pLineElement->m_connectorDragHandle1 = nHandle;
 
 				// Connect to the right connector
 				SetConnector(pLineElement, pElement, ConnectorType::connector1);
 			}
 			else if (connector == ConnectorType::connector2)
 			{
-				pView->LogDebug(_T("FindAConnectionFor:: if (connector == ConnectorType::connector2)"));
+				//pView->LogDebug(_T("FindAConnectionFor:: if (connector == ConnectorType::connector2)"));
 				pLineElement->m_pConnector->m_pElement2 = pElement;
-				pLineElement->m_connectorDragHandle2 = 2;
+				//pLineElement->m_connectorDragHandle2 = 2;
+				pLineElement->m_connectorDragHandle2 = nHandle;
 
 				// Connect to the right connector
 				SetConnector(pLineElement, pElement, ConnectorType::connector2);
@@ -2436,12 +2511,12 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 			// Register no connector
 			if (connector == ConnectorType::connector1)
 			{
-				pView->LogDebug(_T("FindAConnectionFor:: pLineElement->m_pConnector->m_pElement1 = nullptr;"));
+				//pView->LogDebug(_T("FindAConnectionFor:: pLineElement->m_pConnector->m_pElement1 = nullptr;"));
 				pLineElement->m_pConnector->m_pElement1 = nullptr;
 			}
 			else if (connector == ConnectorType::connector2)
 			{
-				pView->LogDebug(_T("FindAConnectionFor:: pLineElement->m_pConnector->m_pElement2 = nullptr;"));
+				//pView->LogDebug(_T("FindAConnectionFor:: pLineElement->m_pConnector->m_pElement2 = nullptr;"));
 				pLineElement->m_pConnector->m_pElement2 = nullptr;
 			}
 		}

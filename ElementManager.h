@@ -58,6 +58,10 @@ public:
 	ShapeType m_shapeType;
 	bool m_bSavingCode;
 	SelectType m_selectType;
+	ConnectorType m_connectorInUse;
+	bool m_bDrawRect;
+	CRect m_DrawRect;
+	CRect m_DractRectTracker;
 
 public:
 	// Selection 1st point
