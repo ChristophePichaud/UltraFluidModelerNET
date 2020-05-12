@@ -1,3 +1,6 @@
+// Copyright (C) SAS NET Azure Rangers
+// All rights reserved.
+
 #pragma once
 class CAppInit
 {

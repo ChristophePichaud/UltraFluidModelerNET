@@ -1,3 +1,6 @@
+// Copyright (C) SAS NET Azure Rangers
+// All rights reserved.
+
 #include "StdAfx.h"
 #include "ElementFactory.h"
 #include "Element.h"

@@ -1,3 +1,6 @@
+// Copyright (C) SAS NET Azure Rangers
+// All rights reserved.
+
 #include "StdAfx.h"
 #include "ElementContainer.h"
 #include "Modeler1View.h"

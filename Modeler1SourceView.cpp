@@ -1,3 +1,6 @@
+// Copyright (C) SAS NET Azure Rangers
+// All rights reserved.
+
 // Modeler1SourceView.cpp : implementation file
 //
 
