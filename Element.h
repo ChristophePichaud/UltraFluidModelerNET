@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Constants.h"
+#include "CTextControlDialog.h"
 
 enum SelectType : int
 {

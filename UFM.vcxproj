@@ -192,6 +192,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="CTextControlDialog.h" />
     <ClInclude Include="DrawingContext.h" />
     <ClInclude Include="DrawingElements.h" />
     <ClInclude Include="Element.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="CTextControlDialog.cpp" />
     <ClCompile Include="DrawingContext.cpp" />
     <ClCompile Include="DrawingElements.cpp" />
     <ClCompile Include="Element.cpp" />

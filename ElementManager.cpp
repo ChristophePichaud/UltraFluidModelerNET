@@ -43,6 +43,9 @@ CElementManager::CElementManager()
 	m_connectorInUse = ConnectorType::connector2;
 	m_bDrawRect = false;
 
+	m_pDialog = nullptr;
+	m_bTextDialogOpen = false;
+
 	// Initiate the connection with the Property Window
 	ConnectToPropertyGrid();
 }
@@ -322,11 +325,26 @@ bool CElementManager::IsSelected(std::shared_ptr<CElement> pElement)
 void CElementManager::SelectNone()
 {
 	m_selection.RemoveAll();
+
+	HideAllEditControls();
 }
 
 bool CElementManager::Select(std::shared_ptr<CElement> pElement)
 {
 	m_selection.AddTail(pElement);
+		
+	if (m_pDialog != nullptr)
+	{
+		if (IsTextDialogOpen() == true)
+		{
+			//m_pDialog->ShowWindow(SW_SHOW);
+			m_pDialog->UpdateData(TRUE);
+			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
+			m_pDialog->m_pElement = pElement;
+			m_bTextDialogOpen = true;
+		}
+	}
+	
 	return true;
 }
 
@@ -604,6 +622,11 @@ void CElementManager::DrawConnector(Graphics& graphics, std::shared_ptr<CElement
 
 void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 {
+	// GUID for Windows controls
+	static unsigned int g_id = 0;
+
+	g_id++;
+
 	// Initialize GDI+ graphics context
 	Graphics graphics(pDC->m_hDC);
 	// just like that
@@ -747,8 +770,10 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement->m_topMargin = pElement->m_topMargin;
 			pTextElement->m_rotateAngle = pElement->m_rotateAngle;
 
+			pTextElement->m_rect.NormalizeRect();
 			pTextElement->Draw(ctxt);
 		}
+
 
 		if (pElement->m_bShowElementName == true)
 		{
@@ -1174,9 +1199,32 @@ void CElementManager::OnLButtonDown(CModeler1View* pView, UINT nFlags, const CPo
 
 void CElementManager::OnLButtonDblClk(CModeler1View* pView, UINT nFlags, const CPoint& cpoint)
 {
-	// Caution, it flicks !
-	//pView->LogDebug(_T("CElementManager::OnLButtonDblClk"));
+	CPoint point = cpoint;
+	ViewToManager(pView, point);
 
+	std::shared_ptr<CElement> pElement = m_objects.ObjectAt(point, m_selectType);
+	if (pElement != NULL)
+	{
+
+		if (m_pDialog == nullptr)
+		{
+			m_pDialog = new CTextControlDialog();
+			m_pDialog->Create(IDD_DIALOG_TEXT, pView);
+			m_pDialog->ShowWindow(SW_SHOW);
+			m_pDialog->UpdateData(TRUE);
+			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
+			m_pDialog->m_pElement = pElement;
+			m_bTextDialogOpen = true;
+		}
+		else
+		{
+			m_pDialog->ShowWindow(SW_SHOW);
+			m_pDialog->UpdateData(TRUE);
+			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
+			m_pDialog->m_pElement = pElement;
+			m_bTextDialogOpen = true;
+		}
+	}
 }
 
 void CElementManager::DrawSelectionRect(CModeler1View *pView)
@@ -3786,3 +3834,8 @@ void CElementManager::OnShapesCenter(CModeler1View* pView, ShapeType shapeType)
 	pView->GetDocument()->SetModifiedFlag();
 
 }
+
+void CElementManager::HideAllEditControls()
+{
+}
+

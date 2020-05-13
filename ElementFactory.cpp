@@ -322,6 +322,7 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 				pNewElement->m_text = L"Class";
 				pNewElement->m_colorFill = colorFillClass.ToCOLORREF();
 				pNewElement->m_colorLine = colorLineClass.ToCOLORREF();
+				//pNewElement->m_bControlsCreated = false;
 				break;
 			case development_interface:
 				pNewElement->m_text = L"Interface";

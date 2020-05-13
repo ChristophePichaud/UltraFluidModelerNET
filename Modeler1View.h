@@ -37,7 +37,8 @@ public:
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual BOOL OnScrollBy(CSize sizeScroll, BOOL bDoScroll);
 	virtual void OnActivateView(BOOL bActivate, CView* pActiveView, CView* pDeactiveView);
-	
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+
 protected:
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -226,6 +227,7 @@ public:
 	afx_msg void OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI);
 	//afx_msg void OnShapesLeftTop();
 	//afx_msg void OnShapesCenter();
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

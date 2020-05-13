@@ -172,6 +172,8 @@ CElement::CElement()
 
 	m_rotateAngle = 0;
 
+	//m_bControlsCreated = false;
+
 	m_bMoving = false;
 
 	m_type = ElementType::type_unknown;

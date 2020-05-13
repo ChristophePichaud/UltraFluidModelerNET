@@ -5,6 +5,7 @@
 #include "ElementContainer.h"
 #include "Element.h"
 #include "ElementFactory.h"
+#include "CTextControlDialog.h"
 
 class CCodeFile;
 
@@ -65,7 +66,9 @@ public:
 	bool m_bDrawRect;
 	CRect m_DrawRect;
 	CRect m_DractRectTracker;
-
+	CTextControlDialog* m_pDialog;
+	bool m_bTextDialogOpen;
+	
 public:
 	// Selection 1st point
 	CPoint m_selectPoint;
@@ -80,6 +83,7 @@ public:
 public:
 	//SelectMode GetSelectMode()	 { return m_selectMode; }
 	const vector<std::shared_ptr<CElement>>& GetObjects() { return m_objects.m_objects; }
+	bool IsTextDialogOpen() { return m_bTextDialogOpen; }
 
 // Debugging Operations
 public:
@@ -257,6 +261,11 @@ public:
 // ActiveViews
 public:
 	void SetActiveView(CModeler1View* pView, View view);
+
+// Windows Edit Controls
+public:
+	void HideAllEditControls();
+
 };
 
 enum FileType : int
