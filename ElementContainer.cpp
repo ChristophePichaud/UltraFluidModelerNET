@@ -29,7 +29,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(15);
+		ar.SetObjectSchema(16);
 
 		pElementManager->ExpandGroupAttributes();
 
@@ -121,6 +121,16 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			// Schema v14
 			pNewElement->m_rotateAngle = pElement->m_rotateAngle;
 
+			// Schema v15
+			pNewElement->m_team = pElement->m_team;
+			pNewElement->m_authors = pElement->m_authors;
+
+			// Schema v16
+			pNewElement->m_bShowElementName = pElement->m_bShowElementName;
+
+			// Schema v16 forgotten
+			pNewElement->m_textConnector1 = pElement->m_textConnector1;
+			pNewElement->m_textConnector2 = pElement->m_textConnector2;
 
 			POSITION pos = /*pNewElement->m_pView =*/ ar.m_pDocument->GetFirstViewPosition(); //nullptr; // TODO
 			pNewElement->m_pView = (CModeler1View *) (ar.m_pDocument->GetNextView(pos)); //()->GetRoutingView();

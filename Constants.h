@@ -38,4 +38,6 @@ const std::wstring prop_Authors = L"Authors";
 const std::wstring prop_ViewElementName = L"View Names";
 const std::wstring prop_Standard_Shapes_Text_Color = L"Standard Shapes Color";
 const std::wstring prop_Connector_Shapes_Text_Color = L"Connector Shapes Color";
+const std::wstring prop_Connector1_Text = L"Connector1 Text";
+const std::wstring prop_Connector2_Text = L"Connector2 Text";
 

@@ -446,7 +446,12 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(15);
+		ar.SetObjectSchema(16);
+
+		CString text1 = W2T((LPTSTR)m_textConnector1.c_str());
+		ar << text1;
+		CString text2 = W2T((LPTSTR)m_textConnector2.c_str());
+		ar << text2;
 
 		// The schema v16 contains extra info: showElementName
 		ar << m_bShowElementName;
@@ -559,6 +564,13 @@ void CElement::Serialize(CArchive& ar)
 
 		if (version >= 16)
 		{
+			CString text1;
+			ar >> text1;
+			m_textConnector1 = T2W((LPTSTR)(LPCTSTR)text1);
+			CString text2;
+			ar >> text2;
+			m_textConnector2 = T2W((LPTSTR)(LPCTSTR)text2);
+
 			ar >> m_bShowElementName;
 		}
 
@@ -1590,7 +1602,7 @@ CRect CElement::GetRectTextConnector(ConnectorType connector)
 
 			//RightCenter
 		case 4:
-			//RightRight
+			//RightBottom
 		case 5:
 			//BottomCenter
 		case 6:
@@ -1602,22 +1614,16 @@ CRect CElement::GetRectTextConnector(ConnectorType connector)
 
 			//LeftCenter
 		case 8:
+		default:
 			p1 = CPoint(m_rect.TopLeft().x - 50, m_rect.TopLeft().y);
 			p2 = CPoint(m_rect.TopLeft().x + 150, m_rect.TopLeft().y + 30);
 			break;
-
 		}
 
 		//p1 = CPoint(m_rect.TopLeft().x, m_rect.TopLeft().y);
 		//p2 = CPoint(m_rect.TopLeft().x + 200, m_rect.TopLeft().y + 30);
 	}
 	
-	//if (connector == ConnectorType::connector2)
-	//{
-	//	p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y);
-	//	p2 = CPoint(m_rect.BottomRight().x + 200, m_rect.BottomRight().y + 30);
-	//}
-
 	if (connector == ConnectorType::connector2)
 	{
 		switch (m_connectorDragHandle2)
@@ -1634,7 +1640,7 @@ CRect CElement::GetRectTextConnector(ConnectorType connector)
 
 			//RightCenter
 		case 4:
-			//RightRight
+			//RightBottom
 		case 5:
 			//BottomCenter
 		case 6:
@@ -1646,10 +1652,10 @@ CRect CElement::GetRectTextConnector(ConnectorType connector)
 
 			//LeftCenter
 		case 8:
+		default:
 			p1 = CPoint(m_rect.BottomRight().x - 50, m_rect.BottomRight().y);
 			p2 = CPoint(m_rect.BottomRight().x + 150, m_rect.BottomRight().y + 30);
 			break;
-
 		}
 
 		//	p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y);

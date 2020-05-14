@@ -316,6 +316,8 @@ void CPropertiesWnd::InitPropList()
 	pProp->AddOption(_T("RightCenter"));
 	pProp->AllowEdit(FALSE);
 	pConnector->AddSubItem(pProp);
+	pConnector->AddSubItem(new CMFCPropertyGridProperty(_T("Connector1 Text"), (_variant_t)_T(""), _T("Specifies the object's conector1 text")));
+	pConnector->AddSubItem(new CMFCPropertyGridProperty(_T("Connector2 Text"), (_variant_t)_T(""), _T("Specifies the object's conector2 text")));
 	m_wndPropList.AddProperty(pConnector);
 
 	CMFCPropertyGridProperty* pBusiness = new CMFCPropertyGridProperty(_T("Businness Properties"));
@@ -420,8 +422,15 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 
 	UpdateProperty(prop_Document, pObj->m_document.c_str());
 	UpdateProperty(prop_Document_Type, pObj->ToString(pObj->m_documentType));
+	
+	
+	UpdateProperty(prop_Connector1_Text, pObj->m_textConnector1.c_str());
+	UpdateProperty(prop_Connector2_Text, pObj->m_textConnector2.c_str());
 	UpdateProperty(prop_Connector1Handle, pObj->DragHandleToString(pObj->m_connectorDragHandle1));
 	UpdateProperty(prop_Connector2Handle, pObj->DragHandleToString(pObj->m_connectorDragHandle2));
+	UpdateProperty(prop_Connector_Shapes_Text_Color, (LONG)(pObj->m_connectorShapesTextColor));
+	COleVariant vShowConnector((SHORT)(pObj->m_bShowConnectors), VT_BOOL);
+	UpdateProperty(prop_ShowConnectors, vShowConnector);
 
 	UpdateProperty(prop_Version, pObj->m_version.c_str());
 	UpdateProperty(prop_Product, pObj->m_product.c_str());
@@ -434,9 +443,6 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Rotation_Angle, (LONG)(pObj->m_rotateAngle));
 
 	UpdateProperty(prop_Standard_Shapes_Text_Color, (LONG)(pObj->m_standardShapesTextColor));
-	UpdateProperty(prop_Connector_Shapes_Text_Color, (LONG)(pObj->m_connectorShapesTextColor));
-	COleVariant vShowConnector((SHORT)(pObj->m_bShowConnectors), VT_BOOL);
-	UpdateProperty(prop_ShowConnectors, vShowConnector);
 
 	CMFCPropertyGridProperty* pProperty = m_wndPropList.GetProperty(8); // Connector Element
 	// Set Connector1 Element

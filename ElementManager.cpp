@@ -16,7 +16,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 18)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 16)
 
 CElementManager::CElementManager()
 {
@@ -115,7 +115,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(15);
+		ar.SetObjectSchema(16);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -786,72 +786,9 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		}
 
 
-		if (pElement->m_bShowElementName == true)
-		{
-			CPoint p1; 
-			CPoint p2;
-			
-			if (pElement->IsLine() == true) //pElement->m_shapeType == ShapeType::line_right)
-			{
-				//
-				// Draw first text
-				//
-
-				std::shared_ptr<CElement> pTextElement(new CTextElement());
-
-				p1 = CPoint(pElement->m_rect.TopLeft().x, pElement->m_rect.TopLeft().y);
-				p2 = CPoint(pElement->m_rect.TopLeft().x + 200, pElement->m_rect.TopLeft().y + 30);
-				CRect rect(p1, p2);
-				rect.NormalizeRect();
-
-				pTextElement->m_rect = rect;
-				pTextElement->m_fontName = _T("Calibri");
-				pTextElement->m_fontSize = 12;
-				pTextElement->m_colorText = pTextElement->m_connectorShapesTextColor;
-				pTextElement->m_text = pElement->m_name;
-
-				pTextElement->Draw(ctxt);
-
-				//
-				// Draw second text
-				//
-
-				std::shared_ptr<CElement> pTextElement2(new CTextElement());
-
-				p1 = CPoint(pElement->m_rect.BottomRight().x, pElement->m_rect.BottomRight().y);
-				p2 = CPoint(pElement->m_rect.BottomRight().x + 200, pElement->m_rect.BottomRight().y + 30);
-				CRect rect2(p1, p2);
-				rect2.NormalizeRect();
-
-				pTextElement2->m_rect = rect2;
-				pTextElement2->m_fontName = _T("Calibri");
-				pTextElement2->m_fontSize = 12;
-				pTextElement2->m_colorText = pTextElement2->m_connectorShapesTextColor;
-				pTextElement2->m_text = pElement->m_name;
-
-				pTextElement2->Draw(ctxt);
-			}
-			else
-			{
-				std::shared_ptr<CElement> pTextElement(new CTextElement());
-
-				p1 = CPoint(pElement->m_rect.TopLeft().x, pElement->m_rect.TopLeft().y + 30);
-				p2 = CPoint(pElement->m_rect.TopLeft().x + 200, pElement->m_rect.TopLeft().y + 60);
-				CRect rect(p1, p2);
-				rect.NormalizeRect();
-
-				pTextElement->m_rect = rect;
-				pTextElement->m_fontName = _T("Calibri");
-				pTextElement->m_fontSize = 12;
-				pTextElement->m_colorText = pTextElement->m_standardShapesTextColor;
-				pTextElement->m_text = pElement->m_name;
-
-				pTextElement->Draw(ctxt);
-			}
-		}
-
-		CPoint p1;
-		CPoint p2;
+		//
+		// Draw the connectors
+		//
 
 		if (pElement->IsLine() == true) //pElement->m_shapeType == ShapeType::line_right)
 		{
@@ -888,6 +825,32 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement2->m_text = pElement->m_textConnector2;
 
 			pTextElement2->Draw(ctxt);
+		}
+
+
+		//
+		// Draw the elements names
+		//
+
+		if (pElement->m_bShowElementName == true)
+		{
+			CPoint p1;
+			CPoint p2;
+
+			std::shared_ptr<CElement> pTextElement(new CTextElement());
+
+			p1 = CPoint(pElement->m_rect.CenterPoint().x, pElement->m_rect.CenterPoint().y);
+			p2 = CPoint(pElement->m_rect.CenterPoint().x + 200, pElement->m_rect.CenterPoint().y + 30);
+			CRect rect(p1, p2);
+			rect.NormalizeRect();
+
+			pTextElement->m_rect = rect;
+			pTextElement->m_fontName = _T("Calibri");
+			pTextElement->m_fontSize = 12;
+			pTextElement->m_colorText = pTextElement->m_standardShapesTextColor;
+			pTextElement->m_text = pElement->m_name;
+
+			pTextElement->Draw(ctxt);
 		}
 
 		//if( !pDC->IsPrinting() && IsSelected(pObj) )
@@ -1784,6 +1747,16 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		{
 			pElement->m_connectorDragHandle2 = pElement->DragHandleFromString(value);
 		}
+	}
+
+	if (name == prop_Connector1_Text)
+	{
+		pElement->m_textConnector1 = value;
+	}
+
+	if (name == prop_Connector2_Text)
+	{
+		pElement->m_textConnector2 = value;
 	}
 
 	if (name == prop_Image)
