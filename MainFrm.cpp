@@ -9,6 +9,7 @@
 
 #include "MainFrm.h"
 #include "ElementContainer.h"
+#include "SplashWnd.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -163,6 +164,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Switch the order of document name and application name on the window title bar. This
 	// improves the usability of the taskbar because the document name is visible with the thumbnail.
 	ModifyStyle(0, FWS_PREFIXTITLE);
+
+	// The following line was added by the Splash Screen component.
+	CSplashWnd::ShowSplashScreen(this);
 
 	return 0;
 }

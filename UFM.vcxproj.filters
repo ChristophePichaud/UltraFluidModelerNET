@@ -96,6 +96,9 @@
     <ClInclude Include="CTextControlDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SplashWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -165,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CTextControlDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -393,6 +399,9 @@
     <Image Include="res\Modeler1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\splash.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbon.mfcribbon-ms">
@@ -401,5 +410,9 @@
     <None Include="res\UFM.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\bitmap1_new.xcf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Release_Notes.txt" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include "Modeler1Doc.h"
 #include "Modeler1View.h"
 #include "TabbedView.h"
+#include "SplashWnd.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -74,6 +75,8 @@ BOOL CModeler1App::InitInstance()
 		return FALSE;
 	}
 #endif
+
+	CSplashWnd::EnableSplashScreen();
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
