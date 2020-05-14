@@ -5,7 +5,8 @@ class CDrawingContext
 {
 public:
 	// Drawing Attributes are built in the ctor
-	CDrawingContext(std::shared_ptr<CElement> pElement);
+	//CDrawingContext(std::shared_ptr<CElement> pElement);
+	CDrawingContext(CElement* pElement);
 	virtual ~CDrawingContext(void);
 
 public:

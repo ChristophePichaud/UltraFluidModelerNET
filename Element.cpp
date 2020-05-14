@@ -1547,6 +1547,26 @@ void CElement::DrawTracker(CPoint cnx, CDrawingContext& ctxt,  CModeler1View* pV
 	ctxt.GetGraphics()->FillRectangle(&solidBrush, cnx.x - 5, cnx.y - 5, 10, 10);
 }
 
+void CElement::DrawTracker(CModeler1View* pView)
+{
+	CClientDC dc(pView);
+	Graphics graphics(dc.m_hDC);
+	CDrawingContext ctxt(this);
+	ctxt.m_pGraphics = &graphics;
+
+	Matrix matrix;
+	CPoint pt = m_rect.CenterPoint();
+	PointF point;
+	point.X = pt.x;
+	point.Y = pt.y;
+	matrix.RotateAt(m_rotateAngle, point);
+	graphics.SetTransform(&matrix);
+	//graphics.RotateTransform(pElement->m_rotateAngle, MatrixOrder::MatrixOrderAppend);
+	graphics.ScaleTransform(GetManager()->m_fZoomFactor, GetManager()->m_fZoomFactor);
+
+	DrawTracker(ctxt, TrackerState::active);
+}
+
 std::wstring CElement::GetImageFilePath()
 {
 	std::wstring ret = L"";

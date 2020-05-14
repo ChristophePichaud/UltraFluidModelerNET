@@ -63,9 +63,9 @@ public:
 	bool m_bSavingCode;
 	SelectType m_selectType;
 	ConnectorType m_connectorInUse;
-	bool m_bDrawRect;
-	CRect m_DrawRect;
-	CRect m_DractRectTracker;
+	bool m_bDrawRectForConnectionPoint;
+	CRect m_DrawRectForConnectionPoint;
+	CRect m_DractRectHandleTrackerForConnectionPoint;
 	CTextControlDialog* m_pDialog;
 	bool m_bTextDialogOpen;
 	

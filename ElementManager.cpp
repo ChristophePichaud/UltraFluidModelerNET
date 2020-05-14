@@ -41,7 +41,7 @@ CElementManager::CElementManager()
 	m_elementGroup = _T("ElementGroup");
 
 	m_connectorInUse = ConnectorType::connector2;
-	m_bDrawRect = false;
+	m_bDrawRectForConnectionPoint = false;
 
 	m_pDialog = nullptr;
 	m_bTextDialogOpen = false;
@@ -705,7 +705,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		pElement->m_pView = pView;
 		
 		// Construct the graphic context for each element
-		CDrawingContext ctxt(pElement);
+		CDrawingContext ctxt(pElement.get());
 		ctxt.m_pGraphics = &graphics;
 
 		//graphics.ResetTransform();
@@ -857,16 +857,16 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 
 	//m_bDrawRect = true;
-	if (m_bDrawRect == true)
+	if (m_bDrawRectForConnectionPoint == true)
 	{
-		//m_DrawRect;
-		SolidBrush solidBrush(Color::Yellow);
-		graphics.FillRectangle(&solidBrush, m_DrawRect.left, m_DrawRect.top, m_DrawRect.Width(), m_DrawRect.Height());
+		//m_DrawRectForConnectionPoint;
+		//SolidBrush solidBrush(Color::Yellow);
+		//graphics.FillRectangle(&solidBrush, m_DrawRectForConnectionPoint.left, m_DrawRectForConnectionPoint.top, m_DrawRectForConnectionPoint.Width(), m_DrawRectForConnectionPoint.Height());
 		//m_DractRectTracker;
 		SolidBrush solidBrushTracker(Color::Green);
-		graphics.FillRectangle(&solidBrushTracker, m_DractRectTracker.left, m_DractRectTracker.top, m_DractRectTracker.Width(), m_DractRectTracker.Height());
+		graphics.FillRectangle(&solidBrushTracker, m_DractRectHandleTrackerForConnectionPoint.left, m_DractRectHandleTrackerForConnectionPoint.top, m_DractRectHandleTrackerForConnectionPoint.Width(), m_DractRectHandleTrackerForConnectionPoint.Height());
 		Pen pen(Color::Violet);
-		graphics.DrawEllipse(&pen, m_DractRectTracker.left, m_DractRectTracker.top, m_DractRectTracker.Width(), m_DractRectTracker.Height());
+		graphics.DrawEllipse(&pen, m_DractRectHandleTrackerForConnectionPoint.left, m_DractRectHandleTrackerForConnectionPoint.top, m_DractRectHandleTrackerForConnectionPoint.Width(), m_DractRectHandleTrackerForConnectionPoint.Height());
 	}
 
 
@@ -1455,7 +1455,7 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 	// Set selectType to default
 	m_selectType = SelectType::intuitive;
 	m_connectorInUse = ConnectorType::connector2;
-	m_bDrawRect = false;
+	m_bDrawRectForConnectionPoint = false;
 
 	pElement->m_bMoving = FALSE;
 	// Update UI
@@ -2512,8 +2512,10 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 			graphics.FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
 			*/
 
-			m_bDrawRect = true;
-			m_DrawRect = rect;
+			pElement->DrawTracker(pView);
+			
+			m_bDrawRectForConnectionPoint = true;
+			m_DrawRectForConnectionPoint = rect;
 
 			int nHandle = pElement->HitTest(point, pView, true);
 			if (nHandle != 0)
@@ -2524,7 +2526,7 @@ void CElementManager::FindAConnectionFor(std::shared_ptr<CElement> pLineElement,
 				rectTracker.right += 3;
 				rectTracker.bottom += 3;
 
-				m_DractRectTracker = rectTracker;
+				m_DractRectHandleTrackerForConnectionPoint = rectTracker;
 				/*
 				ViewToManager(pView, rectTracker);
 				SolidBrush solidBrushTracker(Color::Green);
@@ -2968,7 +2970,7 @@ void CElementManager::OnFileExportPNG(CModeler1View* pView)
 		pElement->m_pView = pView;
 
 		// Construct the graphic context for each element
-		CDrawingContext ctxt(pElement);
+		CDrawingContext ctxt(pElement.get());
 		ctxt.m_pGraphics = &graphics;
 
 		graphics.ResetTransform();

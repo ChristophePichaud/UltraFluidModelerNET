@@ -230,6 +230,7 @@ public:
 	HCURSOR GetHandleCursor(int nHandle);
 	void MoveHandleTo(int nHandle, CPoint point, CModeler1View* pView);	
 	void DrawTracker(CPoint cnx, CDrawingContext& ctxt, CModeler1View* pView);
+	void DrawTracker(CModeler1View* pView);
 
 // Managing Object Format
 public:

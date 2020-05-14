@@ -4,7 +4,7 @@
 #include "StdAfx.h"
 #include "DrawingContext.h"
 
-CDrawingContext::CDrawingContext(std::shared_ptr<CElement> pElement) 
+CDrawingContext::CDrawingContext(CElement* pElement) 
 	: m_gdiPenBlack(Color(255, 0, 0, 0)), 
 		m_gdiPenColor(Color(255, 0, 0, 0)), 
 		m_gdiBrushColor(m_gdiColorBlack),
