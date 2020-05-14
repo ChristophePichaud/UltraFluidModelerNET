@@ -1,4 +1,6 @@
 	Release Notes v 1.14.05.2020
+		- Text connectors displayed properly
+		- Splash screen 3s
 		- Connectors facilities is made with DrawTracker now...
 		- Shape text can be multiline and can expand larger than dialog box
 	Release Notes v 1.13.05.2020

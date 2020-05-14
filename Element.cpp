@@ -135,6 +135,8 @@ CElement::CElement()
 	m_point = CPoint(0, 0);
 	m_last = m_point;
 	m_text = _T("");
+	m_textConnector1 = _T("textConnector1");
+	m_textConnector2 = _T("textConnector2");
 	m_code = _T("");
 	m_textAlign = _T("None");
 	m_bColorFill = true;
@@ -1565,6 +1567,97 @@ void CElement::DrawTracker(CModeler1View* pView)
 	graphics.ScaleTransform(GetManager()->m_fZoomFactor, GetManager()->m_fZoomFactor);
 
 	DrawTracker(ctxt, TrackerState::active);
+}
+
+CRect CElement::GetRectTextConnector(ConnectorType connector)
+{
+	CPoint p1;
+	CPoint p2;
+	
+	if (connector == ConnectorType::connector1)
+	{
+		switch (m_connectorDragHandle1)
+		{
+			// LeftTop
+		case 1:
+			// TopCenter
+		case 2:
+			// RightTop
+		case 3:
+			p1 = CPoint(m_rect.TopLeft().x, m_rect.TopLeft().y - 30);
+			p2 = CPoint(m_rect.TopLeft().x + 200, m_rect.TopLeft().y);
+			break;
+
+			//RightCenter
+		case 4:
+			//RightRight
+		case 5:
+			//BottomCenter
+		case 6:
+			//LeftBottom
+		case 7:
+			p1 = CPoint(m_rect.TopLeft().x, m_rect.TopLeft().y);
+			p2 = CPoint(m_rect.TopLeft().x + 200, m_rect.TopLeft().y + 30);
+			break;
+
+			//LeftCenter
+		case 8:
+			p1 = CPoint(m_rect.TopLeft().x - 50, m_rect.TopLeft().y);
+			p2 = CPoint(m_rect.TopLeft().x + 150, m_rect.TopLeft().y + 30);
+			break;
+
+		}
+
+		//p1 = CPoint(m_rect.TopLeft().x, m_rect.TopLeft().y);
+		//p2 = CPoint(m_rect.TopLeft().x + 200, m_rect.TopLeft().y + 30);
+	}
+	
+	//if (connector == ConnectorType::connector2)
+	//{
+	//	p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y);
+	//	p2 = CPoint(m_rect.BottomRight().x + 200, m_rect.BottomRight().y + 30);
+	//}
+
+	if (connector == ConnectorType::connector2)
+	{
+		switch (m_connectorDragHandle2)
+		{
+			// LeftTop
+		case 1:
+			// TopCenter
+		case 2:
+			// RightTop
+		case 3:
+			p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y - 30);
+			p2 = CPoint(m_rect.BottomRight().x + 200, m_rect.BottomRight().y);
+			break;
+
+			//RightCenter
+		case 4:
+			//RightRight
+		case 5:
+			//BottomCenter
+		case 6:
+			//LeftBottom
+		case 7:
+			p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y);
+			p2 = CPoint(m_rect.BottomRight().x + 200, m_rect.BottomRight().y + 30);
+			break;
+
+			//LeftCenter
+		case 8:
+			p1 = CPoint(m_rect.BottomRight().x - 50, m_rect.BottomRight().y);
+			p2 = CPoint(m_rect.BottomRight().x + 150, m_rect.BottomRight().y + 30);
+			break;
+
+		}
+
+		//	p1 = CPoint(m_rect.BottomRight().x, m_rect.BottomRight().y);
+		//	p2 = CPoint(m_rect.BottomRight().x + 200, m_rect.BottomRight().y + 30);
+	}
+
+	CRect rect(p1, p2);
+	return rect;
 }
 
 std::wstring CElement::GetImageFilePath()

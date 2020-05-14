@@ -231,6 +231,7 @@ public:
 	void MoveHandleTo(int nHandle, CPoint point, CModeler1View* pView);	
 	void DrawTracker(CPoint cnx, CDrawingContext& ctxt, CModeler1View* pView);
 	void DrawTracker(CModeler1View* pView);
+	CRect GetRectTextConnector(ConnectorType connector);
 
 // Managing Object Format
 public:
@@ -246,6 +247,8 @@ public:
 	std::wstring m_objectId;
 	std::wstring m_caption;
 	std::wstring m_text;
+	std::wstring m_textConnector1;
+	std::wstring m_textConnector2;
 	std::wstring m_code;
 	std::wstring m_textAlign;
 	std::wstring m_fontName;

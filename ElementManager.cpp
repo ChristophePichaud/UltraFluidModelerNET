@@ -339,7 +339,18 @@ bool CElementManager::Select(std::shared_ptr<CElement> pElement)
 		{
 			//m_pDialog->ShowWindow(SW_SHOW);
 			m_pDialog->UpdateData(TRUE);
-			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
+			if (pElement->IsLine() == true)
+			{
+				m_pDialog->m_Text.SetWindowText(pElement->m_textConnector1.c_str());
+				m_pDialog->m_Text2.SetWindowText(pElement->m_textConnector2.c_str());
+				m_pDialog->m_Text2.SetReadOnly(FALSE);
+			}
+			else
+			{
+				m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
+				m_pDialog->m_Text2.SetWindowText(_T(""));
+				m_pDialog->m_Text2.SetReadOnly(TRUE);
+			}
 			m_pDialog->m_pElement = pElement;
 			m_bTextDialogOpen = true;
 		}
@@ -839,6 +850,46 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			}
 		}
 
+		CPoint p1;
+		CPoint p2;
+
+		if (pElement->IsLine() == true) //pElement->m_shapeType == ShapeType::line_right)
+		{
+			//
+			// Draw first text connector1
+			//
+
+			std::shared_ptr<CElement> pTextElement(new CTextElement());
+
+			CRect rect = pElement->GetRectTextConnector(ConnectorType::connector1);
+			rect.NormalizeRect();
+
+			pTextElement->m_rect = rect;
+			pTextElement->m_fontName = _T("Calibri");
+			pTextElement->m_fontSize = 12;
+			pTextElement->m_colorText = pTextElement->m_colorText;
+			pTextElement->m_text = pElement->m_textConnector1;
+
+			pTextElement->Draw(ctxt);
+
+			//
+			// Draw second text connector2
+			//
+
+			std::shared_ptr<CElement> pTextElement2(new CTextElement());
+
+			CRect rect2 = pElement->GetRectTextConnector(ConnectorType::connector2);
+			rect2.NormalizeRect();
+
+			pTextElement2->m_rect = rect2;
+			pTextElement2->m_fontName = _T("Calibri");
+			pTextElement2->m_fontSize = 12;
+			pTextElement2->m_colorText = pTextElement2->m_colorText;
+			pTextElement2->m_text = pElement->m_textConnector2;
+
+			pTextElement2->Draw(ctxt);
+		}
+
 		//if( !pDC->IsPrinting() && IsSelected(pObj) )
 		//	DrawTracker(pObj, pDC, TrackerState::selected);
 		if (pView != NULL && pView->m_bActive && !pDC->IsPrinting() && IsSelected(pElement))
@@ -1210,19 +1261,24 @@ void CElementManager::OnLButtonDblClk(CModeler1View* pView, UINT nFlags, const C
 		{
 			m_pDialog = new CTextControlDialog();
 			m_pDialog->Create(IDD_DIALOG_TEXT, pView);
-			m_pDialog->ShowWindow(SW_SHOW);
-			m_pDialog->UpdateData(TRUE);
-			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
-			m_pDialog->m_pElement = pElement;
-			m_bTextDialogOpen = true;
+		}
+
+		m_pDialog->ShowWindow(SW_SHOW);
+		m_pDialog->UpdateData(TRUE);
+		m_pDialog->m_pElement = pElement;
+		m_bTextDialogOpen = true;
+
+		if (pElement->IsLine() == true)
+		{
+			m_pDialog->m_Text.SetWindowText(pElement->m_textConnector1.c_str());
+			m_pDialog->m_Text2.SetWindowText(pElement->m_textConnector2.c_str());
+			m_pDialog->m_Text2.SetReadOnly(FALSE);
 		}
 		else
 		{
-			m_pDialog->ShowWindow(SW_SHOW);
-			m_pDialog->UpdateData(TRUE);
 			m_pDialog->m_Text.SetWindowText(pElement->m_text.c_str());
-			m_pDialog->m_pElement = pElement;
-			m_bTextDialogOpen = true;
+			m_pDialog->m_Text2.SetWindowText(_T(""));
+			m_pDialog->m_Text2.SetReadOnly(TRUE);
 		}
 	}
 }

@@ -24,8 +24,9 @@ CTextControlDialog::~CTextControlDialog()
 
 void CTextControlDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_TEXT, m_Text);
+    CDialogEx::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_TEXT, m_Text);
+    DDX_Control(pDX, IDC_TEXT2, m_Text2);
 }
 
 
@@ -42,13 +43,26 @@ void CTextControlDialog::OnBnClickedOk()
 {
     // TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	CString data;
-	m_Text.GetWindowText(data);
+	CString text1;
+	m_Text.GetWindowText(text1);
+	CString text2;
+	m_Text2.GetWindowText(text2);
 
-	m_pElement->m_text = (LPTSTR)(LPCTSTR)data;
+	if (m_pElement->IsLine() == true)
+	{
+		m_pElement->m_textConnector1 = (LPTSTR)(LPCTSTR)text1;
+		m_pElement->m_textConnector2 = (LPTSTR)(LPCTSTR)text2;
+		m_pElement->GetManager()->Invalidate(m_pElement->m_pView);
+	}
+	else
+	{
+		m_pElement->m_text = (LPTSTR)(LPCTSTR)text1;
+		m_pElement->GetManager()->Invalidate(m_pElement->m_pView);
+	}
+
 	ShowWindow(SW_HIDE);
-	m_pElement->GetManager()->Invalidate(m_pElement->m_pView);
-    //CDialogEx::OnOK();
+
+	//CDialogEx::OnOK();
 }
 
 

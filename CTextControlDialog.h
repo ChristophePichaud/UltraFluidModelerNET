@@ -26,4 +26,5 @@ public:
 	afx_msg void OnBnClickedCancel();
 	CEdit m_Text;
 	shared_ptr<CElement> m_pElement;
+    CEdit m_Text2;
 };
