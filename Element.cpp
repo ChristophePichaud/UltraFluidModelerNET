@@ -135,8 +135,8 @@ CElement::CElement()
 	m_point = CPoint(0, 0);
 	m_last = m_point;
 	m_text = _T("");
-	m_textConnector1 = _T("textConnector1");
-	m_textConnector2 = _T("textConnector2");
+	m_textConnector1 = _T("");
+	m_textConnector2 = _T("");
 	m_code = _T("");
 	m_textAlign = _T("None");
 	m_bColorFill = true;

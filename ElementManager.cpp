@@ -46,6 +46,8 @@ CElementManager::CElementManager()
 	m_pDialog = nullptr;
 	m_bTextDialogOpen = false;
 
+	m_ShowBackground = true;
+
 	// Initiate the connection with the Property Window
 	ConnectToPropertyGrid();
 }
@@ -544,17 +546,6 @@ void CElementManager::PrepareDC(CModeler1View * pView, CDC* pDC, CPrintInfo* pIn
 	pDC->OffsetWindowOrg(0, 0); //-ptOrg.x,ptOrg.y);
 }
 
-void CElementManager::DrawBackground(CModeler1View * pView, CDC * pDC)
-{
-	Graphics graphics(pDC->m_hDC);
-	CSize size = GetSize();
-	//SolidBrush brush(Color(255, 255, 255, 255));
-	Color colorLine(255, GetRValue(GetPaperColor()), GetGValue(GetPaperColor()), GetBValue(GetPaperColor()));
-	SolidBrush brush(colorLine);
-	Rect fillRect(0, 0 , size.cx, size.cy);
-	graphics.FillRectangle(&brush, fillRect);
-}
-
 void CElementManager::DrawConnector(Graphics& graphics, std::shared_ptr<CElement> pLineElement, ConnectorType connector)
 {
 	shared_ptr<CElement> pElement1; // = pLineElement->m_pConnector->m_pElement1;
@@ -631,6 +622,41 @@ void CElementManager::DrawConnector(Graphics& graphics, std::shared_ptr<CElement
 	}
 }
 
+void CElementManager::DrawBackground(CModeler1View* pView, CDC* pDC)
+{
+	Graphics graphics(pDC->m_hDC);
+	CSize size = GetSize();
+	//SolidBrush brush(Color(255, 255, 255, 255));
+	Color colorLine(255, GetRValue(GetPaperColor()), GetGValue(GetPaperColor()), GetBValue(GetPaperColor()));
+	SolidBrush brush(colorLine);
+	Rect fillRect(0, 0, size.cx, size.cy);
+	graphics.FillRectangle(&brush, fillRect);
+}
+
+void CElementManager::DrawPaperLines(CModeler1View* pView, CDC* pDC)
+{
+	if (m_ShowBackground == false)
+	{
+		return;
+	}
+	
+	Graphics graphics(pDC->m_hDC);
+	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+	CSize size = GetSize();
+
+	std::wstring imagePath = L"Images\\Custom\\background2.png";
+	Image image(CStringW(imagePath.c_str()));
+
+	for (int x = 0; x < size.cx; x+= image.GetWidth())
+	{
+		for (int y = 0; y < size.cy; y+=image.GetHeight())
+		{
+			Point p1(x,y);
+			graphics.DrawImage(&image, p1);
+		}
+	}
+}
+
 void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 {
 	// GUID for Windows controls
@@ -642,9 +668,8 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 	Graphics graphics(pDC->m_hDC);
 	// just like that
 	//graphics.ScaleTransform(0.75f, 0.75f);
-
 	//graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
-	
+
 	// Iterate on Line elements
 	// if connector1 exists, its draghandle 1 is connector1.centeroint else nothing (its inner value)
 	// if connector2 exists, its draghandle 2 is connector2.centeroint else nothing (its inner value)
@@ -974,6 +999,8 @@ void CElementManager::DrawEx(CModeler1View * pView, CDC * pDC)
 	
 	// Background drawing routine call
 	DrawBackground(pView, pDrawDC);
+
+	DrawPaperLines(pView, pDrawDC);
 
 	// Main drawing routine call
 	Draw(pView, pDrawDC);

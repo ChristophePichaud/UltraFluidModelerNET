@@ -68,6 +68,7 @@ public:
 	CRect m_DractRectHandleTrackerForConnectionPoint;
 	CTextControlDialog* m_pDialog;
 	bool m_bTextDialogOpen;
+	bool m_ShowBackground;
 	
 public:
 	// Selection 1st point
@@ -144,6 +145,7 @@ public:
 // Managing Background drawing
 public:
 	void DrawBackground(CModeler1View * pView, CDC * pDC);
+	void DrawPaperLines(CModeler1View* pView, CDC* pDC);
 
 // Managing UI object connections
 public:

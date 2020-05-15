@@ -123,6 +123,8 @@ protected:
 	afx_msg void OnUpdateViewClassView(CCmdUI* pCmdUI);
 	afx_msg void OnViewFileView();
 	afx_msg void OnUpdateViewFileView(CCmdUI* pCmdUI);
+	afx_msg void OnViewBackground();
+	afx_msg void OnUpdateViewBackground(CCmdUI* pCmdUI);
 	//afx_msg void OnPaint();
 	//afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	DECLARE_MESSAGE_MAP()

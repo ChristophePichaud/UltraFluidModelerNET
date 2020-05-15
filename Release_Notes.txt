@@ -1,3 +1,5 @@
+	Release Notes v 1.15.05.2020
+		- Paper background and show/hide in Ribbon Options
 	Release Notes v 1.14.05.2020
 		- Text connector 1&2 serialized as properties
 		- Text connectors displayed properly

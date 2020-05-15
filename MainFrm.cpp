@@ -31,6 +31,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_CLASS_VIEW, OnUpdateViewClassView)
 	ON_COMMAND(ID_VIEW_FILE_VIEW, OnViewFileView)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FILE_VIEW, OnUpdateViewFileView)
+	ON_COMMAND(ID_VIEW_BACKGROUND, OnViewBackground)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_BACKGROUND, OnUpdateViewBackground)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -614,6 +616,7 @@ void CMainFrame::InitMainButton()
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_FILE_VIEW, _T("Solution\nc")));
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_CLASS_VIEW, _T("Class\nc")));
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_PROPERTIES, _T("Properties\np")));
+	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_BACKGROUND, _T("Paper Background\nb")));
 
 }
 
@@ -843,6 +846,7 @@ void CMainFrame::OnViewProperties()
 {
 	m_wndProperties.ShowPane(!m_wndProperties.IsVisible(), FALSE, TRUE);
 }
+
 void CMainFrame::OnUpdateViewProperties(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndProperties.IsVisible());
@@ -866,6 +870,27 @@ void CMainFrame::OnViewFileView()
 void CMainFrame::OnUpdateViewFileView(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndFileView.IsVisible());
+}
+
+void CMainFrame::OnViewBackground()
+{
+	if (GetManager()->m_ShowBackground == true)
+	{
+		GetManager()->m_ShowBackground = false;
+	}
+	else
+	{
+		GetManager()->m_ShowBackground = true;;
+	}
+
+	CModeler1View* pView = GetActiveView();
+	GetManager()->Invalidate(pView);
+	pView->GetDocument()->UpdateAllViews(pView);
+}
+
+void CMainFrame::OnUpdateViewBackground(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(GetManager()->m_ShowBackground);
 }
 
 COLORREF CMainFrame::GetColorFromColorButton(int nButtonID)
