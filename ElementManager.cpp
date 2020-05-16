@@ -1450,6 +1450,9 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 		pView->LogDebug(_T("object drawing finished ->") + pElement->ToString());
 	}
 
+	//
+	// We are gonna end a slection rect...
+	//
 
 	if (m_bSelectionHasStarted == true)
 	{
@@ -1474,6 +1477,7 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 		//ViewToManager(pView, rect);
 		SelectNone();
 
+		shared_ptr<CElement> pLastSelected = nullptr;
 		vector<std::shared_ptr<CElement>> v = m_objects.ObjectsInRectEx(rect, m_selectType); // version Ex : do not select lines with full connector
 		if (v.size() != 0)
 		{
@@ -1484,12 +1488,16 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 					if (pElement->m_bGrouping == false)
 					{
 						Select(pElement);
-
-						// Update UI
-						UpdateUI(pView, pElement);
+						pLastSelected = pElement;
 					}
 				}
 			}
+		}
+
+		if (pLastSelected != nullptr)
+		{
+			// Update UI
+			UpdateUI(pView, pLastSelected);
 		}
 
 		pSelectionElement = nullptr;
