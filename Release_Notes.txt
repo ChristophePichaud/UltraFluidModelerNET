@@ -1,3 +1,5 @@
+	Release Notes v 1.16.05.2020
+		- Select All faster display with selecting only the last element
 	Release Notes v 1.15.05.2020
 		- Paper background and show/hide in Ribbon Options
 	Release Notes v 1.14.05.2020

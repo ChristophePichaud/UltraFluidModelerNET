@@ -410,7 +410,9 @@
     <None Include="res\UFM.rc2">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\bitmap1_new.xcf" />
+    <None Include="res\bitmap1_new.xcf">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Release_Notes.txt" />
