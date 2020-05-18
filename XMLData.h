@@ -116,6 +116,8 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_connectorShapesTextColorG);
 		ar& BOOST_SERIALIZATION_NVP(m_connectorShapesTextColorB);
 		ar& BOOST_SERIALIZATION_NVP(m_bShowConnectors);
+		ar& BOOST_SERIALIZATION_NVP(m_textConnector1);
+		ar& BOOST_SERIALIZATION_NVP(m_textConnector2);
 	}
 
 	template<class Archive>
@@ -181,6 +183,8 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_connectorShapesTextColorG);
 		ar& BOOST_SERIALIZATION_NVP(m_connectorShapesTextColorB);
 		ar& BOOST_SERIALIZATION_NVP(m_bShowConnectors);
+		ar& BOOST_SERIALIZATION_NVP(m_textConnector1);
+		ar& BOOST_SERIALIZATION_NVP(m_textConnector2);
 	}
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 
@@ -243,6 +247,8 @@ public:
 	int m_connectorShapesTextColorG;
 	int m_connectorShapesTextColorB;
 	bool m_bShowConnectors;
+	std::wstring m_textConnector1;
+	std::wstring m_textConnector2;
 };
 
 BOOST_CLASS_VERSION(CSimpleShape, 1)

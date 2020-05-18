@@ -3490,6 +3490,8 @@ void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 		pNewElement->m_connectorShapesTextColorG = GetGValue(pElement->m_connectorShapesTextColor);
 		pNewElement->m_connectorShapesTextColorB = GetBValue(pElement->m_connectorShapesTextColor);;
 		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
+		pNewElement->m_textConnector1 = pElement->m_textConnector1;
+		pNewElement->m_textConnector2 = pElement->m_textConnector2;
 
 
 		data->m_shapes.push_back(pNewElement);
@@ -3618,6 +3620,8 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 		int connectorShapesTextColorB = GetBValue(pElement->m_connectorShapesTextColorB);
 		pNewElement->m_connectorShapesTextColor = RGB(connectorShapesTextColorR, connectorShapesTextColorG, connectorShapesTextColorB);
 		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
+		pNewElement->m_textConnector1 = pElement->m_textConnector1;
+		pNewElement->m_textConnector2 = pElement->m_textConnector2;
 
 		m_objects.AddTail(pNewElement);
 		pView->LogDebug(_T("object created ->") + pNewElement->ToString());

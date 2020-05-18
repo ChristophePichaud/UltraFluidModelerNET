@@ -372,6 +372,8 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_topMargin = object.at(U("TopMargin")).as_integer();
 	pElement->m_rotateAngle = object.at(U("RotationAngle")).as_integer();
 	pElement->m_bShowElementName = object.at(U("bViewName")).as_integer();
+	pElement->m_textConnector1 = object.at(U("TextConnector1")).as_string();
+	pElement->m_textConnector2 = object.at(U("TextConnector2")).as_string();
 
 	return pElement;
 }
@@ -427,6 +429,8 @@ web::json::value CElement::AsJSON() const
 	res[U("TopMargin")] = web::json::value::number(m_topMargin);
 	res[U("RotationAngle")] = web::json::value::number(m_rotateAngle);
 	res[U("bViewName")] = web::json::value::number((int)m_bShowElementName);
+	res[U("TextConnector1")] = web::json::value::string(m_textConnector1);
+	res[U("TextConnector2")] = web::json::value::string(m_textConnector2);
 	return res;
 
 }
