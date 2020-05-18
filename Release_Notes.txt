@@ -1,3 +1,6 @@
+	Release Notes v 1.19.05.2020
+		- Windows Manager 
+		- New Window feature
 	Release Notes v 1.16.05.2020
 		- Select All faster display with selecting only the last element
 	Release Notes v 1.15.05.2020

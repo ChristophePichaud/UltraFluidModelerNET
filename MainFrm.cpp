@@ -98,6 +98,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// set the visual manager and style based on persisted value
 	OnApplicationLook(theApp.m_nAppLook);
 
+	CMFCRibbonQuickAccessToolBarDefaultState qatState;
+	qatState.RemoveAll();
+	qatState.AddCommand(ID_FILE_NEW);
+	qatState.AddCommand(ID_FILE_SAVE);
+	qatState.AddCommand(ID_DESIGN_CONNECT);
+	m_wndRibbonBar.SetQuickAccessDefaultState(qatState);
+
 	CMDITabInfo mdiTabParams;
 	mdiTabParams.m_style = CMFCTabCtrl::STYLE_3D_ONENOTE; // other styles available...
 	mdiTabParams.m_bActiveTabCloseButton = TRUE;      // set to FALSE to place close button at right of tab area
@@ -617,7 +624,10 @@ void CMainFrame::InitMainButton()
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_CLASS_VIEW, _T("Class\nc")));
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_PROPERTIES, _T("Properties\np")));
 	pPanelShow->Add(new CMFCRibbonCheckBox(ID_VIEW_BACKGROUND, _T("Paper Background\nb")));
-
+	//pPanelShow->Add(new CMFCRibbonButton(ID_WINDOW_MANAGER, _T("New Window\nw"), -1, 27));
+	CMFCRibbonButton* pBtnWindows = new CMFCRibbonButton(ID_WINDOW_MANAGER, _T("Windows\nw"), -1, 27);
+	pBtnWindows->SetMenu(IDR_WINDOWS_MENU);
+	pPanelShow->Add(pBtnWindows);
 }
 
 void CMainFrame::InitTabButtons()

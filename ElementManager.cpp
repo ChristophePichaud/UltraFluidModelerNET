@@ -1519,6 +1519,7 @@ void CElementManager::OnLButtonUp(CModeler1View* pView, UINT nFlags, const CPoin
 
 	m_selectMode = SelectMode::none;
 	pView->GetDocument()->SetModifiedFlag();
+	pView->GetDocument()->UpdateAllViews(pView);
 }
 
 void CElementManager::InvalObj(CModeler1View * pView, std::shared_ptr<CElement> pElement)
@@ -1668,6 +1669,8 @@ void CElementManager::UpdateUI(CModeler1View * pView, std::shared_ptr<CElement> 
 	UpdatePropertyGrid(pView, pElement);
 	// Update Ribbon UI
 	UpdateRibbonUI(pView, pElement);
+	
+	pView->GetDocument()->UpdateAllViews(pView);
 }
 
 void CElementManager::UpdatePropertyGrid(CModeler1View * pView, std::shared_ptr<CElement> pElement)
