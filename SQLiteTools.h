@@ -35,9 +35,8 @@ public:
         SelectPatientPKByBirthDate_Patient,
         SelectPatientPK_Patient,
 
-
-
         Insert_Diagram,
+        Update_Diagram,
         None
     };
 
@@ -80,7 +79,7 @@ protected:
     SQLite::Database* m_pDatabase;
 
 public:
-    bool Insert(int& id);
+    bool InsertOrUpdate(int& id);
     bool Select(long PatientPK);
     bool SelectCount(int& count);
 };

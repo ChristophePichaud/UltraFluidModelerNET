@@ -51,6 +51,9 @@ public:
 	int m_nDragHandle;
 	// Zoom float factor (default 1.0f)
 	float m_fZoomFactor;
+	// Diagram Id (database)
+	int m_diagramId;
+	std::wstring m_diagramName;
 	
 // Attributes Current UI interaction members
 public:

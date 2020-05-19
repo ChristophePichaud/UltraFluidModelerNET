@@ -51,6 +51,9 @@ CElementManager::CElementManager()
 
 	m_ShowBackground = true;
 
+	m_diagramId = 0;
+	m_diagramName = _T("");
+
 	// Initiate the connection with the Property Window
 	ConnectToPropertyGrid();
 }
@@ -3918,6 +3921,7 @@ void CElementManager::HideAllEditControls()
 void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 {
 	CDialogSaveDatabase dlg;
+	dlg.m_strDiagramName = m_diagramName.c_str();
 	if (dlg.DoModal() == IDCANCEL)
 	{
 		return;
@@ -3926,6 +3930,7 @@ void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 	// get data from dialog
 	std::wstring wdiagramName = (LPTSTR)(LPCTSTR)dlg.m_strDiagramName;
 	std::string diagramName(wdiagramName.begin(), wdiagramName.end());
+	m_diagramName = wdiagramName;
 
 	// serialize as json
 	web::json::value jdata = AsJSON();
@@ -3945,11 +3950,10 @@ void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 	SQLiteDiagramEntity diagramEntity(&db);
 	diagramEntity.FileName = diagramName;
 	diagramEntity.Json = strJson;
-	int id = 0;
-	diagramEntity.Insert(id);
+	diagramEntity.InsertOrUpdate(m_diagramId);
 	db.Close();
 
 	CString str;
-	str.Format(_T("Save To Database... Id=%d"), id);
+	str.Format(_T("Save To Database... Id=%d"), m_diagramId);
 	AfxMessageBox(str); // _T("Save To Database..."));
 }

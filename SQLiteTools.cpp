@@ -346,6 +346,9 @@ std::string SQLiteQueryString::GetSQLQuery(const SQLiteQueryString::Enum& item)
         sql = "INSERT INTO Diagram VALUES (NULL, datetime('now'), ?, ?);";
         break;
 
+    case Update_Diagram:
+        sql = "UPDATE Diagram SET Json=? WHERE DiagramPK=?;";
+        break;
     }
 
     return sql;
@@ -364,21 +367,45 @@ SQLiteDiagramEntity::~SQLiteDiagramEntity()
 {
 }
 
-bool SQLiteDiagramEntity::Insert(int& id)
+bool SQLiteDiagramEntity::InsertOrUpdate(int& id)
 {
     string sql;
-    sql = SQLiteQueryString::GetSQLQuery(SQLiteQueryString::Insert_Diagram);
 
-    SQLite::PreparedStmt stmt = m_pDatabase->CreatePreparedStmt(sql);
-    stmt.SetStringParameter(1, this->FileName);
-    stmt.SetStringParameter(2, this->Json);
-    //stmt.SetNullParameter(6);
+    if (id == 0)
+    {
+        // Insert
+        sql = SQLiteQueryString::GetSQLQuery(SQLiteQueryString::Insert_Diagram);
 
-    int rows;
-    if (!stmt.Execute(rows))
-        return false;
+        SQLite::PreparedStmt stmt = m_pDatabase->CreatePreparedStmt(sql);
+        stmt.SetStringParameter(1, this->FileName);
+        stmt.SetStringParameter(2, this->Json);
+        //stmt.SetNullParameter(6);
 
-    id = m_pDatabase->GetLastRowID();
+        int rows;
+        if (!stmt.Execute(rows))
+            return false;
+
+        stmt.Close();
+
+        id = m_pDatabase->GetLastRowID();
+    }
+    else
+    {
+        // Update
+        sql = SQLiteQueryString::GetSQLQuery(SQLiteQueryString::Update_Diagram);
+
+        SQLite::PreparedStmt stmt = m_pDatabase->CreatePreparedStmt(sql);
+        stmt.SetStringParameter(1, this->Json);
+        stmt.SetIntegerParameter(2, id);
+        //stmt.SetNullParameter(6);
+
+        int rows;
+        if (!stmt.Execute(rows))
+            return false;
+
+        stmt.Close();
+    }
+
     return true;
 }
 
