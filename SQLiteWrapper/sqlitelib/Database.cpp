@@ -1,6 +1,9 @@
 #include "pch.h"
+#include <string>
 #include "common/SQLiteWrapper.h"
 #include "common/sqlite.h"
+#include <sqlite/sqlite3.h>
+#include <sqlite/sqlite3userauth.h>
 #include "common/Database.h"
 #include "common/DatabaseException.h"
 #include "common/Query.h"
@@ -32,6 +35,17 @@ namespace SQLite
 		Close();
 	}
 
+	void Database::AddUser(std::string user, std::string password)
+	{
+		sqlite3_user_add(m_instance, user.c_str(), password.c_str(), password.size(), TRUE);
+	}
+
+	bool Database::AuthenticateUser(std::string user, std::string password)
+	{
+		sqlite3_user_authenticate(m_instance, user.c_str(), password.c_str(), password.size());
+		return true;
+	}
+
 	bool Database::IsOpen()
 	{
 		bool retValue = (m_instance != NULL);
@@ -60,15 +74,50 @@ namespace SQLite
 		m_DatabaseFileName = filename;
 	}
 
+	bool Database::CreateAdminUser()
+	{
+		int retValue = sqlite3_open_v2(m_DatabaseFileName.c_str(), &m_instance, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+		m_bOpen = (retValue == SQLITE_OK);
+		if (!m_bOpen)
+		{
+			ReportError(" opening database file " + m_DatabaseFileName + " ");
+		}
+
+		std::string user = "ADMIN";
+		std::string password = "PASSWORD";
+
+		retValue = sqlite3_user_add(m_instance, user.c_str(), password.c_str(), password.size(), TRUE);
+		if (retValue == SQLITE_OK)
+			return true;
+
+		return false;
+	}
+
 	bool Database::Open()
 	{
-		int retValue = sqlite3_open(m_DatabaseFileName.c_str(), &m_instance);
+		int retValue = sqlite3_open_v2(m_DatabaseFileName.c_str(), &m_instance, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 		m_bOpen = (retValue == SQLITE_OK);
 		if (!m_bOpen)
 		{
 			ReportError(" opening database file " + m_DatabaseFileName + " ");
 		}
 		return m_bOpen;
+	}
+
+	bool Database::OpenEx(std::string user, std::string password)
+	{
+		int retValue = sqlite3_open_v2(m_DatabaseFileName.c_str(), &m_instance, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+		m_bOpen = (retValue == SQLITE_OK);
+		if (!m_bOpen)
+		{
+			ReportError(" opening database file " + m_DatabaseFileName + " ");
+		}
+
+		retValue = sqlite3_user_authenticate(m_instance, user.c_str(), password.c_str(), password.size());
+		if (retValue == SQLITE_OK)
+			return true;
+
+		return false;
 	}
 
 	bool Database::Close()

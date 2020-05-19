@@ -127,6 +127,7 @@ protected:
 	afx_msg void OnUpdateViewBackground(CCmdUI* pCmdUI);
 	//afx_msg void OnPaint();
 	//afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnDatabaseSettings();
 	DECLARE_MESSAGE_MAP()
 
 	CMFCOutlookBarTabCtrl* FindOutlookParent(CWnd* pWnd);

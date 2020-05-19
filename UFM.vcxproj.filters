@@ -99,6 +99,9 @@
     <ClInclude Include="SplashWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CDialogDatabaseSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -171,6 +174,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SplashWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDialogDatabaseSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

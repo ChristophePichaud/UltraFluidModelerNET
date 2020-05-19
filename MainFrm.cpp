@@ -6,10 +6,10 @@
 
 #include "stdafx.h"
 #include "Modeler1.h"
-
 #include "MainFrm.h"
 #include "ElementContainer.h"
 #include "SplashWnd.h"
+#include "CDialogDatabaseSettings.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FILE_VIEW, OnUpdateViewFileView)
 	ON_COMMAND(ID_VIEW_BACKGROUND, OnViewBackground)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_BACKGROUND, OnUpdateViewBackground)
+	ON_COMMAND(ID_DATABASE_SETTINGS, OnDatabaseSettings)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -612,6 +613,9 @@ void CMainFrame::InitMainButton()
 	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_FOLDERS, _T("Folders\nc"), 48));
 	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 58));
 	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
+	// Create "Database" panel
+	CMFCRibbonPanel* pPanelDatabase = pFeaturesCategory->AddPanel(_T("Database\ndb"), m_PanelImages.ExtractIcon(2));
+	pPanelDatabase->Add(new CMFCRibbonButton(ID_DATABASE_SETTINGS, _T("Settings...\nc"), -1, 28));
 
 	//
 	// Category Options
@@ -1155,6 +1159,13 @@ CModeler1View* CMainFrame::GetActiveView()
 
 	return nullptr;
 }
+
+void CMainFrame::OnDatabaseSettings()
+{
+	CDialogDatabaseSettings dlg;
+	dlg.DoModal();
+}
+
 /*
 BOOL CMainFrame::OnEraseBkgnd(CDC* pDC)
 {

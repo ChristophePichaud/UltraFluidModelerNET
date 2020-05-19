@@ -199,6 +199,8 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//    afx_msg void OnBnClickedFolders();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -241,5 +243,7 @@ void CModeler1App::SaveCustomState()
 
 // CModeler1App message handlers
 
-
-
+//void CAboutDlg::OnBnClickedFolders()
+//{
+//    // TODO: Add your control notification handler code here
+//}

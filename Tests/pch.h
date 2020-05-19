@@ -10,8 +10,6 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
-#define SQLITE_USER_AUTHENTICATION TRUE 
-
 #pragma comment(lib, "sqlite.lib")
 #pragma comment(lib, "SQLiteWrapper.lib")
 

@@ -1,7 +1,6 @@
 #ifndef __Database_H__
 #define __Database_H__
 
-#include <string>
 #include <sqlite/sqlite3.h>
 
 namespace SQLite
@@ -18,10 +17,14 @@ namespace SQLite
         virtual ~Database(void);
 
     public:
+        void AddUser(std::string user, std::string password);
+        bool AuthenticateUser(std::string user, std::string password);
         bool IsOpen();
         sqlite3_stmt* PrepareQuery(std::string query);
         void SetFileName(std::string filename);
+        bool CreateAdminUser();
         bool Open();
+        bool OpenEx(std::string user, std::string password);
         bool Close();
         void ReportError(std::string context);
         int ExecuteCommand(std::string command, int& rows);
