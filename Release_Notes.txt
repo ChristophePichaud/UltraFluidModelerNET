@@ -1,4 +1,6 @@
 	Release Notes v 1.19.05.2020
+		- sqlite build
+		- SQLite wrapper
 		- Windows Manager 
 		- New Window feature
 	Release Notes v 1.16.05.2020
