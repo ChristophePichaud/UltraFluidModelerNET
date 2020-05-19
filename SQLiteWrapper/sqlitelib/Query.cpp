@@ -140,6 +140,24 @@ namespace SQLite
 		return retValue;
 	}
 
+	long Query::GetLongValue(int index)
+	{
+		long retValue;
+		if (!IsStmtOpen())
+		{
+			DatabaseException::ReportUserError("getIntValue", "bad statement");
+		}
+		if (IsColumnIndexValid(index))
+		{
+			retValue = sqlite3_column_int64(m_statement, index);
+		}
+		else
+		{
+			DatabaseException::ReportUserError("getIntValue", "bad column index");
+		}
+		return retValue;
+	}
+
 	std::string Query::GetStringValue(int index)
 	{
 		std::string retValue;

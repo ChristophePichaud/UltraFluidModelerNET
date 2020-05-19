@@ -13,6 +13,7 @@
 #include "Modeler1SourceView.h"
 #include "XMLData.h"
 #include "CDialogSaveDatabase.h"
+#include "CDialogLoadDatabase.h"
 #include "SQLiteTools.h"
 
 //
@@ -3956,4 +3957,36 @@ void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 	CString str;
 	str.Format(_T("Save To Database... Id=%d"), m_diagramId);
 	AfxMessageBox(str); // _T("Save To Database..."));
+}
+
+void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
+{
+	CDialogLoadDatabase dlg;
+	if (dlg.DoModal() == IDCANCEL)
+	{
+		return;
+	}
+
+	// serialize as json
+	//web::json::value jdata = AsJSON();
+	//wstring json = jdata.serialize();
+	//string strJson(json.begin(), json.end());
+
+	// open database
+	SQLite::Database db;
+	string dbName = UFM_SQLITE_DATABASE;
+	db.SetDatabaseName(dbName);
+	if (!db.OpenEx(UFM_SQLITE_USER, UFM_SQLITE_PASSWORD))
+		return;
+
+	db.SetBusyTimeout(100000);
+
+	// store to db
+	SQLiteDiagramEntity diagramEntity(&db);
+	diagramEntity.SelectAll();
+	db.Close();
+
+	//CString str;
+	//str.Format(_T("Save To Database... Id=%d"), m_diagramId);
+	//AfxMessageBox(str); // _T("Save To Database..."));
 }

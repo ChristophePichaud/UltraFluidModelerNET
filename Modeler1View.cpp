@@ -204,6 +204,7 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnUpdateFileFormatExpandLarge)
 	ON_WM_LBUTTONDBLCLK()
 	ON_COMMAND(ID_FILE_SAVE_DATABASE, &CModeler1View::OnFileSaveDatabase)
+	ON_COMMAND(ID_FILE_LOAD_DATABASE, &CModeler1View::OnFileLoadDatabase)
 END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
@@ -1488,5 +1489,11 @@ void CModeler1View::OnFileSaveDatabase()
 {
 	GetManager()->OnFileSaveDatabase(this);
 }
+
+void CModeler1View::OnFileLoadDatabase()
+{
+	GetManager()->OnFileLoadDatabase(this);
+}
+
 
 

@@ -233,6 +233,7 @@ public:
 	void OnFileImportJSON(CModeler1View* pView);
 	void OnFileExportJSON(CModeler1View* pView);
 	void OnFileSaveDatabase(CModeler1View* pView);
+	void OnFileLoadDatabase(CModeler1View* pView);
 
 // Font
 public:

@@ -190,6 +190,7 @@
     <ClInclude Include="AppInit.h" />
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CDialogDatabaseSettings.h" />
+    <ClInclude Include="CDialogLoadDatabase.h" />
     <ClInclude Include="CDialogSaveDatabase.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="AppInit.cpp" />
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CDialogDatabaseSettings.cpp" />
+    <ClCompile Include="CDialogLoadDatabase.cpp" />
     <ClCompile Include="CDialogSaveDatabase.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />

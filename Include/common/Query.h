@@ -39,6 +39,7 @@ namespace SQLite
         ColumnType GetColumnType(int index);
         double GetDoubleValue(int index);
         int GetIntValue(int index);
+        long GetLongValue(int index);
         std::string GetStringValue(int index);
         void MoveNext();
     };

@@ -37,6 +37,7 @@ public:
 
         Insert_Diagram,
         Update_Diagram,
+        SelectAll_Diagram,
         None
     };
 
@@ -66,6 +67,7 @@ public:
 class SQLiteDiagramEntity
 {
 public:
+    SQLiteDiagramEntity();
     SQLiteDiagramEntity(SQLite::Database* pDatabase);
     virtual ~SQLiteDiagramEntity();
 
@@ -80,6 +82,7 @@ protected:
 
 public:
     bool InsertOrUpdate(int& id);
+    vector<shared_ptr<SQLiteDiagramEntity>> SelectAll();
     bool Select(long PatientPK);
     bool SelectCount(int& count);
 };

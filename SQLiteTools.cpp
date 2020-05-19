@@ -349,6 +349,10 @@ std::string SQLiteQueryString::GetSQLQuery(const SQLiteQueryString::Enum& item)
     case Update_Diagram:
         sql = "UPDATE Diagram SET Json=? WHERE DiagramPK=?;";
         break;
+        
+    case SelectAll_Diagram:
+        sql = "SELECT DiagramPK, LastUpdate, FileName, Json FROM Diagram;";
+        break;
     }
 
     return sql;
@@ -357,6 +361,10 @@ std::string SQLiteQueryString::GetSQLQuery(const SQLiteQueryString::Enum& item)
 //
 // SQLiteDiagramEntity
 //
+
+SQLiteDiagramEntity::SQLiteDiagramEntity()
+{
+}
 
 SQLiteDiagramEntity::SQLiteDiagramEntity(SQLite::Database* pDatabase)
 {
@@ -409,6 +417,50 @@ bool SQLiteDiagramEntity::InsertOrUpdate(int& id)
     return true;
 }
 
+vector<shared_ptr<SQLiteDiagramEntity>> SQLiteDiagramEntity::SelectAll()
+{
+
+    vector<shared_ptr<SQLiteDiagramEntity>> vDiagrams;
+    string sql;
+
+    try
+    {
+        sql = SQLiteQueryString::GetSQLQuery(SQLiteQueryString::SelectAll_Diagram);
+        int rows = 0;
+
+        //SQLite::Query q;
+        //q = m_pDatabase->ExecuteQuery("select count(*) from Diagram", rows);
+        //int count = q.GetLongValue(0);
+        //q.Close();
+
+        rows = 0;
+        SQLite::Query query;
+        query = m_pDatabase->ExecuteQuery(sql, rows);
+
+        while (query.IsEOF() == false)
+        {
+            shared_ptr<SQLiteDiagramEntity> sde = make_shared<SQLiteDiagramEntity>();
+
+            sde->DiagramPK = query.GetLongValue(0);
+            sde->LastUpdate = query.GetStringValue(1);
+            sde->FileName = query.GetStringValue(2);
+            sde->Json = query.GetStringValue(3);
+
+            vDiagrams.push_back(sde);
+
+            query.MoveNext();
+        }
+
+        query.Close();
+    }
+    catch (SQLite::DatabaseException ex)
+    {
+        std::cerr << ex.ToString() << std::endl;
+    }
+
+    return vDiagrams;
+}
+
 bool SQLiteDiagramEntity::Select(long PatientPK)
 {
     /*
@@ -446,6 +498,7 @@ bool SQLiteDiagramEntity::SelectCount(int& count)
     */
     return true;
 }
+
 
 #ifdef OLD
 bool SQLiteDiagramEntity::SelectCountByLastName(std::string LastName, int& count)
