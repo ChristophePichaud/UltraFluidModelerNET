@@ -115,6 +115,24 @@ using namespace std;
     #endif
 #endif
 
+
+
+#include "common/SQLiteWrapper.h"
+#include "common/Database.h"
+#include "common/DatabaseException.h"
+#include "common/PreparedStmt.h"
+
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment(lib, "sqlite.lib")
+        #pragma comment(lib, "SQLiteWrapper.lib")
+    #else    
+        #pragma comment(lib, "sqlite.lib")
+        #pragma comment(lib, "SQLiteWrapper.lib")
+    #endif
+#endif
+
+
 #define VERSION_COMMUNITY
 #define MAX_SHAPES          50
 

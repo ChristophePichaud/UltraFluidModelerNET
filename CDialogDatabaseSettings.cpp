@@ -40,10 +40,47 @@ END_MESSAGE_MAP()
 void CDialogDatabaseSettings::OnBnClickedFolders()
 {
 	// TODO: Add your control notification handler code here
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+
+	CStringW fileName = dlg.GetPathName();
+	std::wstring wfn = (LPTSTR)(LPCTSTR)fileName;
+
+	m_strDatabaseFile = wfn.c_str();
+	UpdateData(FALSE);
 }
 
 
 void CDialogDatabaseSettings::OnBnClickedSetDatabase()
 {
 	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	std::wstring filename = (LPTSTR)(LPCTSTR)m_strDatabaseFile;
+	std::string fn(filename.begin(), filename.end());
+
+	SQLite::Database database(fn);
+	try
+	{
+		bool bret = database.Open();
+		if (bret == false)
+		{
+			std::cout << "Open failed" << std::endl;
+			return;
+		}
+
+		database.SetBusyTimeout(100000);
+		database.CreateAdminUser();
+		database.Close();
+	}
+	catch (SQLite::DatabaseException ex)
+	{
+		//std::cerr << ex.ToString() << std::endl;
+		string err = ex.ToString();
+		wstring werr(err.begin(), err.end());
+		AfxMessageBox(werr.c_str());
+		return;
+	}
+
+	AfxMessageBox(_T("Database created OK !"));
 }
