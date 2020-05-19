@@ -4,6 +4,7 @@
 #include "StdAfx.h"
 #include "CDialogDatabaseSettings.h"
 #include "afxdialogex.h"
+#include "SQLiteTools.h"
 #include "resource.h"
 
 // CDialogDatabaseSettings dialog
@@ -59,28 +60,8 @@ void CDialogDatabaseSettings::OnBnClickedSetDatabase()
 	std::wstring filename = (LPTSTR)(LPCTSTR)m_strDatabaseFile;
 	std::string fn(filename.begin(), filename.end());
 
-	SQLite::Database database(fn);
-	try
-	{
-		bool bret = database.Open();
-		if (bret == false)
-		{
-			std::cout << "Open failed" << std::endl;
-			return;
-		}
-
-		database.SetBusyTimeout(100000);
-		database.CreateAdminUser();
-		database.Close();
-	}
-	catch (SQLite::DatabaseException ex)
-	{
-		//std::cerr << ex.ToString() << std::endl;
-		string err = ex.ToString();
-		wstring werr(err.begin(), err.end());
-		AfxMessageBox(werr.c_str());
-		return;
-	}
+	SQLiteTools tools;
+	tools.CreateDatabase(fn);
 
 	AfxMessageBox(_T("Database created OK !"));
 }

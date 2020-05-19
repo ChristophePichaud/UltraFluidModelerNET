@@ -8,6 +8,7 @@
 #include "common/DatabaseException.h"
 #include "common/Query.h"
 #include "common/PreparedStmt.h"
+#include "Common/Security_Strings.h"
 
 namespace SQLite
 {
@@ -33,6 +34,11 @@ namespace SQLite
 	Database::~Database(void)
 	{
 		Close();
+	}
+
+	void Database::SetDatabaseName(std::string fileName)
+	{
+		m_DatabaseFileName = fileName;
 	}
 
 	void Database::AddUser(std::string user, std::string password)
@@ -83,8 +89,8 @@ namespace SQLite
 			ReportError(" opening database file " + m_DatabaseFileName + " ");
 		}
 
-		std::string user = "ADMIN";
-		std::string password = "PASSWORD";
+		std::string user = UFM_SQLITE_USER;
+		std::string password = UFM_SQLITE_PASSWORD;
 
 		retValue = sqlite3_user_add(m_instance, user.c_str(), password.c_str(), password.size(), TRUE);
 		if (retValue == SQLITE_OK)
@@ -144,6 +150,11 @@ namespace SQLite
 		DatabaseException::ReportError(context, errorCode, errorMessage);
 	}
 
+	int Database::ExecuteSQL(std::string sql, int& rows)
+	{
+		return ExecuteCommand(sql, rows);
+	}
+		
 	int Database::ExecuteCommand(std::string command, int& rows)
 	{
 		int retValue = 0;

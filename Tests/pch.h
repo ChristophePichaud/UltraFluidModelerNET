@@ -10,7 +10,14 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
-#pragma comment(lib, "sqlite.lib")
-#pragma comment(lib, "SQLiteWrapper.lib")
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment(lib, "sqlited.lib")
+        #pragma comment(lib, "SQLiteWrapperd.lib")
+    #else    
+        #pragma comment(lib, "sqlite.lib")
+        #pragma comment(lib, "SQLiteWrapper.lib")
+    #endif
+#endif
 
 #endif //PCH_H

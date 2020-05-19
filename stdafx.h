@@ -121,11 +121,12 @@ using namespace std;
 #include "common/Database.h"
 #include "common/DatabaseException.h"
 #include "common/PreparedStmt.h"
+#include "Common/Security_Strings.h"
 
 #ifdef _WIN64
     #ifdef _DEBUG
-        #pragma comment(lib, "sqlite.lib")
-        #pragma comment(lib, "SQLiteWrapper.lib")
+        #pragma comment(lib, "sqlited.lib")
+        #pragma comment(lib, "SQLiteWrapperd.lib")
     #else    
         #pragma comment(lib, "sqlite.lib")
         #pragma comment(lib, "SQLiteWrapper.lib")

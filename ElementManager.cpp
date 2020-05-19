@@ -12,6 +12,9 @@
 #include "TabbedView.h"
 #include "Modeler1SourceView.h"
 #include "XMLData.h"
+#include "CDialogSaveDatabase.h"
+#include "SQLiteTools.h"
+
 //
 // CElementManager
 //
@@ -3912,3 +3915,41 @@ void CElementManager::HideAllEditControls()
 {
 }
 
+void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
+{
+	CDialogSaveDatabase dlg;
+	if (dlg.DoModal() == IDCANCEL)
+	{
+		return;
+	}
+
+	// get data from dialog
+	std::wstring wdiagramName = (LPTSTR)(LPCTSTR)dlg.m_strDiagramName;
+	std::string diagramName(wdiagramName.begin(), wdiagramName.end());
+
+	// serialize as json
+	web::json::value jdata = AsJSON();
+	wstring json = jdata.serialize();
+	string strJson(json.begin(), json.end());
+
+	// open database
+	SQLite::Database db;
+	string dbName = UFM_SQLITE_DATABASE;
+	db.SetDatabaseName(dbName);
+	if (!db.OpenEx(UFM_SQLITE_USER, UFM_SQLITE_PASSWORD))
+		return;
+
+	db.SetBusyTimeout(100000);
+
+	// store to db
+	SQLiteDiagramEntity diagramEntity(&db);
+	diagramEntity.FileName = diagramName;
+	diagramEntity.Json = strJson;
+	int id = 0;
+	diagramEntity.Insert(id);
+	db.Close();
+
+	CString str;
+	str.Format(_T("Save To Database... Id=%d"), id);
+	AfxMessageBox(str); // _T("Save To Database..."));
+}

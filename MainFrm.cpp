@@ -343,6 +343,8 @@ void CMainFrame::InitMainButton()
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_SAVE, _T("&Save"), 2, 2));
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_SAVE_AS, _T("Save &As..."), 3, 3));
 	pMainPanel->AddSeparator();
+	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_SAVE_DATABASE, _T("Save To &Database"), 2, 2));
+	pMainPanel->AddSeparator();
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_IMPORT_XML, _T("Import &XML..."), 1, 1));
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_EXPORT_XML, _T("Export As &XML..."), 2, 2));
 	pMainPanel->AddSeparator();

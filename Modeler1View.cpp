@@ -202,8 +202,9 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_HIGH, &CModeler1View::OnUpdateFileFormatExpandHigh)
 	ON_COMMAND(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnFileFormatExpandLarge)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_EXPAND_LARGE, &CModeler1View::OnUpdateFileFormatExpandLarge)
-		ON_WM_LBUTTONDBLCLK()
-		END_MESSAGE_MAP()
+	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_FILE_SAVE_DATABASE, &CModeler1View::OnFileSaveDatabase)
+END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
 
@@ -1290,6 +1291,7 @@ void CModeler1View::OnEditOpenFile()
 	GetManager()->OpenFile(this);
 }
 
+
 void CModeler1View::OnUpdateEditOpenFile(CCmdUI* pCmdUI)
 {
 	if (GetManager()->m_selection.GetCount() == 1)
@@ -1480,6 +1482,11 @@ void CModeler1View::OnLButtonDblClk(UINT nFlags, CPoint point)
 	GetManager()->OnLButtonDblClk(this, nFlags, point);
 
 	CScrollView::OnLButtonDblClk(nFlags, point);
+}
+
+void CModeler1View::OnFileSaveDatabase()
+{
+	GetManager()->OnFileSaveDatabase(this);
 }
 
 

@@ -17,6 +17,7 @@ namespace SQLite
         virtual ~Database(void);
 
     public:
+        void SetDatabaseName(std::string fileName);
         void AddUser(std::string user, std::string password);
         bool AuthenticateUser(std::string user, std::string password);
         bool IsOpen();
@@ -27,6 +28,7 @@ namespace SQLite
         bool OpenEx(std::string user, std::string password);
         bool Close();
         void ReportError(std::string context);
+        int ExecuteSQL(std::string sql, int& rows);
         int ExecuteCommand(std::string command, int& rows);
         Query ExecuteQuery(std::string query, int& rows);
         PreparedStmt CreatePreparedStmt(std::string statement);

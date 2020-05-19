@@ -12,6 +12,7 @@
 #include "common/Database.h"
 #include "common/DatabaseException.h"
 #include "common/PreparedStmt.h"
+#include "Common/Security_Strings.h"
 
 int main(int argc, char* argv[])
 {
@@ -49,7 +50,9 @@ int main(int argc, char* argv[])
 		//	std::cout << "Open failed" << std::endl;
 		//	return 0;
 		//}
-		bret = testDB2_bis.OpenEx("ADMIN2", "PASSWORD2");
+		std::string user = UFM_SQLITE_USER;
+		std::string password = UFM_SQLITE_PASSWORD;
+		bret = testDB2_bis.OpenEx(user.c_str(), password.c_str());
 		if (bret == false)
 		{
 			std::cout << "OpenEx failed" << std::endl;

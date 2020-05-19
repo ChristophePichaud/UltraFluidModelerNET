@@ -12,7 +12,12 @@
 
 #define SQLITE_USER_AUTHENTICATION TRUE 
 
-#pragma comment(lib, "sqlite.lib")
-#pragma comment(lib, "SQLiteWrapper.lib")
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment(lib, "sqlited.lib")
+    #else    
+        #pragma comment(lib, "sqlite.lib")
+    #endif
+#endif
 
 #endif //PCH_H

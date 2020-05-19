@@ -10,7 +10,7 @@
 #endif
 
 #include "resource.h"       // main symbols
-
+#include "GlobalData.h"
 
 // CModeler1App:
 // See Modeler1.cpp for the implementation of this class
@@ -23,6 +23,10 @@ public:
 
 private:
 	HINSTANCE m_hSciDLL;
+
+// Attributes
+public:
+	GlobalData m_GlobalData;
 
 // Overrides
 public:

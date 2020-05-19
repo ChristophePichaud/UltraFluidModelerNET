@@ -190,6 +190,7 @@
     <ClInclude Include="AppInit.h" />
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CDialogDatabaseSettings.h" />
+    <ClInclude Include="CDialogSaveDatabase.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Constants.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="ElementManager.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GlobalData.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Modeler1.h" />
     <ClInclude Include="Modeler1Doc.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RibbonListButton.h" />
     <ClInclude Include="SplashWnd.h" />
+    <ClInclude Include="SQLiteTools.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TabbedView.h" />
     <ClInclude Include="targetver.h" />
@@ -221,6 +224,7 @@
     <ClCompile Include="AppInit.cpp" />
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CDialogDatabaseSettings.cpp" />
+    <ClCompile Include="CDialogSaveDatabase.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CTextControlDialog.cpp" />
@@ -231,6 +235,7 @@
     <ClCompile Include="ElementFactory.cpp" />
     <ClCompile Include="ElementManager.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="GlobalData.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="Modeler1.cpp" />
     <ClCompile Include="Modeler1Doc.cpp" />
@@ -240,6 +245,7 @@
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="RibbonListButton.cpp" />
     <ClCompile Include="SplashWnd.cpp" />
+    <ClCompile Include="SQLiteTools.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TabbedView.cpp" />
     <ClCompile Include="XMLData.cpp" />
