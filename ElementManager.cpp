@@ -3956,7 +3956,7 @@ void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 
 	CString str;
 	str.Format(_T("Save To Database... Id=%d"), m_diagramId);
-	AfxMessageBox(str); // _T("Save To Database..."));
+	//AfxMessageBox(str); // _T("Save To Database..."));
 }
 
 void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
@@ -3967,26 +3967,57 @@ void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
 		return;
 	}
 
-	// serialize as json
-	//web::json::value jdata = AsJSON();
-	//wstring json = jdata.serialize();
-	//string strJson(json.begin(), json.end());
+	wstring diagramName = dlg.m_diagramName;
 
-	// open database
-	SQLite::Database db;
-	string dbName = UFM_SQLITE_DATABASE;
-	db.SetDatabaseName(dbName);
-	if (!db.OpenEx(UFM_SQLITE_USER, UFM_SQLITE_PASSWORD))
+	auto it = find_if(dlg.m_vDiagrams.begin(), dlg.m_vDiagrams.end(), [diagramName](shared_ptr<SQLiteDiagramEntity> sde) {
+		wstring fn(sde->FileName.begin(), sde->FileName.end());
+		if (fn == diagramName)
+		{
+			return true;
+		}
+		return false;
+	}
+	);
+
+	if (it == dlg.m_vDiagrams.end())
 		return;
 
-	db.SetBusyTimeout(100000);
+	shared_ptr<SQLiteDiagramEntity> sde = *it;
+	string json = sde->Json;
+	wstring wjson(json.begin(), json.end());
 
-	// store to db
-	SQLiteDiagramEntity diagramEntity(&db);
-	diagramEntity.SelectAll();
-	db.Close();
+	m_objects.RemoveAll();
+	Invalidate(pView);
 
-	//CString str;
-	//str.Format(_T("Save To Database... Id=%d"), m_diagramId);
-	//AfxMessageBox(str); // _T("Save To Database..."));
+	try
+	{
+		web::json::value jdata = web::json::value::parse(wjson);
+		FromJSON(jdata.as_object());
+	}
+	catch (web::json::json_exception ex)
+	{
+		string str = ex.what();
+		wstring w(str.begin(), str.end());
+		AfxMessageBox(w.c_str());
+		return;
+	}
+
+	for (shared_ptr<CElement> pElement : GetObjects())
+	{
+		if (pElement->IsLine())
+		{
+			pElement->m_pConnector->m_pElement1 = m_objects.FindElementByName(pElement->m_connectorName1);
+			pElement->m_pConnector->m_pElement2 = m_objects.FindElementByName(pElement->m_connectorName2);
+		}
+
+		pElement->m_pManager = this; // TODO
+
+		POSITION pos = /*pNewElement->m_pView =*/ pView->GetDocument()->GetFirstViewPosition(); //nullptr; // TODO
+		pElement->m_pView = (CModeler1View*)(pView->GetDocument()->GetNextView(pos)); //()->GetRoutingView();
+	}
+
+	// Build groups
+	BuildGroups();
+
+	BuildElementsCombo(pView);
 }

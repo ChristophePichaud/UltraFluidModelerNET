@@ -25,8 +25,10 @@ protected:
 
 public:
 	vector<shared_ptr<SQLiteDiagramEntity>> m_vDiagrams;
+	std::wstring m_diagramName;
 
 public:
 	CListCtrl m_lstReportDiagram;
 	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedOk();
 };

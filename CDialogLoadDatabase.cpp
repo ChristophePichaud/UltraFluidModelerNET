@@ -30,6 +30,7 @@ void CDialogLoadDatabase::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDialogLoadDatabase, CDialogEx)
+	ON_BN_CLICKED(IDOK, &CDialogLoadDatabase::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -74,16 +75,38 @@ BOOL CDialogLoadDatabase::OnInitDialog()
 		buff << _T("Id:") << sde->DiagramPK << _T(", LastUpdate:") << lu << _T(", FileName:") << fn << _T("\n");
 
 		m_lstReportDiagram.InsertItem(count, fn.c_str());
-		m_lstReportDiagram.SetItemText(count,  1, lu.c_str());
+		m_lstReportDiagram.SetItemText(count, 1, lu.c_str());
 		m_lstReportDiagram.SetItemText(count, 2, to_wstring(sde->DiagramPK).c_str());
 		count++;
 	}
 
 	std::wstring str = buff.str();
-
-	AfxMessageBox(str.c_str());
-
+	//AfxMessageBox(str.c_str());
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+
+void CDialogLoadDatabase::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+
+	int uSelectedCount = m_lstReportDiagram.GetSelectedCount();
+	if (uSelectedCount == 0)
+	{
+		AfxMessageBox(_T("Select a Diagram..."));
+		return;
+	}
+
+	int  nItem = -1;
+	// Get Cmd
+	nItem = m_lstReportDiagram.GetNextItem(nItem, LVNI_SELECTED);
+	CString str = m_lstReportDiagram.GetItemText(nItem, 0);
+	//AfxMessageBox(str);
+
+	m_diagramName = (LPTSTR)(LPCTSTR)str;
+
+	CDialogEx::OnOK();
 }
