@@ -4,10 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UFM", "UFM.vcxproj", "{FB7E9697-6819-4F3D-88E8-F20305644D58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089} = {5C104574-96C1-4453-B07F-DD1B0C3AB089}
+		{AE59CDA0-369A-42C7-8F8D-866055D718CB} = {AE59CDA0-369A-42C7-8F8D-866055D718CB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SQLiteWrapper", "SQLiteWrapper\SQLiteWrapper.vcxproj", "{AE59CDA0-369A-42C7-8F8D-866055D718CB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089} = {5C104574-96C1-4453-B07F-DD1B0C3AB089}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{A7B99F4A-D150-4183-AF84-951E1974BC8B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089} = {5C104574-96C1-4453-B07F-DD1B0C3AB089}
+		{AE59CDA0-369A-42C7-8F8D-866055D718CB} = {AE59CDA0-369A-42C7-8F8D-866055D718CB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite", "sqlite\sqlite.vcxproj", "{5C104574-96C1-4453-B07F-DD1B0C3AB089}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +54,14 @@ Global
 		{A7B99F4A-D150-4183-AF84-951E1974BC8B}.Release|x64.Build.0 = Release|x64
 		{A7B99F4A-D150-4183-AF84-951E1974BC8B}.Release|x86.ActiveCfg = Release|Win32
 		{A7B99F4A-D150-4183-AF84-951E1974BC8B}.Release|x86.Build.0 = Release|Win32
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Debug|x64.ActiveCfg = Debug|x64
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Debug|x64.Build.0 = Debug|x64
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Debug|x86.ActiveCfg = Debug|Win32
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Debug|x86.Build.0 = Debug|Win32
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x64.ActiveCfg = Release|x64
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x64.Build.0 = Release|x64
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x86.ActiveCfg = Release|Win32
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
