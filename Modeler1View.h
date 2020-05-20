@@ -230,6 +230,8 @@ public:
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnFileSaveDatabase();
 	afx_msg void OnFileLoadDatabase();
+	afx_msg void OnOperationDelete();
+	afx_msg void OnUpdateOperationDelete(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

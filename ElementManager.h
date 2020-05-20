@@ -128,7 +128,8 @@ public:
 	void OnEditCut(CModeler1View * pView);
 	void OnEditCopy(CModeler1View * pView);
 	void OnEditPaste(CModeler1View * pView);
-	
+	void OnOperationDelete(CModeler1View* pView);
+
 // Managing Object Positions
 public:
 	void MoveToFront(CModeler1View * pView);

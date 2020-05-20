@@ -4021,3 +4021,12 @@ void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
 
 	BuildElementsCombo(pView);
 }
+
+void CElementManager::OnOperationDelete(CModeler1View* pView)
+{
+	// the clipboard is cleared
+	m_clipboard.RemoveAll();
+	// the current selection is cleared
+	RemoveSelectedObjects(pView);
+}
+

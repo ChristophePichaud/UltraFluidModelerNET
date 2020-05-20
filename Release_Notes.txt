@@ -1,3 +1,4 @@
+		- Feature Delete
 	Release Notes v 1.19.05.2020
 		- Feature Load/Save Database done with dialogs
 		- sqlite build

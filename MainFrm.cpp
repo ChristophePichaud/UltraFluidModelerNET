@@ -368,6 +368,8 @@ void CMainFrame::InitMainButton()
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_CLIPBOARD_COPY, _T("Copy\nc"), 13));
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_CLIPBOARD_CUT, _T("Cut\nc"), 12));
 	pPanelClipboard->Add(new CMFCRibbonButton(ID_CLIPBOARD_PASTE, _T("Paste\nc"), 11));
+	CMFCRibbonPanel* pPanelOperation = pCategory->AddPanel(_T("Operation\no"), m_PanelImages.ExtractIcon(2));
+	pPanelOperation->Add(new CMFCRibbonButton(ID_OPERATION_DELETE, _T("Delete\nd"), -1, 29));
 
 	CMFCRibbonPanel* pPanelDesign = pCategory->AddPanel(_T("Design\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelDesign->Add(new CMFCRibbonButton(ID_DESIGN_SELECT, _T("Select\nc"), 51));
