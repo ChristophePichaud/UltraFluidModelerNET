@@ -207,7 +207,8 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_COMMAND(ID_FILE_LOAD_DATABASE, &CModeler1View::OnFileLoadDatabase)
 	ON_COMMAND(ID_OPERATION_DELETE, &CModeler1View::OnOperationDelete)
 	ON_UPDATE_COMMAND_UI(ID_OPERATION_DELETE, &CModeler1View::OnUpdateOperationDelete)
-END_MESSAGE_MAP()
+        ON_WM_CHAR()
+        END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
 
@@ -365,6 +366,7 @@ void CModeler1View::OnInitialUpdate()
 	GetManager()->BuildElementsCombo(this); // OnActionElements(this);
 	GetManager()->UpdateClassView();
 	GetManager()->UpdateFileView();
+	GetManager()->CreateCaret(this);
 }
 
 void CModeler1View::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
@@ -1508,4 +1510,16 @@ void CModeler1View::OnUpdateOperationDelete(CCmdUI* pCmdUI)
 }
 
 
+void CModeler1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+    // TODO: Add your message handler code here and/or call default
+	if (GetManager()->HasSelection() && GetManager()->m_selection.GetCount() == 1)
+	{
+		if (GetManager()->m_selection.GetHead()->IsText())
+		{
+			GetManager()->OnChar(this, nChar, nRepCnt, nFlags);
+		}
+	}
 
+    CScrollView::OnChar(nChar, nRepCnt, nFlags);
+}

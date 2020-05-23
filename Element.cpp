@@ -1204,6 +1204,22 @@ bool CElement::IsLine()
 	}
 }
 
+bool CElement::IsText()
+{
+	if (m_shapeType == ShapeType::text ||
+		m_shapeType == ShapeType::text_left ||
+		m_shapeType == ShapeType::text_center ||
+		m_shapeType == ShapeType::text_right)
+
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void CElement::InvalidateObj(void)
 {
 	this->m_rect.SetRect(this->m_point, this->m_last);

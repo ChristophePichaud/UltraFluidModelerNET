@@ -176,6 +176,7 @@ class CElementManager;
 class CDrawingContext;
 class CElementGroup;
 class CConnector;
+class CCharElement;
 
 class CElement : public CObject
 {
@@ -300,9 +301,17 @@ public:
 	static COLORREF m_connectorShapesTextColor;
 	static bool m_bShowConnectors;
 
+	// Drawing Text feature
+	bool m_bDrawCaret = false;
+	//CBitmap m_bmpCaret;
+	//bool m_bCaretCreated = false;
+	//vector<char> m_vChar;
+	vector<shared_ptr<CCharElement>> m_vCharElement;
+
 // Methods for Attributes
 public:
 	bool IsLine();
+	bool IsText();
 	std::wstring GetImageFilePath();
 	bool HasColorFill()	const { return m_bColorFill; }
 	bool IsSolidColorFill()	const { return m_bSolidColorFill; }
@@ -313,6 +322,13 @@ public:
 public:
 	CElementManager * GetManager() const { return m_pManager; }
 	CModeler1View * GetView() const	{ return m_pView; }
+};
+
+class CCharElement
+{
+public:
+	char m_char;
+	RectF m_rectf;
 };
 
 class CConnector

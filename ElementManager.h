@@ -72,6 +72,7 @@ public:
 	CTextControlDialog* m_pDialog;
 	bool m_bTextDialogOpen;
 	bool m_ShowBackground;
+	CBitmap m_bmpCaret;
 	
 public:
 	// Selection 1st point
@@ -274,6 +275,8 @@ public:
 // Windows Edit Controls
 public:
 	void HideAllEditControls();
+	void OnChar(CModeler1View* pView, UINT nChar, UINT nRepCnt, UINT nFlags);
+	void CreateCaret(CModeler1View* pView);
 
 };
 

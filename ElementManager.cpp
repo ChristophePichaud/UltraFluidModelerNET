@@ -333,8 +333,16 @@ bool CElementManager::IsSelected(std::shared_ptr<CElement> pElement)
 
 void CElementManager::SelectNone()
 {
-	m_selection.RemoveAll();
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CModeler1View* pView = pMainFrame->GetActiveView();
 
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		pElement->m_bDrawCaret = false;
+	}
+
+	m_selection.RemoveAll();
+	HideCaret(pView->m_hWnd);
 	HideAllEditControls();
 }
 
@@ -344,7 +352,7 @@ bool CElementManager::Select(std::shared_ptr<CElement> pElement)
 		
 	if (m_pDialog != nullptr)
 	{
-		if (IsTextDialogOpen() == true)
+		if (IsTextDialogOpen() == true) 
 		{
 			//m_pDialog->ShowWindow(SW_SHOW);
 			m_pDialog->UpdateData(TRUE);
@@ -364,6 +372,11 @@ bool CElementManager::Select(std::shared_ptr<CElement> pElement)
 			m_bTextDialogOpen = true;
 		}
 	}
+
+	if (m_selection.GetCount() == 1 && pElement->IsText()) //m_shapeType == ShapeType::text)
+	{
+		pElement->m_bDrawCaret = true;
+	}
 	
 	return true;
 }
@@ -371,6 +384,8 @@ bool CElementManager::Select(std::shared_ptr<CElement> pElement)
 bool CElementManager::Deselect(std::shared_ptr<CElement> pElement)
 {
 	m_selection.Remove(pElement);
+	pElement->m_bDrawCaret = false;
+	HideCaret(pElement->m_pView->m_hWnd);
 	return true;
 }
 
@@ -885,6 +900,181 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement->Draw(ctxt);
 		}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//
+		// Text and Caret stuff
+		//
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		Rect rect;
+		rect.X = pElement->m_rect.left;
+		rect.Y = pElement->m_rect.top;
+		if (pElement->m_bDrawCaret == true)
+		{
+			SolidBrush solidBrushTracker(Color::Azure);
+			rect.Width = pElement->m_rect.Width();
+			rect.Height = 10; // pElement->m_rect.Height();
+			graphics.FillRectangle(&solidBrushTracker, rect);
+
+			ShowCaret(pView->m_hWnd);
+			SetCaretPos(rect.X + 30, rect.Y + 30);
+		}
+
+		/*
+		// Draw Text
+		string data;
+		for (char c : pElement->m_vChar)
+		{
+			data.insert(data.end(), c);
+		}
+		wstring wdata(data.begin(), data.end());
+
+		SolidBrush solidBrush(Color::DarkViolet);
+		FontFamily fontFamily(L"Calibri");
+		Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
+		graphics.DrawString(wdata.c_str(), -1, &font, PointF(rect.X + 10, rect.Y + 50), &solidBrush);
+		PointF ptIn(rect.X + 10, rect.Y + 50);
+		RectF rectOut;
+		graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &rectOut);
+
+		CString str;
+		str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
+		pView->LogDebug(str);
+
+		SetCaretPos(rectOut.GetRight(), rectOut.GetBottom() - 12);
+		*/
+
+#ifdef OLD
+		// Draw Text
+		PointF pointF;
+		pointF.X = rect.X + 10;
+		pointF.Y = rect.Y + 50;
+		
+		string data;
+		for (shared_ptr<CCharElement> pCharElement : pElement->m_vCharElement)
+		{
+			if (pCharElement->m_char == '\n')
+			{
+				pointF.X = rect.X + 10;
+				pointF.Y += 12;
+			//	continue;
+			}
+
+			//string data;
+			data.insert(data.end(), pCharElement->m_char);
+			//wstring wdata(data.begin(), data.end());
+		}
+		wstring wdata(data.begin(), data.end());
+
+			SolidBrush solidBrush(Color::DarkViolet);
+			FontFamily fontFamily(L"Calibri");
+			Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
+			
+			graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
+			PointF ptIn(pointF.X, pointF.Y);
+			RectF rectOut;
+			StringFormat sf;
+			sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
+			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
+			
+			// Store the measure
+			//pCharElement->m_rectf = rectOut;
+
+			CString str;
+			str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
+			pView->LogDebug(str);
+
+			pointF.X = rectOut.GetRight();
+			pointF.Y = rectOut.GetTop();
+		//}
+
+		SetCaretPos(pointF.X, pointF.Y);
+#endif
+
+		PointF pointF;
+		pointF.X = rect.X + 10;
+		pointF.Y = rect.Y + 50;
+
+		string data;
+		for (auto it = pElement->m_vCharElement.begin(); it != pElement->m_vCharElement.end(); ++it)
+		{
+			shared_ptr<CCharElement> pCharElement = *it;
+
+			if (pCharElement->m_char == '\n')
+			{
+				wstring wdata(data.begin(), data.end());
+
+				if (wdata.size() != 0)
+				{
+					SolidBrush solidBrush(Color::DarkViolet);
+					FontFamily fontFamily(pElement->m_fontName.c_str());
+					Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
+
+					graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
+					PointF ptIn(pointF.X, pointF.Y);
+					RectF rectOut;
+					StringFormat sf;
+					sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
+					graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
+
+					// Store the measure
+					//pCharElement->m_rectf = rectOut;
+
+					//CString str;
+					//str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
+					//pView->LogDebug(str);
+
+					pointF.X = rectOut.GetRight();
+					pointF.Y = rectOut.GetTop();
+				}
+
+				pointF.X = rect.X + 10;
+				pointF.Y += pElement->m_fontSize;
+
+				//SetCaretPos(pointF.X, pointF.Y);
+
+				data.clear();
+			}
+			else
+			{
+				data.insert(data.end(), pCharElement->m_char);
+			}
+		}
+
+		if (data.size() != 0)
+		{
+			SolidBrush solidBrush(Color::DarkViolet);
+			FontFamily fontFamily(pElement->m_fontName.c_str());
+			Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
+
+			wstring wdata(data.begin(), data.end());
+			graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
+			PointF ptIn(pointF.X, pointF.Y);
+			RectF rectOut;
+			StringFormat sf;
+			sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
+			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
+
+			pointF.X = rectOut.GetRight();
+			pointF.Y = rectOut.GetTop();
+			//SetCaretPos(pointF.X, pointF.Y);
+		}
+
+		if (IsSelected(pElement) && m_selection.GetCount() == 1)
+		{
+			SetCaretPos(pointF.X, pointF.Y);
+		}
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		//
+		// Draw Tracker
+		//
+
 		//if( !pDC->IsPrinting() && IsSelected(pObj) )
 		//	DrawTracker(pObj, pDC, TrackerState::selected);
 		if (pView != NULL && pView->m_bActive && !pDC->IsPrinting() && IsSelected(pElement))
@@ -901,6 +1091,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 	//graphics.SetTransform(&matrix);
 	//graphics.RotateTransform(pElement->m_rotateAngle, MatrixOrder::MatrixOrderAppend);
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
+
 
 	//m_bDrawRect = true;
 	if (m_bDrawRectForConnectionPoint == true)
@@ -4028,5 +4219,64 @@ void CElementManager::OnOperationDelete(CModeler1View* pView)
 	m_clipboard.RemoveAll();
 	// the current selection is cleared
 	RemoveSelectedObjects(pView);
+}
+
+void CElementManager::OnChar(CModeler1View* pView, UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	std::shared_ptr<CElement> pElement = m_selection.GetHead();
+
+	/*
+	if (nChar == VK_RETURN)
+	{
+		pElement->m_vChar.push_back('\n');
+	}
+	else if (nChar == VK_BACK)
+	{
+		if (pElement->m_vChar.size() != 0)
+		{
+			//vector<char> newv;
+			//copy(pElement->m_vChar.begin(), pElement->m_vChar.end() - 1, newv.begin());
+			//pElement->m_vChar = newv;
+
+			pElement->m_vChar.erase(pElement->m_vChar.end() - 1);
+		}
+	}
+	else
+	{
+		pElement->m_vChar.push_back(nChar);
+	}
+	*/
+
+	shared_ptr<CCharElement> pCharElement = make_shared<CCharElement>();
+
+	if (nChar == VK_RETURN)
+	{
+		pCharElement->m_char = '\n';
+		pElement->m_vCharElement.push_back(pCharElement);
+	}
+	else if (nChar == VK_BACK)
+	{
+		if (pElement->m_vCharElement.size() != 0)
+		{
+			pElement->m_vCharElement.erase(pElement->m_vCharElement.end() - 1);
+		}
+	}
+	else
+	{
+		pCharElement->m_char = nChar;
+		pElement->m_vCharElement.push_back(pCharElement);
+	}
+
+
+	//pElement->InvalidateObj();
+	Invalidate(pView);
+	//pView->GetDocument()->UpdateAllViews(pView);
+}
+
+
+void CElementManager::CreateCaret(CModeler1View* pView)
+{
+	m_bmpCaret.LoadBitmap(IDB_CARET);
+	::CreateCaret(pView->m_hWnd, (HBITMAP)m_bmpCaret.m_hObject, 2, 10); // pElement->m_fontSize); // 10);
 }
 

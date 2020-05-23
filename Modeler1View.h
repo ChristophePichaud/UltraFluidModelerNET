@@ -232,6 +232,7 @@ public:
 	afx_msg void OnFileLoadDatabase();
 	afx_msg void OnOperationDelete();
 	afx_msg void OnUpdateOperationDelete(CCmdUI* pCmdUI);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp
