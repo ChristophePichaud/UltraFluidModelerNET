@@ -322,6 +322,15 @@ bool CElementManager::HasSelection()
 		return false;
 }
 
+bool CElementManager::IsSelected(CElement* pElement)
+{
+	std::shared_ptr<CElement> ptr = m_selection.FindElement(pElement->m_objectId);
+	if (ptr != nullptr)
+		return true;
+	else
+		return false;
+}
+
 bool CElementManager::IsSelected(std::shared_ptr<CElement> pElement)
 {
 	std::shared_ptr<CElement> ptr = m_selection.FindElement(pElement->m_objectId);
@@ -342,7 +351,7 @@ void CElementManager::SelectNone()
 	}
 
 	m_selection.RemoveAll();
-	HideCaret(pView->m_hWnd);
+	//HideCaret(pView->m_hWnd);
 	HideAllEditControls();
 }
 
@@ -385,7 +394,7 @@ bool CElementManager::Deselect(std::shared_ptr<CElement> pElement)
 {
 	m_selection.Remove(pElement);
 	pElement->m_bDrawCaret = false;
-	HideCaret(pElement->m_pView->m_hWnd);
+	//HideCaret(pElement->m_pView->m_hWnd);
 	return true;
 }
 
@@ -789,7 +798,7 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		//    it should be appended to the rendering area by creating a dedicated object. 
 		//    We call it CSimpleTextElement.
 		if( pElement->m_text.empty() == false && 
-			(pElement->m_type != ElementType::type_text)
+			(pElement->IsText() == false)
 			)
 		{
 			//std::shared_ptr<CElement> pTextElement(new CSimpleTextElement());
@@ -906,175 +915,184 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		//
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		CRect rect = pElement->m_rect;
-
-		if (pElement->m_bDrawCaret == true)
+		if (pElement->IsText() == true)
 		{
-			SolidBrush solidBrushTracker(Color::Azure);
-			Rect rect2;
-			rect2.X = pElement->m_rect.top;
-			rect2.Width = pElement->m_rect.Width();
-			rect2.Height = 10; // pElement->m_rect.Height();
-			graphics.FillRectangle(&solidBrushTracker, rect2);
+#ifdef OLD
+			CRect rect = pElement->m_rect;
+
+			if (pElement->m_bDrawCaret == true)
+			{
+				SolidBrush solidBrushTracker(Color::Azure);
+				Rect rect2;
+				rect2.X = pElement->m_rect.top;
+				rect2.Width = pElement->m_rect.Width();
+				rect2.Height = 10; // pElement->m_rect.Height();
+				graphics.FillRectangle(&solidBrushTracker, rect2);
+
+				pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
+				pElement->m_pointF.Y = rect.top + pElement->m_topMargin;
+
+				ShowCaret(pView->m_hWnd);
+				pElement->m_lastCaretPoint = pElement->m_pointF;
+				SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
+			}
 
 			pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
-			pElement->m_pointF.Y = rect.top + 50;
+			pElement->m_pointF.Y = rect.top + pElement->m_topMargin;
 
-			ShowCaret(pView->m_hWnd);		
-			pElement->m_lastCaretPoint = pElement->m_pointF;
-			SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
-		}
-
-		pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
-		pElement->m_pointF.Y = rect.top + 50;
-
-		string data;
-		for (auto it = pElement->m_vCharElement.begin(); it != pElement->m_vCharElement.end(); ++it)
-		{
-			shared_ptr<CCharElement> pCharElement = *it;
-
-			if (pCharElement->m_char == '\n')
+			string data;
+			for (auto it = pElement->m_vCharElement.begin(); it != pElement->m_vCharElement.end(); ++it)
 			{
+				shared_ptr<CCharElement> pCharElement = *it;
+
+				if (pCharElement->m_char == '\n')
+				{
+					wstring wdata(data.begin(), data.end());
+
+					if (wdata.size() != 0)
+					{
+						SolidBrush solidBrush(Color::DarkViolet);
+						FontFamily fontFamily(pElement->m_fontName.c_str());
+						Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
+
+						PointF ptIn = pElement->m_pointF;
+						RectF rectOut;
+
+						// StringFormat object
+						StringFormat stringFormat;
+						stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+						stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+						if (pElement->m_textAlign == _T("Left"))
+						{
+							stringFormat.SetAlignment(StringAlignmentNear);
+						}
+						else if (pElement->m_textAlign == _T("Center"))
+						{
+							stringFormat.SetAlignment(StringAlignmentCenter);
+						}
+						else if (pElement->m_textAlign == _T("Right"))
+						{
+							stringFormat.SetAlignment(StringAlignmentFar);
+						}
+
+						if (pElement->m_textAlign == _T("Left"))
+						{
+							ptIn.X = rect.left + pElement->m_leftMargin;
+						}
+						else if (pElement->m_textAlign == _T("Center"))
+						{
+							ptIn.X = rect.CenterPoint().x + pElement->m_leftMargin;
+						}
+						else if (pElement->m_textAlign == _T("Right"))
+						{
+							ptIn.X = rect.right - pElement->m_leftMargin;
+						}
+
+						SizeF sizeF(rect.Width(), rect.Height());
+						RectF rectDraw(ptIn, sizeF);
+						graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+						//graphics.DrawString(wdata.c_str(), -1, &font, rectDraw, &stringFormat, &solidBrush);
+						graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+						// Store the measure
+						//pCharElement->m_rectf = rectDraw;
+
+						//CString str;
+						//str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
+						//pView->LogDebug(str);
+
+						pElement->m_pointF.X = rectOut.GetRight();
+						pElement->m_pointF.Y = rectOut.GetTop();
+					}
+
+					if (pElement->m_textAlign == _T("Left"))
+					{
+						pElement->m_lastCaretPoint.X = rect.left + pElement->m_leftMargin;
+					}
+					else if (pElement->m_textAlign == _T("Center"))
+					{
+						pElement->m_lastCaretPoint.X = rect.CenterPoint().x + pElement->m_leftMargin;
+					}
+					else if (pElement->m_textAlign == _T("Right"))
+					{
+						pElement->m_lastCaretPoint.X = rect.right - pElement->m_leftMargin;
+					}
+
+					pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
+					pElement->m_pointF.Y += pElement->m_fontSize;
+					pElement->m_lastCaretPoint.Y = pElement->m_pointF.Y;
+
+					data.clear();
+				}
+				else
+				{
+					data.insert(data.end(), pCharElement->m_char);
+				}
+			}
+
+			if (data.size() != 0)
+			{
+				SolidBrush solidBrush(Color::DarkViolet);
+				FontFamily fontFamily(pElement->m_fontName.c_str());
+				Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
+
 				wstring wdata(data.begin(), data.end());
 
-				if (wdata.size() != 0)
+				PointF ptIn = pElement->m_pointF;
+				RectF rectOut;
+
+				// StringFormat object
+				StringFormat stringFormat;
+				stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+				stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+				if (pElement->m_textAlign == _T("Left"))
 				{
-					SolidBrush solidBrush(Color::DarkViolet);
-					FontFamily fontFamily(pElement->m_fontName.c_str());
-					Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
-
-					PointF ptIn = pElement->m_pointF;
-					RectF rectOut;
-
-					// StringFormat object
-					StringFormat stringFormat;
-					stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
-					stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
-					if (pElement->m_textAlign == _T("Left"))
-					{
-						stringFormat.SetAlignment(StringAlignmentNear);
-					}
-					else if (pElement->m_textAlign == _T("Center"))
-					{
-						stringFormat.SetAlignment(StringAlignmentCenter);
-					}
-					else if (pElement->m_textAlign == _T("Right"))
-					{
-						stringFormat.SetAlignment(StringAlignmentFar);
-					}
-
-					if (pElement->m_textAlign == _T("Left"))
-					{
-						ptIn.X = rect.left + 10;
-					}
-					else if (pElement->m_textAlign == _T("Center"))
-					{
-						ptIn.X = rect.CenterPoint().x + 10;
-					}
-					else if (pElement->m_textAlign == _T("Right"))
-					{
-						ptIn.X = rect.right - 10;
-					}
-
-					SizeF sizeF(rect.Width(), rect.Height());
-					RectF rectDraw(ptIn, sizeF);
-					graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
-					//graphics.DrawString(wdata.c_str(), -1, &font, rectDraw, &stringFormat, &solidBrush);
-					graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
-
-					// Store the measure
-					//pCharElement->m_rectf = rectDraw;
-
-					//CString str;
-					//str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
-					//pView->LogDebug(str);
-
-					pElement->m_pointF.X = rectOut.GetRight();
-					pElement->m_pointF.Y = rectOut.GetTop();
+					stringFormat.SetAlignment(StringAlignmentNear);
+				}
+				else if (pElement->m_textAlign == _T("Center"))
+				{
+					stringFormat.SetAlignment(StringAlignmentCenter);
+				}
+				else if (pElement->m_textAlign == _T("Right"))
+				{
+					stringFormat.SetAlignment(StringAlignmentFar);
 				}
 
 				if (pElement->m_textAlign == _T("Left"))
 				{
-					pElement->m_lastCaretPoint.X = rect.left + 10;
+					ptIn.X = rect.left + pElement->m_leftMargin;
 				}
 				else if (pElement->m_textAlign == _T("Center"))
 				{
-					pElement->m_lastCaretPoint.X = rect.CenterPoint().x + 10;
+					ptIn.X = rect.CenterPoint().x + pElement->m_leftMargin;
 				}
 				else if (pElement->m_textAlign == _T("Right"))
 				{
-					pElement->m_lastCaretPoint.X = rect.right - 10;
+					ptIn.X = rect.right - pElement->m_leftMargin;
 				}
 
-				pElement->m_pointF.X = rect.left + 10;
-				pElement->m_pointF.Y += pElement->m_fontSize;
-				pElement->m_lastCaretPoint.Y = pElement->m_pointF.Y;
+				SizeF sizeF(rect.Width(), rect.Height());
+				RectF rectDraw(ptIn, sizeF);
+				graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+				//graphics.DrawString(wdata.c_str(), -1, &font, rectOut /*rectDraw*/, &stringFormat, &solidBrush);
+				graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
 
-				data.clear();
+				pElement->m_pointF.X = rectOut.GetRight();
+				pElement->m_pointF.Y = rectOut.GetTop();
+				pElement->m_lastCaretPoint = pElement->m_pointF;
 			}
-			else
+
+			if (IsSelected(pElement) && m_selection.GetCount() == 1)
 			{
-				data.insert(data.end(), pCharElement->m_char);
+				SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
+			}
+#endif
+
+			if (IsSelected(pElement) && m_selection.GetCount() == 1)
+			{
+				SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
 			}
 		}
-
-		if (data.size() != 0)
-		{
-			SolidBrush solidBrush(Color::DarkViolet);
-			FontFamily fontFamily(pElement->m_fontName.c_str());
-			Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
-
-			wstring wdata(data.begin(), data.end());
-
-			PointF ptIn = pElement->m_pointF;
-			RectF rectOut;
-
-			// StringFormat object
-			StringFormat stringFormat;
-			stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
-			stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
-			if (pElement->m_textAlign == _T("Left"))
-			{
-				stringFormat.SetAlignment(StringAlignmentNear);
-			}
-			else if (pElement->m_textAlign == _T("Center"))
-			{
-				stringFormat.SetAlignment(StringAlignmentCenter);
-			}
-			else if (pElement->m_textAlign == _T("Right"))
-			{
-				stringFormat.SetAlignment(StringAlignmentFar);
-			}
-
-			if (pElement->m_textAlign == _T("Left"))
-			{
-				ptIn.X = rect.left + 10;
-			}
-			else if (pElement->m_textAlign == _T("Center"))
-			{
-				ptIn.X = rect.CenterPoint().x + 10;
-			}
-			else if (pElement->m_textAlign == _T("Right"))
-			{
-				ptIn.X = rect.right - 10;
-			}
-
-			SizeF sizeF(rect.Width(), rect.Height());
-			RectF rectDraw(ptIn, sizeF);
-			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
-			//graphics.DrawString(wdata.c_str(), -1, &font, rectOut /*rectDraw*/, &stringFormat, &solidBrush);
-			graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
-
-			pElement->m_pointF.X = rectOut.GetRight();
-			pElement->m_pointF.Y = rectOut.GetTop();
-			pElement->m_lastCaretPoint = pElement->m_pointF;
-		}
-
-		if (IsSelected(pElement) && m_selection.GetCount() == 1)
-		{
-			SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
-		}
-
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//
@@ -1918,6 +1936,10 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 	if( name == prop_Text )
 	{
 		pElement->m_text = value;
+		if (pElement->IsText())
+		{
+			pElement->BuildVChar();
+		}
 	}
 
 	if (name == prop_Comments)
@@ -2875,6 +2897,7 @@ void CElementManager::OnFileOpenGabarit(CModeler1View* pView)
 		std::shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(pElement->m_type, pElement->m_shapeType);
 		pNewElement->m_name = pElement->m_name;
 		pNewElement->m_text = pElement->m_text;
+		pNewElement->BuildVChar();
 		pNewElement->m_code = pElement->m_code;
 		pNewElement->m_image = pElement->m_image;
 		pNewElement->m_objectId = pElement->m_objectId;
@@ -3523,6 +3546,7 @@ void CElementManager::OnFontChangeCase(CModeler1View* pView)
 	}
 
 	pElement->m_text = text;
+	pElement->BuildVChar();
 
 	UpdatePropertyGrid(pView, pElement);
 
@@ -4263,18 +4287,21 @@ void CElementManager::OnChar(CModeler1View* pView, UINT nChar, UINT nRepCnt, UIN
 	{
 		pCharElement->m_char = '\n';
 		pElement->m_vCharElement.push_back(pCharElement);
+		pElement->m_text.push_back('\n');
 	}
 	else if (nChar == VK_BACK)
 	{
 		if (pElement->m_vCharElement.size() != 0)
 		{
 			pElement->m_vCharElement.erase(pElement->m_vCharElement.end() - 1);
+			pElement->m_text.erase(pElement->m_text.end() - 1);
 		}
 	}
 	else
 	{
 		pCharElement->m_char = nChar;
 		pElement->m_vCharElement.push_back(pCharElement);
+		pElement->m_text.push_back(nChar);
 	}
 
 

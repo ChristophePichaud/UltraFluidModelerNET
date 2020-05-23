@@ -196,6 +196,7 @@ public:
 public:
 	bool HasSelection();
 	bool IsSelected(std::shared_ptr<CElement> pElement);
+	bool IsSelected(CElement* pElement);
 	bool Select(std::shared_ptr<CElement> pElement);
 	bool Deselect(std::shared_ptr<CElement> pElement);
 	void SelectNone();

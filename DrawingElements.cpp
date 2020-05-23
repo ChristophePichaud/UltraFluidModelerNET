@@ -933,6 +933,7 @@ void CInfrastructureElement::Draw(CDrawingContext & ctxt)
 //
 // CTextElement class
 //
+
 void CTextElement::Draw(CDrawingContext & ctxt)
 {
 	CRect rect = m_rect;
@@ -942,35 +943,12 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 	CPoint & p2 = ctxt.GetBottomRight();
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
-	// RectF object for Text
-	//PointF pointF(p1.x, p1.y);
-	//SizeF sizeF(rect.Width(), rect.Height());
-	//RectF rectF(pointF, sizeF);
-	//PointF pointText(rect.left + 10, rect.top + 10);
-	//SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
 	PointF pointText(rect.left + m_leftMargin, rect.top + m_topMargin);
 	SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
 	RectF rectF(pointText, sizeF);
 
-	//if( m_shapeType == ShapeType::text )
 	{
-		// Useless or not do fill a rectangle around the texte ???
-		/*if( HasColorFill() )
-		{
-			if( IsSolidColorFill() )
-				graphics->FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
-			else
-				graphics->FillRectangle(&lgBrush, rect.left, rect.top, rect.Width(), rect.Height());
-		}
-		// Useless or not to draw a rectangle around the text ???
-		if( HasColorLine() )
-		{
-			graphics->DrawRectangle(&colorPen, rect.left, rect.top, rect.Width(), rect.Height());
-		}*/
-
 		// Font object
-		//FontFamily fontFamily(L"Calibri");
-		//Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
 		CStringW fontName(m_fontName.c_str());
 		FontFamily fontFamily(fontName);
 		FontStyle style = FontStyle::FontStyleRegular;
@@ -1008,9 +986,6 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 		{
 			stringFormat.SetAlignment(StringAlignmentFar);
 		}
-		//stringFormat.SetLineAlignment(StringAlignmentCenter);
-		// Brush object
-		//SolidBrush solidBrush(Color(255, 0, 0, 0));
 
 		if (HasColorFill())
 		{
@@ -1025,6 +1000,194 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 		SolidBrush solidBrush(color);
 		graphics->SetTextRenderingHint(TextRenderingHintAntiAlias);
 		graphics->DrawString(CStringW(m_text.c_str()), -1, &font, rectF, &stringFormat, &solidBrush);
+	}
+}
+
+//
+// CAdvancedTextElement class
+//
+
+void CAdvancedTextElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	CPoint& p1 = ctxt.GetTopLeft();
+	CPoint& p2 = ctxt.GetBottomRight();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+	PointF pointText(rect.left + m_leftMargin, rect.top + m_topMargin);
+	SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
+	RectF rectF(pointText, sizeF);
+
+	//if (m_bDrawCaret == true)
+	{
+		SolidBrush solidBrushTracker(Color::Azure);
+		Rect rect2;
+		rect2.X = m_rect.top;
+		rect2.Width = m_rect.Width();
+		rect2.Height = 10; // m_rect.Height();
+		graphics->FillRectangle(&solidBrushTracker, rect2);
+
+		m_pointF.X = rect.left + m_leftMargin;
+		m_pointF.Y = rect.top + m_topMargin;
+
+		ShowCaret(this->m_pView->m_hWnd);
+		m_lastCaretPoint = m_pointF;
+		if (GetManager()->IsSelected(this) && GetManager()->m_selection.GetCount() == 1)
+		{
+			SetCaretPos(m_lastCaretPoint.X, m_lastCaretPoint.Y);
+		}
+	}
+
+	m_pointF.X = rect.left + m_leftMargin;
+	m_pointF.Y = rect.top + m_topMargin;
+
+	string data;
+	for (auto it = m_vCharElement.begin(); it != m_vCharElement.end(); ++it)
+	{
+		shared_ptr<CCharElement> pCharElement = *it;
+
+		if (pCharElement->m_char == '\n')
+		{
+			wstring wdata(data.begin(), data.end());
+
+			if (wdata.size() != 0)
+			{
+				FontFamily fontFamily(m_fontName.c_str());
+				Gdiplus::Font font(&fontFamily, m_fontSize, FontStyleRegular, UnitPixel);
+
+				PointF ptIn = m_pointF;
+				RectF rectOut;
+
+				// StringFormat object
+				StringFormat stringFormat;
+				stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+				stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+				if (m_textAlign == _T("Left"))
+				{
+					stringFormat.SetAlignment(StringAlignmentNear);
+				}
+				else if (m_textAlign == _T("Center"))
+				{
+					stringFormat.SetAlignment(StringAlignmentCenter);
+				}
+				else if (m_textAlign == _T("Right"))
+				{
+					stringFormat.SetAlignment(StringAlignmentFar);
+				}
+
+				if (m_textAlign == _T("Left"))
+				{
+					ptIn.X = rect.left + m_leftMargin;
+				}
+				else if (m_textAlign == _T("Center"))
+				{
+					ptIn.X = rect.CenterPoint().x + m_leftMargin;
+				}
+				else if (m_textAlign == _T("Right"))
+				{
+					ptIn.X = rect.right - m_leftMargin;
+				}
+
+				SizeF sizeF(rect.Width(), rect.Height());
+				RectF rectDraw(ptIn, sizeF);
+				graphics->MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+				//graphics->DrawString(wdata.c_str(), -1, &font, rectDraw, &stringFormat, &solidBrush);
+				graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+				// Store the measure
+				//pCharElement->m_rectf = rectDraw;
+
+				//CString str;
+				//str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
+				//pView->LogDebug(str);
+
+				m_pointF.X = rectOut.GetRight();
+				m_pointF.Y = rectOut.GetTop();
+			}
+
+			if (m_textAlign == _T("Left"))
+			{
+				m_lastCaretPoint.X = rect.left + m_leftMargin;
+			}
+			else if (m_textAlign == _T("Center"))
+			{
+				m_lastCaretPoint.X = rect.CenterPoint().x + m_leftMargin;
+			}
+			else if (m_textAlign == _T("Right"))
+			{
+				m_lastCaretPoint.X = rect.right - m_leftMargin;
+			}
+
+			m_pointF.X = rect.left + m_leftMargin;
+			m_pointF.Y += m_fontSize;
+			m_lastCaretPoint.Y = m_pointF.Y;
+
+			data.clear();
+		}
+		else
+		{
+			data.insert(data.end(), pCharElement->m_char);
+		}
+	}
+
+	if (data.size() != 0)
+	{
+		FontFamily fontFamily(m_fontName.c_str());
+		Gdiplus::Font font(&fontFamily, m_fontSize, FontStyleRegular, UnitPixel);
+
+		wstring wdata(data.begin(), data.end());
+
+		PointF ptIn = m_pointF;
+		RectF rectOut;
+
+		// StringFormat object
+		StringFormat stringFormat;
+		stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+		stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+		if (m_textAlign == _T("Left"))
+		{
+			stringFormat.SetAlignment(StringAlignmentNear);
+		}
+		else if (m_textAlign == _T("Center"))
+		{
+			stringFormat.SetAlignment(StringAlignmentCenter);
+		}
+		else if (m_textAlign == _T("Right"))
+		{
+			stringFormat.SetAlignment(StringAlignmentFar);
+		}
+
+		if (m_textAlign == _T("Left"))
+		{
+			ptIn.X = rect.left + m_leftMargin;
+		}
+		else if (m_textAlign == _T("Center"))
+		{
+			ptIn.X = rect.CenterPoint().x + m_leftMargin;
+		}
+		else if (m_textAlign == _T("Right"))
+		{
+			ptIn.X = rect.right - m_leftMargin;
+		}
+
+		SizeF sizeF(rect.Width(), rect.Height());
+		RectF rectDraw(ptIn, sizeF);
+		graphics->MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+		//graphics->DrawString(wdata.c_str(), -1, &font, rectOut /*rectDraw*/, &stringFormat, &solidBrush);
+		graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+		m_pointF.X = rectOut.GetRight();
+		m_pointF.Y = rectOut.GetTop();
+		m_lastCaretPoint = m_pointF;
+	}
+
+	if (GetManager()->IsSelected(this) && GetManager()->m_selection.GetCount() == 1)
+	{
+		ShowCaret(this->m_pView->m_hWnd);
+		SetCaretPos(m_lastCaretPoint.X, m_lastCaretPoint.Y);
 	}
 }
 

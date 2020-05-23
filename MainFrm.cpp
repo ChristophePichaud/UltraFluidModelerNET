@@ -457,12 +457,20 @@ void CMainFrame::InitMainButton()
 	apFontGroup->AddButton(m_pFontCombo);
 
 	m_pFontSizeCombo = new CMFCRibbonComboBox(ID_FONT_FONTSIZE, FALSE, 39);
-	for (int i = 6; i < 600; )
+	for (int i = 6; i < 200; )
 	{
 		CString str;
 		str.Format(_T("%d"), i);
 		m_pFontSizeCombo->AddItem(str);
 
+		if (i >= 100)
+		{
+			i += 8;
+		}
+		if (i >= 40)
+		{
+			i += 4;
+		}
 		if (i >= 20)
 		{
 			i += 2;

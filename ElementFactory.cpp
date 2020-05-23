@@ -384,13 +384,13 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 
 	if( type == ElementType::type_text )
 	{
-		std::shared_ptr<CElement> apNewElement(new CTextElement());
+		std::shared_ptr<CElement> apNewElement(new CAdvancedTextElement()); // CTextElement());
 		pNewElement = apNewElement;
 
 		pNewElement->m_bColorLine = true;
 		pNewElement->m_bColorFill = false;
 		pNewElement->m_bSolidColorFill = true;
-		pNewElement->m_text = L"<type text>";
+		pNewElement->m_text = L"";
 		//pNewElement->m_textAlign = L"Left";
 
 		if (shapeType == ShapeType::text_left)

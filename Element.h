@@ -240,6 +240,10 @@ public:
 	virtual bool CanChangeLineColor() const;
 	virtual bool CanChangeLineWidth() const;
 
+// Text
+public:
+	void BuildVChar();
+
 // Attributes
 public:
 	std::wstring m_name;

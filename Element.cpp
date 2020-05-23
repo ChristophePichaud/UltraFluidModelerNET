@@ -227,6 +227,7 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_objectId = this->m_objectId;
 		pNewElement->m_caption = this->m_caption;
 		pNewElement->m_text = this->m_text;
+		pNewElement->BuildVChar();
 		pNewElement->m_code = this->m_code;
 		pNewElement->m_image = this->m_image;
 		pNewElement->m_lineWidth = this->m_lineWidth;
@@ -272,6 +273,7 @@ CElement::CElement(const CElement& element)
 	this->m_objectId = element.m_objectId;
 	this->m_caption = element.m_caption;
 	this->m_text = element.m_text;
+	this->BuildVChar();
 	this->m_code = element.m_code;
 	this->m_image = element.m_image;
 	this->m_lineWidth = element.m_lineWidth;
@@ -326,6 +328,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_name = object.at(U("Name")).as_string();
 	pElement->m_caption = object.at(U("Caption")).as_string();
 	pElement->m_text = object.at(U("Text")).as_string();
+	pElement->BuildVChar();
 	pElement->m_code = object.at(U("Code")).as_string();
 	pElement->m_type = (ElementType)(object.at(U("Type")).as_integer());
 	pElement->m_shapeType = (ShapeType)(object.at(U("ShapeType")).as_integer());
@@ -708,6 +711,7 @@ void CElement::Serialize(CArchive& ar)
 		CString text;
 		ar >> text;
 		this->m_text = T2W((LPTSTR)(LPCTSTR)text);
+		this->BuildVChar();
 		ar >> m_rect;
 		ar >> m_point;
 		ar >> m_last;
@@ -1701,6 +1705,16 @@ std::wstring CElement::GetImageFilePath()
 		ret = m_image;
 	}
 	return ret;
+}
+
+void CElement::BuildVChar()
+{
+	for (char c : m_text)
+	{
+		shared_ptr<CCharElement> pCharElement = make_shared<CCharElement>();
+		pCharElement->m_char = c;
+		m_vCharElement.push_back(pCharElement);
+	}
 }
 
 void CElement::Draw(CDrawingContext & ctxt)

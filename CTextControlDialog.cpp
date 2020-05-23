@@ -57,6 +57,7 @@ void CTextControlDialog::OnBnClickedOk()
 	else
 	{
 		m_pElement->m_text = (LPTSTR)(LPCTSTR)text1;
+		m_pElement->BuildVChar();
 		m_pElement->GetManager()->Invalidate(m_pElement->m_pView);
 	}
 

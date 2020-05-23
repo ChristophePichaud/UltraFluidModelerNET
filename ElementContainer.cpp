@@ -57,6 +57,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			std::shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(pElement->m_type, pElement->m_shapeType);
 			pNewElement->m_name = pElement->m_name;
 			pNewElement->m_text = pElement->m_text;
+			pNewElement->BuildVChar();
 			pNewElement->m_textAlign = pElement->m_textAlign;
 			pNewElement->m_objectId = pElement->m_objectId;
 			pNewElement->m_rect = pElement->m_rect;
