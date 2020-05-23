@@ -906,94 +906,27 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 		//
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		Rect rect;
-		rect.X = pElement->m_rect.left;
-		rect.Y = pElement->m_rect.top;
+		CRect rect = pElement->m_rect;
+
 		if (pElement->m_bDrawCaret == true)
 		{
 			SolidBrush solidBrushTracker(Color::Azure);
-			rect.Width = pElement->m_rect.Width();
-			rect.Height = 10; // pElement->m_rect.Height();
-			graphics.FillRectangle(&solidBrushTracker, rect);
+			Rect rect2;
+			rect2.X = pElement->m_rect.top;
+			rect2.Width = pElement->m_rect.Width();
+			rect2.Height = 10; // pElement->m_rect.Height();
+			graphics.FillRectangle(&solidBrushTracker, rect2);
 
-			ShowCaret(pView->m_hWnd);
-			SetCaretPos(rect.X + 30, rect.Y + 30);
+			pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
+			pElement->m_pointF.Y = rect.top + 50;
+
+			ShowCaret(pView->m_hWnd);		
+			pElement->m_lastCaretPoint = pElement->m_pointF;
+			SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
 		}
 
-		/*
-		// Draw Text
-		string data;
-		for (char c : pElement->m_vChar)
-		{
-			data.insert(data.end(), c);
-		}
-		wstring wdata(data.begin(), data.end());
-
-		SolidBrush solidBrush(Color::DarkViolet);
-		FontFamily fontFamily(L"Calibri");
-		Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
-		graphics.DrawString(wdata.c_str(), -1, &font, PointF(rect.X + 10, rect.Y + 50), &solidBrush);
-		PointF ptIn(rect.X + 10, rect.Y + 50);
-		RectF rectOut;
-		graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &rectOut);
-
-		CString str;
-		str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
-		pView->LogDebug(str);
-
-		SetCaretPos(rectOut.GetRight(), rectOut.GetBottom() - 12);
-		*/
-
-#ifdef OLD
-		// Draw Text
-		PointF pointF;
-		pointF.X = rect.X + 10;
-		pointF.Y = rect.Y + 50;
-		
-		string data;
-		for (shared_ptr<CCharElement> pCharElement : pElement->m_vCharElement)
-		{
-			if (pCharElement->m_char == '\n')
-			{
-				pointF.X = rect.X + 10;
-				pointF.Y += 12;
-			//	continue;
-			}
-
-			//string data;
-			data.insert(data.end(), pCharElement->m_char);
-			//wstring wdata(data.begin(), data.end());
-		}
-		wstring wdata(data.begin(), data.end());
-
-			SolidBrush solidBrush(Color::DarkViolet);
-			FontFamily fontFamily(L"Calibri");
-			Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
-			
-			graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
-			PointF ptIn(pointF.X, pointF.Y);
-			RectF rectOut;
-			StringFormat sf;
-			sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
-			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
-			
-			// Store the measure
-			//pCharElement->m_rectf = rectOut;
-
-			CString str;
-			str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
-			pView->LogDebug(str);
-
-			pointF.X = rectOut.GetRight();
-			pointF.Y = rectOut.GetTop();
-		//}
-
-		SetCaretPos(pointF.X, pointF.Y);
-#endif
-
-		PointF pointF;
-		pointF.X = rect.X + 10;
-		pointF.Y = rect.Y + 50;
+		pElement->m_pointF.X = rect.left + pElement->m_leftMargin;
+		pElement->m_pointF.Y = rect.top + 50;
 
 		string data;
 		for (auto it = pElement->m_vCharElement.begin(); it != pElement->m_vCharElement.end(); ++it)
@@ -1010,28 +943,72 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 					FontFamily fontFamily(pElement->m_fontName.c_str());
 					Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
 
-					graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
-					PointF ptIn(pointF.X, pointF.Y);
+					PointF ptIn = pElement->m_pointF;
 					RectF rectOut;
-					StringFormat sf;
-					sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
-					graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
+
+					// StringFormat object
+					StringFormat stringFormat;
+					stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+					stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+					if (pElement->m_textAlign == _T("Left"))
+					{
+						stringFormat.SetAlignment(StringAlignmentNear);
+					}
+					else if (pElement->m_textAlign == _T("Center"))
+					{
+						stringFormat.SetAlignment(StringAlignmentCenter);
+					}
+					else if (pElement->m_textAlign == _T("Right"))
+					{
+						stringFormat.SetAlignment(StringAlignmentFar);
+					}
+
+					if (pElement->m_textAlign == _T("Left"))
+					{
+						ptIn.X = rect.left + 10;
+					}
+					else if (pElement->m_textAlign == _T("Center"))
+					{
+						ptIn.X = rect.CenterPoint().x + 10;
+					}
+					else if (pElement->m_textAlign == _T("Right"))
+					{
+						ptIn.X = rect.right - 10;
+					}
+
+					SizeF sizeF(rect.Width(), rect.Height());
+					RectF rectDraw(ptIn, sizeF);
+					graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+					//graphics.DrawString(wdata.c_str(), -1, &font, rectDraw, &stringFormat, &solidBrush);
+					graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
 
 					// Store the measure
-					//pCharElement->m_rectf = rectOut;
+					//pCharElement->m_rectf = rectDraw;
 
 					//CString str;
 					//str.Format(_T("rectOut=%f,%f,%f,%f"), rectOut.GetLeft(), rectOut.GetTop(), rectOut.GetRight(), rectOut.GetBottom());
 					//pView->LogDebug(str);
 
-					pointF.X = rectOut.GetRight();
-					pointF.Y = rectOut.GetTop();
+					pElement->m_pointF.X = rectOut.GetRight();
+					pElement->m_pointF.Y = rectOut.GetTop();
 				}
 
-				pointF.X = rect.X + 10;
-				pointF.Y += pElement->m_fontSize;
+				if (pElement->m_textAlign == _T("Left"))
+				{
+					pElement->m_lastCaretPoint.X = rect.left + 10;
+				}
+				else if (pElement->m_textAlign == _T("Center"))
+				{
+					pElement->m_lastCaretPoint.X = rect.CenterPoint().x + 10;
+				}
+				else if (pElement->m_textAlign == _T("Right"))
+				{
+					pElement->m_lastCaretPoint.X = rect.right - 10;
+				}
 
-				//SetCaretPos(pointF.X, pointF.Y);
+				pElement->m_pointF.X = rect.left + 10;
+				pElement->m_pointF.Y += pElement->m_fontSize;
+				pElement->m_lastCaretPoint.Y = pElement->m_pointF.Y;
 
 				data.clear();
 			}
@@ -1048,21 +1025,54 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			Gdiplus::Font font(&fontFamily, pElement->m_fontSize, FontStyleRegular, UnitPixel);
 
 			wstring wdata(data.begin(), data.end());
-			graphics.DrawString(wdata.c_str(), -1, &font, pointF, &solidBrush);
-			PointF ptIn(pointF.X, pointF.Y);
-			RectF rectOut;
-			StringFormat sf;
-			sf.SetLineAlignment(StringAlignment::StringAlignmentNear);
-			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn, &sf, &rectOut);
 
-			pointF.X = rectOut.GetRight();
-			pointF.Y = rectOut.GetTop();
-			//SetCaretPos(pointF.X, pointF.Y);
+			PointF ptIn = pElement->m_pointF;
+			RectF rectOut;
+
+			// StringFormat object
+			StringFormat stringFormat;
+			stringFormat.SetLineAlignment(StringAlignment::StringAlignmentNear);
+			stringFormat.SetTrimming(StringTrimming::StringTrimmingNone);
+			if (pElement->m_textAlign == _T("Left"))
+			{
+				stringFormat.SetAlignment(StringAlignmentNear);
+			}
+			else if (pElement->m_textAlign == _T("Center"))
+			{
+				stringFormat.SetAlignment(StringAlignmentCenter);
+			}
+			else if (pElement->m_textAlign == _T("Right"))
+			{
+				stringFormat.SetAlignment(StringAlignmentFar);
+			}
+
+			if (pElement->m_textAlign == _T("Left"))
+			{
+				ptIn.X = rect.left + 10;
+			}
+			else if (pElement->m_textAlign == _T("Center"))
+			{
+				ptIn.X = rect.CenterPoint().x + 10;
+			}
+			else if (pElement->m_textAlign == _T("Right"))
+			{
+				ptIn.X = rect.right - 10;
+			}
+
+			SizeF sizeF(rect.Width(), rect.Height());
+			RectF rectDraw(ptIn, sizeF);
+			graphics.MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
+			//graphics.DrawString(wdata.c_str(), -1, &font, rectOut /*rectDraw*/, &stringFormat, &solidBrush);
+			graphics.DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+			pElement->m_pointF.X = rectOut.GetRight();
+			pElement->m_pointF.Y = rectOut.GetTop();
+			pElement->m_lastCaretPoint = pElement->m_pointF;
 		}
 
 		if (IsSelected(pElement) && m_selection.GetCount() == 1)
 		{
-			SetCaretPos(pointF.X, pointF.Y);
+			SetCaretPos(pElement->m_lastCaretPoint.X, pElement->m_lastCaretPoint.Y);
 		}
 
 

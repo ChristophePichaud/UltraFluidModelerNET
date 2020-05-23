@@ -307,6 +307,8 @@ public:
 	//bool m_bCaretCreated = false;
 	//vector<char> m_vChar;
 	vector<shared_ptr<CCharElement>> m_vCharElement;
+	PointF m_lastCaretPoint;
+	PointF m_pointF;
 
 // Methods for Attributes
 public:
