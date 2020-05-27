@@ -1716,6 +1716,7 @@ void CConnectorDownElement::Draw(CDrawingContext& ctxt)
 		// 1 * * * * * * * * 4
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1764,6 +1765,7 @@ void CConnectorUpElement::Draw(CDrawingContext& ctxt)
 		// 2 * * * * * * * * 3
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1812,6 +1814,7 @@ void CConnectorRightElement::Draw(CDrawingContext& ctxt)
 		// 3 * * * * * * * * 4
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1860,6 +1863,7 @@ void CConnectorLeftElement::Draw(CDrawingContext& ctxt)
 		// 4 * * * * * * * * 3
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1908,6 +1912,7 @@ void CConnectorSingleLeftElement::Draw(CDrawingContext& ctxt)
 		// 1 * * * * * * * * *
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1957,6 +1962,7 @@ void CConnectorSingleRightElement::Draw(CDrawingContext& ctxt)
 		// * * * * * * * * * 3
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;

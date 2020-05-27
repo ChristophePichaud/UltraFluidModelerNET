@@ -20,7 +20,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 18)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 19)
 
 CElementManager::CElementManager()
 {
@@ -124,7 +124,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(18);
+		ar.SetObjectSchema(19);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -2062,6 +2062,14 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		}
 	}
 
+	if (name == prop_Arrow_Type)
+	{
+		if (value == _T("None") || value == _T("Left") || value == _T("Right") || value == _T("Left Right"))
+		{
+			pElement->m_arrowType = pElement->FromStringEx2(value);
+		}
+	}
+
 	// Some properties could change the UI in class view or file view
 	if( bUpdateUI == true )
 	{
@@ -3740,6 +3748,7 @@ void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 		pNewElement->m_textConnector1 = pElement->m_textConnector1;
 		pNewElement->m_textConnector2 = pElement->m_textConnector2;
 		pNewElement->m_dashLineType = pElement->m_dashLineType;
+		pNewElement->m_arrowType = pElement->m_arrowType;
 
 
 		data->m_shapes.push_back(pNewElement);
@@ -3871,6 +3880,7 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 		pNewElement->m_textConnector1 = pElement->m_textConnector1;
 		pNewElement->m_textConnector2 = pElement->m_textConnector2;
 		pNewElement->m_dashLineType = (DashLineType)pElement->m_dashLineType;
+		pNewElement->m_arrowType = (ArrowType)pElement->m_arrowType;
 
 		m_objects.AddTail(pNewElement);
 		pView->LogDebug(_T("object created ->") + pNewElement->ToString());

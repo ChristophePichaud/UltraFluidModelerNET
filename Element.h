@@ -174,6 +174,14 @@ enum DashLineType : int
 	dash_dashdotdot
 };
 
+enum ArrowType : int
+{
+	arrow_none,
+	arrow_left,
+	arrow_right2,
+	arrow_left_right
+};
+
 // Hints for UpdateAllViews/OnUpdate
 #define HINT_UPDATE_WINDOW      0
 #define HINT_UPDATE_DRAWOBJ     1
@@ -231,8 +239,10 @@ public:
 	CString ToString(shared_ptr<CConnector> pConnector);
 	CString ToString(DocumentType type);
 	CString ToString(DashLineType type);
+	CString ToString(ArrowType type);
 	DocumentType FromString(wstring type);
 	DashLineType CElement::FromStringEx(wstring type);
+	ArrowType FromStringEx2(wstring type);
 	CString DragHandleToString(int nHandle);
 	int DragHandleFromString(wstring value);
 	//static bool IsDrawable(ElementType type);
@@ -240,6 +250,7 @@ public:
 	void InvalidateObj(void);
 	void CheckForKeepingAMinimumSize();
 	void BuildPen(Pen& pen);
+	void BuildPenEx(Pen& pen);
 
 // Managing/Viewing Object Selection & Tracker helpers
 public:
@@ -325,6 +336,7 @@ public:
 	static COLORREF m_connectorShapesTextColor;
 	static bool m_bShowConnectors;
 	DashLineType m_dashLineType;
+	ArrowType m_arrowType;
 
 	// Drawing Text feature
 	bool m_bDrawCaret = false;

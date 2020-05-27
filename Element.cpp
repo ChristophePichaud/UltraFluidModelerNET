@@ -124,7 +124,7 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 18)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 19)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
@@ -180,6 +180,7 @@ CElement::CElement()
 	m_document = _T("");
 	m_documentType = DocumentType::document_none;
 	m_dashLineType = DashLineType::dash_solid;
+	m_arrowType = ArrowType::arrow_none;
 	m_documentTypeText = _T("None");
 	m_version = _T("");
 	m_product = _T("");
@@ -277,6 +278,7 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_rotateAngle = m_rotateAngle;
 		pNewElement->m_bShowElementName = m_bShowElementName;
 		pNewElement->m_dashLineType = m_dashLineType;
+		pNewElement->m_arrowType = m_arrowType;
 		return pNewElement;
 }
 
@@ -322,6 +324,7 @@ CElement::CElement(const CElement& element)
 	this->m_rotateAngle = element.m_rotateAngle;
 	this->m_bShowElementName = element.m_bShowElementName;
 	this->m_dashLineType = element.m_dashLineType;
+	this->m_arrowType = element.m_arrowType;
 }
 
 CString CElement::ToString(shared_ptr<CElement> pElement)
@@ -393,6 +396,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_textConnector2 = object.at(U("TextConnector2")).as_string();
 	pElement->m_bSolidColorFill = (object.at(U("bSolidColorFill")).as_integer()) == 1 ? true : false;
 	pElement->m_dashLineType = (DashLineType)(object.at(U("DashLineType")).as_integer());
+	pElement->m_arrowType = (ArrowType)(object.at(U("ArrowType")).as_integer());
 
 	return pElement;
 }
@@ -452,6 +456,7 @@ web::json::value CElement::AsJSON() const
 	res[U("TextConnector2")] = web::json::value::string(m_textConnector2);
 	res[U("bSolidColorFill")] = web::json::value::number((int)m_bSolidColorFill);
 	res[U("DashLineType")] = web::json::value::number(m_dashLineType);
+	res[U("ArrowType")] = web::json::value::number(m_arrowType);
 	return res;
 
 }
@@ -471,7 +476,11 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(18);
+		ar.SetObjectSchema(19);
+
+		// The schema v19 contains extra info: m_arrowType
+		int arrow = m_arrowType;
+		ar << arrow;
 
 		// The schema v18 contains extra info: dashLineType
 		int dash = m_dashLineType;
@@ -592,6 +601,13 @@ void CElement::Serialize(CArchive& ar)
 		// get the document back pointer from the archive
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
+
+		if (version >= 19)
+		{
+			int arrow;
+			ar >> arrow;
+			m_arrowType = (ArrowType)arrow;
+		}
 
 		if (version >= 18)
 		{
@@ -1148,6 +1164,33 @@ CString CElement::ToString(DashLineType type)
 	return str;
 }
 
+CString CElement::ToString(ArrowType type)
+{
+	CString str = _T("");
+	switch (type)
+	{
+	case ArrowType::arrow_none:
+		str = _T("None");
+		break;
+
+	case ArrowType::arrow_left:
+		str = _T("Left");
+		break;
+
+	case ArrowType::arrow_right2:
+		str = _T("Right");
+		break;
+
+	case ArrowType::arrow_left_right:
+		str = _T("Left Right");
+		break;
+
+	default:
+		break;
+	}
+	return str;
+}
+
 DashLineType CElement::FromStringEx(wstring type)
 {
 	DashLineType dashLineType = DashLineType::dash_solid;
@@ -1174,6 +1217,27 @@ DashLineType CElement::FromStringEx(wstring type)
 	return dashLineType;
 }
 
+ArrowType CElement::FromStringEx2(wstring type)
+{
+	ArrowType arrowType = ArrowType::arrow_none;
+	if (type == _T("None"))
+	{
+		arrowType = ArrowType::arrow_none;
+	}
+	if (type == _T("Left"))
+	{
+		arrowType = ArrowType::arrow_left;
+	}
+	if (type == _T("Right"))
+	{
+		arrowType = ArrowType::arrow_right2;
+	}
+	if (type == _T("Left Right"))
+	{
+		arrowType = ArrowType::arrow_left_right;
+	}
+	return arrowType;
+}
 
 ElementType CElement::From(ShapeType type)
 {
@@ -1852,6 +1916,29 @@ void CElement::BuildPen(Pen& pen)
 	else if (m_dashLineType == DashLineType::dash_dashdotdot)
 	{
 		pen.SetDashStyle(DashStyle::DashStyleDashDotDot);
+	}
+}
+
+void CElement::BuildPenEx(Pen& pen)
+{
+	if (m_arrowType == ArrowType::arrow_none)
+	{
+	}
+	else if (m_arrowType == ArrowType::arrow_left)
+	{
+		AdjustableArrowCap aac(10, 4);
+		pen.SetCustomStartCap(&aac);
+	}
+	else if (m_arrowType == ArrowType::arrow_right2)
+	{
+		AdjustableArrowCap aac(10, 4);
+		pen.SetCustomEndCap(&aac);
+	}
+	else if (m_arrowType == ArrowType::arrow_left_right)
+	{
+		AdjustableArrowCap aac(10, 4);
+		pen.SetCustomStartCap(&aac);
+		pen.SetCustomEndCap(&aac);
 	}
 }
 

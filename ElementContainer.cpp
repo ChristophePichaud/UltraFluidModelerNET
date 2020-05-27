@@ -9,7 +9,7 @@
 // CElementContainer Class
 //
 
-IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 18)
+IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 19)
 
 CElementContainer::CElementContainer()
 {
@@ -29,7 +29,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(18);
+		ar.SetObjectSchema(19);
 
 		pElementManager->ExpandGroupAttributes();
 
@@ -137,6 +137,9 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 
 			// Schema v18
 			pNewElement->m_dashLineType = pElement->m_dashLineType;
+
+			// Schema v19
+			pNewElement->m_arrowType = pElement->m_arrowType;
 
 			POSITION pos = /*pNewElement->m_pView =*/ ar.m_pDocument->GetFirstViewPosition(); //nullptr; // TODO
 			pNewElement->m_pView = (CModeler1View *) (ar.m_pDocument->GetNextView(pos)); //()->GetRoutingView();

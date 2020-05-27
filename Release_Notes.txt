@@ -1,3 +1,4 @@
+		- Arrow Type in Property Grid
 		- Dash Line Type in Property Grid
 		- New simple Connectors
 		- Handling delete key and arrow keys for moving objects

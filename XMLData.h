@@ -119,6 +119,7 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_textConnector1);
 		ar& BOOST_SERIALIZATION_NVP(m_textConnector2);
 		ar& BOOST_SERIALIZATION_NVP(m_dashLineType);
+		ar& BOOST_SERIALIZATION_NVP(m_arrowType);
 	}
 
 	template<class Archive>
@@ -187,6 +188,7 @@ private:
 		ar& BOOST_SERIALIZATION_NVP(m_textConnector1);
 		ar& BOOST_SERIALIZATION_NVP(m_textConnector2);
 		ar& BOOST_SERIALIZATION_NVP(m_dashLineType);
+		ar& BOOST_SERIALIZATION_NVP(m_arrowType);
 	}
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 
@@ -252,6 +254,7 @@ public:
 	std::wstring m_textConnector1;
 	std::wstring m_textConnector2;
 	long m_dashLineType;
+	long m_arrowType;
 };
 
 BOOST_CLASS_VERSION(CSimpleShape, 1)
