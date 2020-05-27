@@ -233,6 +233,11 @@ public:
 	afx_msg void OnOperationDelete();
 	afx_msg void OnUpdateOperationDelete(CCmdUI* pCmdUI);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnConnectorUp();
+	afx_msg void OnConnectorDown();
+	afx_msg void OnConnectorRight();
+	afx_msg void OnConnectorLeft();
+	afx_msg void OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

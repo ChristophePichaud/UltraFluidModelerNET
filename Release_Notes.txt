@@ -1,3 +1,7 @@
+		- New simple Connectors
+		- Handling delete key and arrow keys for moving objects
+	Release Notes v 1.27.05.2020
+		- Text is not duplicate by Text Dialog Box
 		- Text does not wrap
 		- Feature Text OnChar et Caret
 		- Feature Delete

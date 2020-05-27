@@ -20,7 +20,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 16)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 17)
 
 CElementManager::CElementManager()
 {
@@ -124,7 +124,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(16);
+		ar.SetObjectSchema(17);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -3638,7 +3638,7 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	file << str;
 	file.close();
 
-	AfxMessageBox(json.c_str());
+	//AfxMessageBox(json.c_str());
 }
 
 void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
@@ -4147,7 +4147,8 @@ void CElementManager::HideAllEditControls()
 void CElementManager::OnFileSaveDatabase(CModeler1View* pView)
 {
 	CDialogSaveDatabase dlg;
-	dlg.m_strDiagramName = m_diagramName.c_str();
+	dlg.m_strDiagramName = pView->GetDocument()->GetTitle();
+
 	if (dlg.DoModal() == IDCANCEL)
 	{
 		return;
@@ -4193,6 +4194,7 @@ void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
 	}
 
 	wstring diagramName = dlg.m_diagramName;
+	pView->GetDocument()->SetTitle(diagramName.c_str());
 
 	auto it = find_if(dlg.m_vDiagrams.begin(), dlg.m_vDiagrams.end(), [diagramName](shared_ptr<SQLiteDiagramEntity> sde) {
 		wstring fn(sde->FileName.begin(), sde->FileName.end());
@@ -4210,6 +4212,7 @@ void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
 	shared_ptr<SQLiteDiagramEntity> sde = *it;
 	string json = sde->Json;
 	wstring wjson(json.begin(), json.end());
+	m_diagramId = sde->DiagramPK;
 
 	m_objects.RemoveAll();
 	Invalidate(pView);
@@ -4310,6 +4313,51 @@ void CElementManager::OnChar(CModeler1View* pView, UINT nChar, UINT nRepCnt, UIN
 	//pView->GetDocument()->UpdateAllViews(pView);
 }
 
+
+void CElementManager::OnCharSpecial(CModeler1View* pView, UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_LEFT)
+	{
+		for (std::shared_ptr<CElement> pElement : m_selection.m_objects)
+		{
+			pElement->m_rect.left -= 1;
+			pElement->m_rect.right -= 1;
+		}
+		Invalidate(pView);
+	}
+	else if (nChar == VK_RIGHT)
+	{
+		for (std::shared_ptr<CElement> pElement : m_selection.m_objects)
+		{
+			pElement->m_rect.left += 1;
+			pElement->m_rect.right += 1;
+		}
+		Invalidate(pView);
+	}
+	else if (nChar == VK_UP)
+	{
+		for (std::shared_ptr<CElement> pElement : m_selection.m_objects)
+		{
+			pElement->m_rect.top -= 1;
+			pElement->m_rect.bottom -= 1;
+		}
+		Invalidate(pView);
+	}
+	else if (nChar == VK_DOWN)
+	{
+		for (std::shared_ptr<CElement> pElement : m_selection.m_objects)
+		{
+			pElement->m_rect.top += 1;
+			pElement->m_rect.bottom += 1;
+		}
+		Invalidate(pView);
+	}
+	else if (nChar == VK_DELETE)
+	{
+		RemoveSelectedObjects(pView);
+		Invalidate(pView);
+	}
+}
 
 void CElementManager::CreateCaret(CModeler1View* pView)
 {

@@ -484,6 +484,37 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 		}
 	}
 
+	if (type == ElementType::type_connector)
+	{
+		switch (shapeType)
+		{
+		case connector_up:
+		{
+			std::shared_ptr<CElement> apNewElement(new CConnectorUpElement());
+			pNewElement = apNewElement;
+			break;
+		}
+		case connector_down:
+		{
+			std::shared_ptr<CElement> apNewElement(new CConnectorDownElement());
+			pNewElement = apNewElement;
+			break;
+		}
+		case connector_left:
+		{
+			std::shared_ptr<CElement> apNewElement(new CConnectorLeftElement());
+			pNewElement = apNewElement;
+			break;
+		}
+		case connector_right:
+		{
+			std::shared_ptr<CElement> apNewElement(new CConnectorRightElement());
+			pNewElement = apNewElement;
+			break;
+		}
+		}
+	}
+
 
 
 	//

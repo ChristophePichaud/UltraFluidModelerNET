@@ -207,8 +207,13 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_COMMAND(ID_FILE_LOAD_DATABASE, &CModeler1View::OnFileLoadDatabase)
 	ON_COMMAND(ID_OPERATION_DELETE, &CModeler1View::OnOperationDelete)
 	ON_UPDATE_COMMAND_UI(ID_OPERATION_DELETE, &CModeler1View::OnUpdateOperationDelete)
-        ON_WM_CHAR()
-        END_MESSAGE_MAP()
+    ON_WM_CHAR()
+	ON_COMMAND(ID_CONNECTOR_UP, &CModeler1View::OnConnectorUp)
+	ON_COMMAND(ID_CONNECTOR_DOWN, &CModeler1View::OnConnectorDown)
+	ON_COMMAND(ID_CONNECTOR_RIGHT, &CModeler1View::OnConnectorRight)
+	ON_COMMAND(ID_CONNECTOR_LEFT, &CModeler1View::OnConnectorLeft)
+		ON_WM_SYSKEYDOWN()
+		END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
 
@@ -1458,29 +1463,6 @@ void CModeler1View::OnUpdateFileFormatExpandLarge(CCmdUI* pCmdUI)
 	pCmdUI->Enable(GetManager()->HasSelection());
 }
 
-BOOL CModeler1View::PreTranslateMessage(MSG* pMsg)
-{
-	/*
-	const int wParam = pMsg->wParam;
-	const int id = LOWORD(wParam);
-	const int lParam = pMsg->lParam;
-	DWORD message = pMsg->message;
-
-	if (message == WM_KILLFOCUS)
-	{
-		for (shared_ptr<CElement> pElement : GetManager()->GetObjects())
-		{
-			if (pElement->m_ctrlId == id)
-			{
-				pElement->m_edit.ShowWindow(SW_HIDE);
-				return TRUE;
-			}
-		}
-	}
-	*/
-	return FALSE;
-}
-
 void CModeler1View::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
@@ -1521,5 +1503,55 @@ void CModeler1View::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 	}
 
-    CScrollView::OnChar(nChar, nRepCnt, nFlags);
+	CScrollView::OnChar(nChar, nRepCnt, nFlags);
+}
+
+void CModeler1View::OnConnectorUp()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_up;
+}
+
+void CModeler1View::OnConnectorDown()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_down;
+}
+
+void CModeler1View::OnConnectorRight()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_right;
+}
+
+void CModeler1View::OnConnectorLeft()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_left;
+}
+
+
+void CModeler1View::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CScrollView::OnSysKeyDown(nChar, nRepCnt, nFlags);
+}
+
+BOOL CModeler1View::PreTranslateMessage(MSG* pMsg)
+{
+	const int wParam = pMsg->wParam;
+	const int id = LOWORD(wParam);
+	const int lParam = pMsg->lParam;
+	DWORD message = pMsg->message;
+
+	if (message == WM_KEYDOWN)
+	{
+		if (GetManager()->HasSelection())
+		{
+			GetManager()->OnCharSpecial(this, wParam, 0, 0);
+		}
+	}
+
+	return FALSE;
 }

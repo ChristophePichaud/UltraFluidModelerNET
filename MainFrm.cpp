@@ -626,6 +626,12 @@ void CMainFrame::InitMainButton()
 	pPanelAction->Add(new CMFCRibbonButton(ID_ACTION_FOLDERS, _T("Folders\nc"), 48));
 	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_CONNECT, _T("Connect\nc"), 58));
 	pPanelAction->Add(new CMFCRibbonButton(ID_DESIGN_DECONNECT, _T("Deconnect\nc"), 50));
+	// Create "Connector" panel
+	CMFCRibbonPanel* pPanelConnector = pFeaturesCategory->AddPanel(_T("Connector\ndb"), m_PanelImages.ExtractIcon(2));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_UP, _T("Up\nc"), 59));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_DOWN, _T("Down\nc"), 60));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_RIGHT, _T("Right\nc"), 62));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_LEFT, _T("Left\nc"), 61));
 	// Create "Database" panel
 	CMFCRibbonPanel* pPanelDatabase = pFeaturesCategory->AddPanel(_T("Database\ndb"), m_PanelImages.ExtractIcon(2));
 	pPanelDatabase->Add(new CMFCRibbonButton(ID_DATABASE_SETTINGS, _T("Settings...\nc"), -1, 28));

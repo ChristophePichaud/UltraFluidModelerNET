@@ -9,7 +9,7 @@
 // CElementContainer Class
 //
 
-IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 16)
+IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 17)
 
 CElementContainer::CElementContainer()
 {
@@ -29,7 +29,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(16);
+		ar.SetObjectSchema(17);
 
 		pElementManager->ExpandGroupAttributes();
 

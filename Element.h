@@ -36,7 +36,8 @@ enum ElementType : int
 	type_shapes_planning,
 	type_selection,
 	type_connection,
-	type_file
+	type_file,
+	type_connector
 };
 
 #define OffsetShapes_Simple			0
@@ -46,6 +47,7 @@ enum ElementType : int
 #define OffsetShapes_Development	300
 #define OffsetShapes_Import			400
 #define OffsetShapes_Planning		500
+#define OffsetShapes_Connectors		520
 
 enum ShapeType : int 
 {
@@ -133,6 +135,10 @@ enum ShapeType : int
 	selection,
 	connection,
 	diagram,
+	connector_up = OffsetShapes_Connectors,
+	connector_down,
+	connector_left,
+	connector_right,
 	unknown = 1000
 };
 

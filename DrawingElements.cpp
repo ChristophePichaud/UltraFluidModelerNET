@@ -1021,6 +1021,10 @@ void CAdvancedTextElement::Draw(CDrawingContext& ctxt)
 	SizeF sizeF(rect.Width() - 10, rect.Height() - 10);
 	RectF rectF(pointText, sizeF);
 
+	Color color;
+	color.SetFromCOLORREF(m_colorText);
+	SolidBrush solidBrushText(color);
+
 	//if (m_bDrawCaret == true)
 	{
 		SolidBrush solidBrushTracker(Color::Azure);
@@ -1095,7 +1099,16 @@ void CAdvancedTextElement::Draw(CDrawingContext& ctxt)
 				RectF rectDraw(ptIn, sizeF);
 				graphics->MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
 				//graphics->DrawString(wdata.c_str(), -1, &font, rectDraw, &stringFormat, &solidBrush);
-				graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+				if (HasColorFill())
+				{
+					if (IsSolidColorFill())
+					{
+						graphics->FillRectangle(&solidBrush, rectOut.X, rectOut.Y, rectOut.Width, rectOut.Height);
+					}
+				}
+
+				graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrushText);
 
 				// Store the measure
 				//pCharElement->m_rectf = rectDraw;
@@ -1177,7 +1190,16 @@ void CAdvancedTextElement::Draw(CDrawingContext& ctxt)
 		RectF rectDraw(ptIn, sizeF);
 		graphics->MeasureString(wdata.c_str(), wdata.size(), &font, ptIn /*rectDraw*/, &stringFormat, &rectOut);
 		//graphics->DrawString(wdata.c_str(), -1, &font, rectOut /*rectDraw*/, &stringFormat, &solidBrush);
-		graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrush);
+
+		if (HasColorFill())
+		{
+			if (IsSolidColorFill())
+			{
+				graphics->FillRectangle(&solidBrush, rectOut.X, rectOut.Y, rectOut.Width, rectOut.Height);
+			}
+		}
+
+		graphics->DrawString(wdata.c_str(), -1, &font, ptIn, &stringFormat, &solidBrushText);
 
 		m_pointF.X = rectOut.GetRight();
 		m_pointF.Y = rectOut.GetTop();
@@ -1616,3 +1638,185 @@ void CBasicDatabaseElement::Draw(CDrawingContext& ctxt)
 
 	graphics->DrawPath(&colorPen, &gp);
 }
+
+//
+// CConnectorDownElement class
+//
+void CConnectorDownElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 2 * * * * * * * * 3
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// 1 * * * * * * * * 4
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[4] = { Point(rect.left, rect.bottom),
+							Point(rect.left, rect.top),
+							Point(rect.right , rect.top),
+							Point(rect.right, rect.bottom) };
+		int npoints = 4;
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
+
+//
+// CConnectorUpElement class
+//
+void CConnectorUpElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 1 * * * * * * * * 4
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// 2 * * * * * * * * 3
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[4] = { Point(rect.left, rect.top),
+							Point(rect.left, rect.bottom),
+							Point(rect.right , rect.bottom),
+							Point(rect.right, rect.top) };
+		int npoints = 4;
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
+
+//
+// CConnectorRightElement class
+//
+void CConnectorRightElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 2 * * * * * * * * 1
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// 3 * * * * * * * * 4
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[4] = { Point(rect.right, rect.top),
+							Point(rect.left, rect.top),
+							Point(rect.left, rect.bottom),
+							Point(rect.right, rect.bottom) };
+		int npoints = 4;
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
+
+//
+// CConnectorLeftElement class
+//
+void CConnectorLeftElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 1 * * * * * * * * 2
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// 4 * * * * * * * * 3
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[4] = { Point(rect.left, rect.top),
+							Point(rect.right, rect.top),
+							Point(rect.right , rect.bottom),
+							Point(rect.left, rect.bottom) };
+		int npoints = 4;
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
+
+

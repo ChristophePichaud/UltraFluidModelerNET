@@ -104,7 +104,16 @@ ShapeType CShapeType::ToShapeType(int value)
 		case planning_month:
 		case planning_task:
 			ret = (ShapeType)value;
-		default: break;
+			break;
+		case connector_up:
+		case connector_down:
+		case connector_left:
+		case connector_right:
+			ret = (ShapeType)value;
+			break;
+
+		default: 
+			break;
 	}
 	return ret;
 }
@@ -113,7 +122,7 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 16)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 17)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
@@ -141,7 +150,7 @@ CElement::CElement()
 	m_textAlign = _T("None");
 	m_bColorFill = true;
 	m_colorFill = RGB(154, 200, 249);
-	m_bSolidColorFill = false;
+	m_bSolidColorFill = true; // false;
 	m_bColorLine = true;
 	m_colorLine = RGB(0, 0, 0);
 	m_bLineWidth = true;
@@ -377,6 +386,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_bShowElementName = object.at(U("bViewName")).as_integer();
 	pElement->m_textConnector1 = object.at(U("TextConnector1")).as_string();
 	pElement->m_textConnector2 = object.at(U("TextConnector2")).as_string();
+	pElement->m_bSolidColorFill = (object.at(U("bSolidColorFill")).as_integer()) == 1 ? true : false;
 
 	return pElement;
 }
@@ -434,6 +444,7 @@ web::json::value CElement::AsJSON() const
 	res[U("bViewName")] = web::json::value::number((int)m_bShowElementName);
 	res[U("TextConnector1")] = web::json::value::string(m_textConnector1);
 	res[U("TextConnector2")] = web::json::value::string(m_textConnector2);
+	res[U("bSolidColorFill")] = web::json::value::number((int)m_bSolidColorFill);
 	return res;
 
 }
@@ -453,14 +464,17 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(16);
+		ar.SetObjectSchema(17);
 
+		// The schema v17 contains extra info: bSolidColorFill
+		ar << m_bSolidColorFill;
+
+		// The schema v16 contains extra info: showElementName, textConnector1&2
 		CString text1 = W2T((LPTSTR)m_textConnector1.c_str());
 		ar << text1;
 		CString text2 = W2T((LPTSTR)m_textConnector2.c_str());
 		ar << text2;
 
-		// The schema v16 contains extra info: showElementName
 		ar << m_bShowElementName;
 
 		// The schema v15 contains extra info: team, authors
@@ -568,6 +582,11 @@ void CElement::Serialize(CArchive& ar)
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
 
+
+		if (version >= 17)
+		{
+			ar >> m_bSolidColorFill;
+		}
 
 		if (version >= 16)
 		{
@@ -1008,6 +1027,19 @@ CString CElement::static_ToString(ShapeType type)
 			break;
 		case planning_task:
 			str = _T("planning_task");
+			break;
+
+		case connector_up:
+			str = _T("connector_up");
+			break;
+		case connector_down:
+			str = _T("connector_down");
+			break;
+		case connector_left:
+			str = _T("connector_left");
+			break;
+		case connector_right:
+			str = _T("connector_right");
 			break;
 	}
 	return str;
@@ -1709,6 +1741,7 @@ std::wstring CElement::GetImageFilePath()
 
 void CElement::BuildVChar()
 {
+	m_vCharElement.clear();
 	for (char c : m_text)
 	{
 		shared_ptr<CCharElement> pCharElement = make_shared<CCharElement>();

@@ -258,6 +258,7 @@
   <ItemGroup>
     <Image Include="res\BlankList.png" />
     <Image Include="res\buttons.bmp" />
+    <Image Include="res\caret.bmp" />
     <Image Include="res\ChartLayout.BMP" />
     <Image Include="res\ChartLayoutLarge.BMP" />
     <Image Include="res\classview.bmp" />

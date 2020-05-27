@@ -278,6 +278,7 @@ public:
 	void HideAllEditControls();
 	void OnChar(CModeler1View* pView, UINT nChar, UINT nRepCnt, UINT nFlags);
 	void CreateCaret(CModeler1View* pView);
+	void OnCharSpecial(CModeler1View* pView, UINT nChar, UINT nRepCnt, UINT nFlags);
 
 };
 

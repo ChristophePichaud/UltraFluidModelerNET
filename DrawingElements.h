@@ -208,3 +208,28 @@ class CAdvancedTextElement : public CElement
 public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
+
+class CConnectorUpElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CConnectorDownElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CConnectorLeftElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CConnectorRightElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
