@@ -632,6 +632,8 @@ void CMainFrame::InitMainButton()
 	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_DOWN, _T("Down\nc"), 60));
 	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_RIGHT, _T("Right\nc"), 62));
 	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_LEFT, _T("Left\nc"), 61));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_SINGLE_RIGHT, _T("Single Right\nc"), 63));
+	pPanelConnector->Add(new CMFCRibbonButton(ID_CONNECTOR_SINGLE_LEFT, _T("Single Left\nc"), 64));
 	// Create "Database" panel
 	CMFCRibbonPanel* pPanelDatabase = pFeaturesCategory->AddPanel(_T("Database\ndb"), m_PanelImages.ExtractIcon(2));
 	pPanelDatabase->Add(new CMFCRibbonButton(ID_DATABASE_SETTINGS, _T("Settings...\nc"), -1, 28));

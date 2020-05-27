@@ -20,7 +20,7 @@
 // CElementManager
 //
 
-IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 17)
+IMPLEMENT_SERIAL(CElementManager, CObject, VERSIONABLE_SCHEMA | 18)
 
 CElementManager::CElementManager()
 {
@@ -124,7 +124,7 @@ void CElementManager::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(17);
+		ar.SetObjectSchema(18);
 
 		//CString elementGroup = W2T((LPTSTR)m_elementGroup.c_str());
 		//ar << elementGroup;
@@ -862,6 +862,8 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement->m_fontSize = 12;
 			pTextElement->m_colorText = pTextElement->m_colorText;
 			pTextElement->m_text = pElement->m_textConnector1;
+			pTextElement->m_bColorFill = pElement->m_bColorFill;
+			pTextElement->m_colorFill = pElement->m_colorFill;
 
 			pTextElement->Draw(ctxt);
 
@@ -879,6 +881,8 @@ void CElementManager::Draw(CModeler1View * pView, CDC * pDC)
 			pTextElement2->m_fontSize = 12;
 			pTextElement2->m_colorText = pTextElement2->m_colorText;
 			pTextElement2->m_text = pElement->m_textConnector2;
+			pTextElement2->m_bColorFill = pElement->m_bColorFill;
+			pTextElement2->m_colorFill = pElement->m_colorFill;
 
 			pTextElement2->Draw(ctxt);
 		}
@@ -2047,6 +2051,14 @@ void CElementManager::UpdateFromPropertyGrid(std::wstring objectId, std::wstring
 		if (value == _T("None") || value == _T("File") || value == _T("Folder") || value == _T("Diagram"))
 		{
 			pElement->m_documentType = pElement->FromString(value);
+		}
+	}
+
+	if (name == prop_DashLine_Type)
+	{
+		if (value == _T("Solid") || value == _T("Dash") || value == _T("Dot") || value == _T("DashDot") || value == _T("DashDotDot"))
+		{
+			pElement->m_dashLineType = pElement->FromStringEx(value);
 		}
 	}
 
@@ -3727,6 +3739,7 @@ void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
 		pNewElement->m_textConnector1 = pElement->m_textConnector1;
 		pNewElement->m_textConnector2 = pElement->m_textConnector2;
+		pNewElement->m_dashLineType = pElement->m_dashLineType;
 
 
 		data->m_shapes.push_back(pNewElement);
@@ -3857,6 +3870,7 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 		pNewElement->m_bShowConnectors = pElement->m_bShowConnectors;
 		pNewElement->m_textConnector1 = pElement->m_textConnector1;
 		pNewElement->m_textConnector2 = pElement->m_textConnector2;
+		pNewElement->m_dashLineType = (DashLineType)pElement->m_dashLineType;
 
 		m_objects.AddTail(pNewElement);
 		pView->LogDebug(_T("object created ->") + pNewElement->ToString());

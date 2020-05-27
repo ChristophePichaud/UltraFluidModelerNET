@@ -233,3 +233,15 @@ public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
 
+class CConnectorSingleLeftElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class CConnectorSingleRightElement : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+

@@ -27,6 +27,8 @@ void CLineElement::Draw(CDrawingContext & ctxt)
 	CPoint & p1 = ctxt.GetTopLeft();
 	CPoint & p2 = ctxt.GetBottomRight();
 
+	BuildPen(colorPen);
+
 	if( m_shapeType == ShapeType::line ||  m_shapeType == ShapeType::line2 )
 	{
 		graphics->DrawLine(&colorPen, p1.x, p1.y, p2.x, p2.y);
@@ -80,6 +82,8 @@ void CRectangleElement::Draw(CDrawingContext & ctxt)
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
 
+	BuildPen(colorPen);
+
 	if( HasColorFill() )
 	{
 		if( IsSolidColorFill() )
@@ -104,7 +108,9 @@ void CTriangleElement::Draw(CDrawingContext & ctxt)
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
 
-	Point points[3] = {Point(rect.left + rect.Width()/2, rect.top), 
+	BuildPen(colorPen);
+
+	Point points[3] = {Point(rect.left + rect.Width()/2, rect.top),
 					Point(rect.right, rect.bottom), 
 					Point(rect.left, rect.bottom)};
 	if( HasColorFill() )
@@ -130,6 +136,8 @@ void CEllipseElement::Draw(CDrawingContext & ctxt)
 	Pen & colorPen = ctxt.GetPenColor();
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	LinearGradientBrush & lgBrush = ctxt.GetGradientBrushColor();
+
+	BuildPen(colorPen);
 
 	if( HasColorFill() )
 	{
@@ -160,6 +168,8 @@ void CArrowRightElement::Draw(CDrawingContext & ctxt)
 	// - * * * * * * * * 4
 	// 7 - - - 6 * * * * *
 	// * * * * 5 * * * * *
+
+	BuildPen(colorPen);
 
 	int step1_5_x = rect.Width() / 5;
 	int step1_5_y = rect.Height() / 5;
@@ -205,6 +215,8 @@ void CArrowDownElement::Draw(CDrawingContext & ctxt)
 	// * * * * * * * * * *
 	// * * * * * * * * * *
 	// * * * * 5 * * * * *
+
+	BuildPen(colorPen);
 
 	int step1_5_x = rect.Width() / 5;
 	int step1_5_y = rect.Height() / 5;
@@ -252,6 +264,8 @@ void CStarElement::Draw(CDrawingContext & ctxt)
 	// * * * * * * * * * *
 	// 5 * * * * * * * * 7
 
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[10] = {/*1*/ Point(rect.left + rect.Width()/2, rect.top), 
@@ -298,6 +312,9 @@ void CParentheseLeftElement::Draw(CDrawingContext & ctxt)
 	// * * * * * * * * * *
 	// * 6 * * * * * * * *
 	// * * * * * 7 * * *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[7] = {/*1*/ Point(rect.left + step1_10_x*5, rect.top), 
@@ -331,6 +348,9 @@ void CParentheseRightElement::Draw(CDrawingContext & ctxt)
 	// * * * * * * * * * *
 	// * * * * * * * * 6 *
 	// * * * * 7 * * * * *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[7] = {/*1*/ Point(rect.left + step1_10_x*5, rect.top), 
@@ -364,6 +384,9 @@ void CCourbe1Element::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * * * * * * * * 3
 	// * * * * * * * * * *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 2, rect.top),
@@ -393,6 +416,9 @@ void CCourbe2Element::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * 2 * * * * * * 6
 	// 1 * * * * * * * * *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 1, rect.top + step1_10_y * 9),
@@ -425,6 +451,9 @@ void CPatateElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * 5
 	// * 3 * * * * * * * *
 	// * * * * * * * * 4 *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[7] = {/*1*/ Point(rect.left + step1_10_x * 8, rect.top + step1_10_y * 0),
@@ -458,6 +487,9 @@ void CCurveElement::Draw(CDrawingContext& ctxt)
 	// * 6 * * * * * * * *
 	// * * 7 * * * * * * *
 	// * * * * * * * * 8 *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[8] = {/*1*/ Point(rect.left + step1_10_x * 2, rect.top + step1_10_y * 1),
@@ -507,6 +539,9 @@ void CCurveFuzzyElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * * * * 5 * * * *
 	// * * * * * * * 6 * *
+
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 	Point points[6] = {/*1*/ Point(rect.left + step1_10_x * 4, rect.top + step1_10_y * 0),
@@ -540,6 +575,9 @@ void CLineBrokenElement::Draw(CDrawingContext & ctxt)
 		// * * * * * * * * * *
 		// * * * * * * * * * *
 		// * * * * 3 * * * * 4
+
+		BuildPen(colorPen);
+
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
 		Point points[4] = {	Point(rect.left, rect.top), 
@@ -577,6 +615,8 @@ void CDevelopmentElement::Draw(CDrawingContext & ctxt)
 	SolidBrush & solidBrush = ctxt.GetBrushColor();
 	CPoint& p1 = ctxt.GetTopLeft();
 	CPoint& p2 = ctxt.GetBottomRight();
+
+	BuildPen(colorPen);
 
 	if( m_shapeType == ShapeType::development_class )
 	{
@@ -1317,6 +1357,8 @@ void CPlanningElement::Draw(CDrawingContext& ctxt)
 	Pen& colorPen = ctxt.GetPenColor();
 	SolidBrush& solidBrush = ctxt.GetBrushColor();
 
+	BuildPen(colorPen);
+
 	if (m_shapeType == ShapeType::planning_month)
 	{
 		graphics->FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
@@ -1342,6 +1384,8 @@ void CDiagramElement::Draw(CDrawingContext& ctxt)
 	Graphics* graphics = ctxt.GetGraphics();
 	Pen& colorPen = ctxt.GetPenColor();
 	SolidBrush& solidBrush = ctxt.GetBrushColor();
+
+	BuildPen(colorPen);
 
 	if (m_shapeType == ShapeType::diagram)
 	{
@@ -1374,6 +1418,8 @@ void CBasicRectangleElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * * * * * * * * *
 	// 4 * * * * * * * * 3
+
+	BuildPen(colorPen);
 
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
@@ -1418,6 +1464,8 @@ void CBasicRectangle2Element::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * * * * * * * * *
 	// 4 * * * * * * 3 * *
+
+	BuildPen(colorPen);
 
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
@@ -1464,6 +1512,8 @@ void CBasicRectangle3Element::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * 4 * * * * 3 * *
 
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 
@@ -1509,6 +1559,8 @@ void CBasicLosangeElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// * * * * 3 * * * * *
 
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 
@@ -1553,6 +1605,8 @@ void CBasicRoundRectangleElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// 8 * * * * * * * * 5
 	// * 7 * * * * * * 6 *
+
+	BuildPen(colorPen);
 
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
@@ -1608,6 +1662,8 @@ void CBasicDatabaseElement::Draw(CDrawingContext& ctxt)
 	// * * * * * * * * * *
 	// 3 * * * * * * * * 2
 
+	BuildPen(colorPen);
+
 	int step1_10_x = rect.Width() / 10;
 	int step1_10_y = rect.Height() / 10;
 
@@ -1658,6 +1714,9 @@ void CConnectorDownElement::Draw(CDrawingContext& ctxt)
 		// * * * * * * * * * *
 		// * * * * * * * * * *
 		// 1 * * * * * * * * 4
+
+		BuildPen(colorPen);
+
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
 		Point points[4] = { Point(rect.left, rect.bottom),
@@ -1703,6 +1762,9 @@ void CConnectorUpElement::Draw(CDrawingContext& ctxt)
 		// * * * * * * * * * *
 		// * * * * * * * * * *
 		// 2 * * * * * * * * 3
+
+		BuildPen(colorPen);
+
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
 		Point points[4] = { Point(rect.left, rect.top),
@@ -1748,6 +1810,9 @@ void CConnectorRightElement::Draw(CDrawingContext& ctxt)
 		// * * * * * * * * * *
 		// * * * * * * * * * *
 		// 3 * * * * * * * * 4
+
+		BuildPen(colorPen);
+
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
 		Point points[4] = { Point(rect.right, rect.top),
@@ -1793,6 +1858,9 @@ void CConnectorLeftElement::Draw(CDrawingContext& ctxt)
 		// * * * * * * * * * *
 		// * * * * * * * * * *
 		// 4 * * * * * * * * 3
+
+		BuildPen(colorPen);
+
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
 		Point points[4] = { Point(rect.left, rect.top),
@@ -1819,4 +1887,99 @@ void CConnectorLeftElement::Draw(CDrawingContext& ctxt)
 	}
 }
 
+//
+// CConnectorSingleLeftElement class
+//
+void CConnectorSingleLeftElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 2 * * * * * * * * 3
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// 1 * * * * * * * * *
+
+		BuildPen(colorPen);
+
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[3] = { Point(rect.left, rect.bottom),
+							Point(rect.left, rect.top),
+							Point(rect.right , rect.top) };
+		int npoints = 3;
+
+		BuildPen(colorPen);
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
+
+//
+// CConnectorSingleRightElement class
+//
+void CConnectorSingleRightElement::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	//if (m_shapeType == ShapeType::line_broken || m_shapeType == line_broken_right ||
+	//	m_shapeType == ShapeType::line_broken2 || m_shapeType == ShapeType::line_broken_right2 || m_shapeType == ShapeType::line_broken_left_right)
+	{
+		// 1 * * * * * * * * 2
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * *
+		// * * * * * * * * * 3
+
+		BuildPen(colorPen);
+
+		int step1_5_x = rect.Width() / 5;
+		int step1_5_y = rect.Height() / 5;
+		Point points[3] = { Point(rect.left, rect.top),
+							Point(rect.right, rect.top),
+							Point(rect.right , rect.bottom) };
+		int npoints = 3;
+
+		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	//colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		//if (m_shapeType == line_broken_left_right)
+		//{
+		//	AdjustableArrowCap aac(10, 4);
+		//	colorPen.SetCustomStartCap(&aac);
+		//	colorPen.SetCustomEndCap(&aac);
+		//}
+
+		graphics->DrawLines(&colorPen, points, npoints);
+	}
+}
 

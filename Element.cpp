@@ -109,6 +109,8 @@ ShapeType CShapeType::ToShapeType(int value)
 		case connector_down:
 		case connector_left:
 		case connector_right:
+		case connector_single_left:
+		case connector_single_right:
 			ret = (ShapeType)value;
 			break;
 
@@ -122,7 +124,7 @@ ShapeType CShapeType::ToShapeType(int value)
 // CElement Class
 //
 
-IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 17)
+IMPLEMENT_SERIAL(CElement, CObject, VERSIONABLE_SCHEMA | 18)
 
 int CElement::m_counter = 0;
 std::wstring CElement::m_elementGroupNames = _T("");
@@ -148,7 +150,7 @@ CElement::CElement()
 	m_textConnector2 = _T("");
 	m_code = _T("");
 	m_textAlign = _T("None");
-	m_bColorFill = true;
+	m_bColorFill = false; // true;
 	m_colorFill = RGB(154, 200, 249);
 	m_bSolidColorFill = true; // false;
 	m_bColorLine = true;
@@ -177,6 +179,7 @@ CElement::CElement()
 		
 	m_document = _T("");
 	m_documentType = DocumentType::document_none;
+	m_dashLineType = DashLineType::dash_solid;
 	m_documentTypeText = _T("None");
 	m_version = _T("");
 	m_product = _T("");
@@ -273,6 +276,7 @@ std::shared_ptr<CElement> CElement::MakeCopy()
 		pNewElement->m_product= m_product;
 		pNewElement->m_rotateAngle = m_rotateAngle;
 		pNewElement->m_bShowElementName = m_bShowElementName;
+		pNewElement->m_dashLineType = m_dashLineType;
 		return pNewElement;
 }
 
@@ -317,6 +321,7 @@ CElement::CElement(const CElement& element)
 	this->m_product = element.m_product;
 	this->m_rotateAngle = element.m_rotateAngle;
 	this->m_bShowElementName = element.m_bShowElementName;
+	this->m_dashLineType = element.m_dashLineType;
 }
 
 CString CElement::ToString(shared_ptr<CElement> pElement)
@@ -387,6 +392,7 @@ shared_ptr<CElement> CElement::FromJSON(const web::json::object& object)
 	pElement->m_textConnector1 = object.at(U("TextConnector1")).as_string();
 	pElement->m_textConnector2 = object.at(U("TextConnector2")).as_string();
 	pElement->m_bSolidColorFill = (object.at(U("bSolidColorFill")).as_integer()) == 1 ? true : false;
+	pElement->m_dashLineType = (DashLineType)(object.at(U("DashLineType")).as_integer());
 
 	return pElement;
 }
@@ -445,6 +451,7 @@ web::json::value CElement::AsJSON() const
 	res[U("TextConnector1")] = web::json::value::string(m_textConnector1);
 	res[U("TextConnector2")] = web::json::value::string(m_textConnector2);
 	res[U("bSolidColorFill")] = web::json::value::number((int)m_bSolidColorFill);
+	res[U("DashLineType")] = web::json::value::number(m_dashLineType);
 	return res;
 
 }
@@ -464,7 +471,11 @@ void CElement::Serialize(CArchive& ar)
 		//
 		// Set version of file format
 		//
-		ar.SetObjectSchema(17);
+		ar.SetObjectSchema(18);
+
+		// The schema v18 contains extra info: dashLineType
+		int dash = m_dashLineType;
+		ar << dash;
 
 		// The schema v17 contains extra info: bSolidColorFill
 		ar << m_bSolidColorFill;
@@ -582,6 +593,12 @@ void CElement::Serialize(CArchive& ar)
 		CModeler1Doc * pDocument = (CModeler1Doc*)ar.m_pDocument;
 		m_pManager = pDocument->GetManager();
 
+		if (version >= 18)
+		{
+			int dash;
+			ar >> dash;
+			m_dashLineType = (DashLineType)dash;
+		}
 
 		if (version >= 17)
 		{
@@ -1041,6 +1058,12 @@ CString CElement::static_ToString(ShapeType type)
 		case connector_right:
 			str = _T("connector_right");
 			break;
+		case connector_single_left:
+			str = _T("connector_single_left");
+			break;
+		case connector_single_right:
+			str = _T("connector_single_right");
+			break;
 	}
 	return str;
 }
@@ -1093,6 +1116,64 @@ DocumentType CElement::FromString(wstring type)
 	}
 	return doctype;
 }
+
+CString CElement::ToString(DashLineType type)
+{
+	CString str = _T("");
+	switch (type)
+	{
+	case DashLineType::dash_solid:
+		str = _T("Solid");
+		break;
+
+	case DashLineType::dash_dash:
+		str = _T("Dash");
+		break;
+
+	case DashLineType::dash_dot:
+		str = _T("Dot");
+		break;
+
+	case DashLineType::dash_dashdot:
+		str = _T("DashDot");
+		break;
+
+	case DashLineType::dash_dashdotdot:
+		str = _T("DashDotDot");
+		break;
+
+	default:
+		break;
+	}
+	return str;
+}
+
+DashLineType CElement::FromStringEx(wstring type)
+{
+	DashLineType dashLineType = DashLineType::dash_solid;
+	if (type == _T("Solid"))
+	{
+		dashLineType = DashLineType::dash_solid;
+	}
+	if (type == _T("Dash"))
+	{
+		dashLineType = DashLineType::dash_dash;
+	}
+	if (type == _T("Dot"))
+	{
+		dashLineType = DashLineType::dash_dot;
+	}
+	if (type == _T("DashDot"))
+	{
+		dashLineType = DashLineType::dash_dashdot;
+	}
+	if (type == _T("DashDotDot"))
+	{
+		dashLineType = DashLineType::dash_dashdotdot;
+	}
+	return dashLineType;
+}
+
 
 ElementType CElement::From(ShapeType type)
 {
@@ -1747,6 +1828,30 @@ void CElement::BuildVChar()
 		shared_ptr<CCharElement> pCharElement = make_shared<CCharElement>();
 		pCharElement->m_char = c;
 		m_vCharElement.push_back(pCharElement);
+	}
+}
+
+void CElement::BuildPen(Pen& pen)
+{
+	if (m_dashLineType == DashLineType::dash_solid)
+	{
+		pen.SetDashStyle(DashStyle::DashStyleSolid);
+	}
+	else if (m_dashLineType == DashLineType::dash_dash)
+	{
+		pen.SetDashStyle(DashStyle::DashStyleDash);
+	}
+	else if (m_dashLineType == DashLineType::dash_dot)
+	{
+		pen.SetDashStyle(DashStyle::DashStyleDot);
+	}
+	else if (m_dashLineType == DashLineType::dash_dot)
+	{
+		pen.SetDashStyle(DashStyle::DashStyleDashDot);
+	}
+	else if (m_dashLineType == DashLineType::dash_dashdotdot)
+	{
+		pen.SetDashStyle(DashStyle::DashStyleDashDotDot);
 	}
 }
 

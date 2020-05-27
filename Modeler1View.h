@@ -238,6 +238,8 @@ public:
 	afx_msg void OnConnectorRight();
 	afx_msg void OnConnectorLeft();
 	afx_msg void OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnConnectorSingleRight();
+	afx_msg void OnConnectorSingleLeft();
 };
 
 #ifndef _DEBUG  // debug version in Modeler1View.cpp

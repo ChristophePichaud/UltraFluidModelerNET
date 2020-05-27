@@ -257,6 +257,15 @@ void CPropertiesWnd::InitPropList()
 	pLineColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
 	pMisc->AddSubItem(pLineColorProp);
 	m_wndPropList.AddProperty(pMisc);
+	pProp = new CMFCPropertyGridProperty(_T("Dash Line Type"), _T(""), _T("Specifies the type of dash line"));
+	pProp->AddOption(_T("Solid"));
+	pProp->AddOption(_T("Dot"));
+	pProp->AddOption(_T("Dash"));
+	pProp->AddOption(_T("DashDot"));
+	pProp->AddOption(_T("DashDotDot"));
+	pProp->AllowEdit(FALSE);
+	pMisc->AddSubItem(pProp);
+	m_wndPropList.AddProperty(pMisc);
 
 	CMFCPropertyGridProperty* pGlobalMisc = new CMFCPropertyGridProperty(_T("Global Misc"));
 	pGlobalMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
@@ -419,6 +428,7 @@ void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)
 	UpdateProperty(prop_Fixed, vFixed);
 	COleVariant vViewName((SHORT)(pObj->m_bShowElementName), VT_BOOL);
 	UpdateProperty(prop_ViewElementName, vViewName);
+	UpdateProperty(prop_DashLine_Type, pObj->ToString(pObj->m_dashLineType));
 
 	UpdateProperty(prop_Document, pObj->m_document.c_str());
 	UpdateProperty(prop_Document_Type, pObj->ToString(pObj->m_documentType));

@@ -9,7 +9,7 @@
 // CElementContainer Class
 //
 
-IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 17)
+IMPLEMENT_SERIAL(CElementContainer, CObject, VERSIONABLE_SCHEMA | 18)
 
 CElementContainer::CElementContainer()
 {
@@ -29,7 +29,7 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 {
 	if( ar.IsStoring() == TRUE )
 	{
-		ar.SetObjectSchema(17);
+		ar.SetObjectSchema(18);
 
 		pElementManager->ExpandGroupAttributes();
 
@@ -65,7 +65,6 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			pNewElement->m_bColorLine = pElement->m_bColorLine;
 			pNewElement->m_bColorFill = pElement->m_bColorFill;
 			pNewElement->m_bLineWidth = pElement->m_bLineWidth;
-			pNewElement->m_bSolidColorFill = pElement->m_bSolidColorFill;
 			//pNewElement->m_caption = pElement->m_caption;
 			pNewElement->m_colorFill = pElement->m_colorFill;
 			pNewElement->m_colorLine = pElement->m_colorLine;
@@ -132,6 +131,12 @@ void CElementContainer::Serialize(CElementManager * pElementManager, CArchive& a
 			// Schema v16 forgotten
 			pNewElement->m_textConnector1 = pElement->m_textConnector1;
 			pNewElement->m_textConnector2 = pElement->m_textConnector2;
+
+			// Schema v17
+			pNewElement->m_bSolidColorFill = pElement->m_bSolidColorFill;
+
+			// Schema v18
+			pNewElement->m_dashLineType = pElement->m_dashLineType;
 
 			POSITION pos = /*pNewElement->m_pView =*/ ar.m_pDocument->GetFirstViewPosition(); //nullptr; // TODO
 			pNewElement->m_pView = (CModeler1View *) (ar.m_pDocument->GetNextView(pos)); //()->GetRoutingView();

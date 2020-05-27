@@ -212,8 +212,10 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_COMMAND(ID_CONNECTOR_DOWN, &CModeler1View::OnConnectorDown)
 	ON_COMMAND(ID_CONNECTOR_RIGHT, &CModeler1View::OnConnectorRight)
 	ON_COMMAND(ID_CONNECTOR_LEFT, &CModeler1View::OnConnectorLeft)
-		ON_WM_SYSKEYDOWN()
-		END_MESSAGE_MAP()
+	ON_WM_SYSKEYDOWN()
+	ON_COMMAND(ID_CONNECTOR_SINGLE_RIGHT, &CModeler1View::OnConnectorSingleRight)
+	ON_COMMAND(ID_CONNECTOR_SINGLE_LEFT, &CModeler1View::OnConnectorSingleLeft)
+END_MESSAGE_MAP()
 
 // CModeler1View construction/destruction
 
@@ -1530,7 +1532,6 @@ void CModeler1View::OnConnectorLeft()
 	GetManager()->m_shapeType = ShapeType::connector_left;
 }
 
-
 void CModeler1View::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: Add your message handler code here and/or call default
@@ -1555,3 +1556,16 @@ BOOL CModeler1View::PreTranslateMessage(MSG* pMsg)
 
 	return FALSE;
 }
+
+void CModeler1View::OnConnectorSingleRight()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_single_right;
+}
+
+void CModeler1View::OnConnectorSingleLeft()
+{
+	GetManager()->m_type = ElementType::type_connector;
+	GetManager()->m_shapeType = ShapeType::connector_single_left;
+}
+

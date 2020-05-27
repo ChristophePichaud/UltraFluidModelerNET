@@ -139,6 +139,8 @@ enum ShapeType : int
 	connector_down,
 	connector_left,
 	connector_right,
+	connector_single_left,
+	connector_single_right,
 	unknown = 1000
 };
 
@@ -161,6 +163,15 @@ enum ConnectorType : int
 {
 	connector1,
 	connector2
+};
+
+enum DashLineType : int
+{
+	dash_solid,
+	dash_dash,
+	dash_dot,
+	dash_dashdot,
+	dash_dashdotdot
 };
 
 // Hints for UpdateAllViews/OnUpdate
@@ -219,13 +230,16 @@ public:
 	static ElementType From(ShapeType type);
 	CString ToString(shared_ptr<CConnector> pConnector);
 	CString ToString(DocumentType type);
+	CString ToString(DashLineType type);
 	DocumentType FromString(wstring type);
+	DashLineType CElement::FromStringEx(wstring type);
 	CString DragHandleToString(int nHandle);
 	int DragHandleFromString(wstring value);
 	//static bool IsDrawable(ElementType type);
 	bool Intersects(const CRect& rect);
 	void InvalidateObj(void);
 	void CheckForKeepingAMinimumSize();
+	void BuildPen(Pen& pen);
 
 // Managing/Viewing Object Selection & Tracker helpers
 public:
@@ -310,6 +324,7 @@ public:
 	static COLORREF m_standardShapesTextColor;
 	static COLORREF m_connectorShapesTextColor;
 	static bool m_bShowConnectors;
+	DashLineType m_dashLineType;
 
 	// Drawing Text feature
 	bool m_bDrawCaret = false;
