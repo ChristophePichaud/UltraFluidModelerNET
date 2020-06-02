@@ -28,6 +28,7 @@ void CLineElement::Draw(CDrawingContext & ctxt)
 	CPoint & p2 = ctxt.GetBottomRight();
 
 	BuildPen(colorPen);
+	BuildPenEx(colorPen);
 
 	if( m_shapeType == ShapeType::line ||  m_shapeType == ShapeType::line2 )
 	{
@@ -577,6 +578,7 @@ void CLineBrokenElement::Draw(CDrawingContext & ctxt)
 		// * * * * 3 * * * * 4
 
 		BuildPen(colorPen);
+		BuildPenEx(colorPen);
 
 		int step1_5_x = rect.Width() / 5;
 		int step1_5_y = rect.Height() / 5;
@@ -1920,8 +1922,6 @@ void CConnectorSingleLeftElement::Draw(CDrawingContext& ctxt)
 							Point(rect.left, rect.top),
 							Point(rect.right , rect.top) };
 		int npoints = 3;
-
-		BuildPen(colorPen);
 
 		//if (m_shapeType == line_broken_right || m_shapeType == line_broken_right2)
 		//{

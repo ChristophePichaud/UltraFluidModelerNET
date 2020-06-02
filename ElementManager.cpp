@@ -3252,6 +3252,9 @@ int CElementManager::GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
 	for (UINT j = 0; j < num; ++j)
 	{
+		//AfxMessageBox(pImageCodecInfo[j].MimeType);
+		//continue;
+
 		if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
 		{
 			*pClsid = pImageCodecInfo[j].Clsid;
