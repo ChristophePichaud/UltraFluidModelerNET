@@ -14,7 +14,7 @@ protected:
 	CModeler1SourceView();           // protected constructor used by dynamic creation
 	virtual ~CModeler1SourceView();
 
-	// Properties
+// Properties
 public:
 	shared_ptr<CElement> m_pElement;
 

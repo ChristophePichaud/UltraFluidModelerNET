@@ -4388,7 +4388,14 @@ void CElementManager::OnCharSpecial(CModeler1View* pView, UINT nChar, UINT nRepC
 
 void CElementManager::CreateCaret(CModeler1View* pView)
 {
-	m_bmpCaret.LoadBitmap(IDB_CARET);
-	::CreateCaret(pView->m_hWnd, (HBITMAP)m_bmpCaret.m_hObject, 2, 10); // pElement->m_fontSize); // 10);
+	static bool done = false;
+
+	if (done == false)
+	{
+		m_bmpCaret.LoadBitmap(IDB_CARET);
+		::CreateCaret(pView->m_hWnd, (HBITMAP)m_bmpCaret.m_hObject, 2, 10); // pElement->m_fontSize); // 10);
+	}
+
+	done = true;
 }
 

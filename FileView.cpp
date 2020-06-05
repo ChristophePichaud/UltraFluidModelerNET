@@ -104,6 +104,7 @@ void CFileViewBar::InitFileView()
 	HTREEITEM hInfrastructureShape = nullptr;
 	HTREEITEM hDevelopmentShape = nullptr;
 	HTREEITEM hPlanningShape = nullptr;
+	HTREEITEM hConnectorsShape = nullptr;
 
 	for (int ishape = 0; ishape < 600; ++ishape)
 	{
@@ -137,6 +138,11 @@ void CFileViewBar::InitFileView()
 		{
 			hParent = m_wndFileView.InsertItem(_T("Planning Shapes"), 0, 0, m_hRoot);
 			hPlanningShape = hParent;
+		}
+		if (ishape == OffsetShapes_Connectors)
+		{
+			hParent = m_wndFileView.InsertItem(_T("Connectors Shapes"), 0, 0, m_hRoot);
+			hConnectorsShape = hParent;
 		}
 
 

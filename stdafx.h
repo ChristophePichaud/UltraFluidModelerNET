@@ -53,6 +53,7 @@ using namespace Gdiplus;
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string_view>
 using namespace std;
 
 
@@ -93,16 +94,6 @@ using namespace std;
     #endif
 #endif
 
-/*
-#define USE_SCINTILLA
-#define SCI_NAMESPACE
-#ifdef USE_SCINTILLA
-#include <platform.h>
-#include <scintilla.h>
-#include <SciLexer.h>
-#endif
-*/
-
 #include <afx.h>
 
 #include "cpprest/json.h"
@@ -131,6 +122,15 @@ using namespace std;
         #pragma comment(lib, "sqlite.lib")
         #pragma comment(lib, "SQLiteWrapper.lib")
     #endif
+#endif
+
+
+#define USE_SCINTILLA
+#define SCI_NAMESPACE
+#ifdef USE_SCINTILLA
+#include <scintilla\platform.h>
+#include <scintilla\scintilla.h>
+#include <scintilla\SciLexer.h>
 #endif
 
 

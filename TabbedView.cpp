@@ -9,7 +9,7 @@
 
 #include "Modeler1View.h"
 #include "Modeler1SourceView.h"
-//#include "SourceCodeView.h"
+#include "SourceCodeView.h"
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -116,7 +116,7 @@ int CTabbedView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	AddView (RUNTIME_CLASS (CModeler1View), _T("Modeling"), 100);
 	AddView (RUNTIME_CLASS (CModeler1SourceView), _T("Comments"), 101);
-	//AddView (RUNTIME_CLASS (CSourceCodeView), _T("Code"), 102);
+	AddView (RUNTIME_CLASS (CSourceCodeView), _T("Code"), 102);
 
 
 	return 0;
@@ -148,6 +148,31 @@ void CTabbedView::OnActivateView(CView* view)
 		else
 		{
 			ctrlEdit.SetWindowText(_T("No selected element!"));
+		}
+	}
+
+	if (view->IsKindOf(RUNTIME_CLASS(CSourceCodeView)))
+	{
+		CSourceCodeView* pSourceView = (CSourceCodeView*)view;
+		CScintillaCtrl& ctrlEdit = pSourceView->GetCtrl();
+
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+		CElementManager* pManager = pFrame->GetManager();
+		if (pManager->HasSelection() && pManager->m_selection.GetCount() == 1)
+		{
+			shared_ptr<CElement> pElement = nullptr;
+			pElement = pManager->m_selection.GetHead();
+			// Assign Tabbed View shared_ptr CElement of the selection
+			pSourceView->m_pElement = pElement;
+
+			//ctrlEdit.SetWindowText(pElement->m_code.c_str());
+			std::string code(pElement->m_code.begin(), pElement->m_code.end());
+			ctrlEdit.SetText(code.c_str());
+		}
+		else
+		{
+			std::string code = "No selected element!";
+			ctrlEdit.SetText(code.c_str());
 		}
 	}
 }

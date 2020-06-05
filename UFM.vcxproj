@@ -119,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,6 +170,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="AppInit.h" />
     <ClInclude Include="calendarbar.h" />
+    <ClInclude Include="CDialogDatabaseSearch.h" />
     <ClInclude Include="CDialogDatabaseSettings.h" />
     <ClInclude Include="CDialogLoadDatabase.h" />
     <ClInclude Include="CDialogSaveDatabase.h" />
@@ -214,6 +217,9 @@
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RibbonListButton.h" />
+    <ClInclude Include="ScintillaCtrl.h" />
+    <ClInclude Include="ScintillaDocView.h" />
+    <ClInclude Include="SourceCodeView.h" />
     <ClInclude Include="SplashWnd.h" />
     <ClInclude Include="SQLiteTools.h" />
     <ClInclude Include="stdafx.h" />
@@ -224,6 +230,7 @@
   <ItemGroup>
     <ClCompile Include="AppInit.cpp" />
     <ClCompile Include="calendarbar.cpp" />
+    <ClCompile Include="CDialogDatabaseSearch.cpp" />
     <ClCompile Include="CDialogDatabaseSettings.cpp" />
     <ClCompile Include="CDialogLoadDatabase.cpp" />
     <ClCompile Include="CDialogSaveDatabase.cpp" />
@@ -246,6 +253,9 @@
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="RibbonListButton.cpp" />
+    <ClCompile Include="ScintillaCtrl.cpp" />
+    <ClCompile Include="ScintillaDocView.cpp" />
+    <ClCompile Include="SourceCodeView.cpp" />
     <ClCompile Include="SplashWnd.cpp" />
     <ClCompile Include="SQLiteTools.cpp" />
     <ClCompile Include="stdafx.cpp" />

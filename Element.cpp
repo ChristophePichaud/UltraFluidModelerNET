@@ -1289,8 +1289,12 @@ ElementType CElement::From(ShapeType type)
 	{
 		return ElementType::type_shapes_import;
 	}
+	if (type < OffsetShapes_Connectors)
+	{
+		return ElementType::type_shapes_planning;
+	}
 
-	return ElementType::type_shapes_planning;
+	return ElementType::type_connector;
 }
 
 /*

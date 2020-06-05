@@ -10,6 +10,7 @@
 #include "ElementContainer.h"
 #include "SplashWnd.h"
 #include "CDialogDatabaseSettings.h"
+#include "CDialogDatabaseSearch.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +35,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_VIEW_BACKGROUND, OnViewBackground)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_BACKGROUND, OnUpdateViewBackground)
 	ON_COMMAND(ID_DATABASE_SETTINGS, OnDatabaseSettings)
+	ON_COMMAND(ID_DATABASE_SEARCH, OnDatabaseSearch)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -637,6 +639,7 @@ void CMainFrame::InitMainButton()
 	// Create "Database" panel
 	CMFCRibbonPanel* pPanelDatabase = pFeaturesCategory->AddPanel(_T("Database\ndb"), m_PanelImages.ExtractIcon(2));
 	pPanelDatabase->Add(new CMFCRibbonButton(ID_DATABASE_SETTINGS, _T("Settings...\nc"), -1, 28));
+	pPanelDatabase->Add(new CMFCRibbonButton(ID_DATABASE_SEARCH, _T("Search\ns"), 65));
 
 	//
 	// Category Options
@@ -1184,6 +1187,12 @@ CModeler1View* CMainFrame::GetActiveView()
 void CMainFrame::OnDatabaseSettings()
 {
 	CDialogDatabaseSettings dlg;
+	dlg.DoModal();
+}
+
+void CMainFrame::OnDatabaseSearch()
+{
+	CDialogDatabaseSearch dlg;
 	dlg.DoModal();
 }
 

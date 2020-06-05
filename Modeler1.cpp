@@ -70,7 +70,7 @@ BOOL CModeler1App::InitInstance()
 	//Load the scintilla dll
 	m_hSciDLL = LoadLibrary(_T("SciLexer.dll"));
 	if (m_hSciDLL == NULL)
-	{ 
+	{
 		AfxMessageBox(_T("Scintilla DLL is not installed, Please download the SciTE editor and copy the SciLexer.dll into this application's directory"));
 		return FALSE;
 	}

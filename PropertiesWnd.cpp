@@ -256,8 +256,14 @@ void CPropertiesWnd::InitPropList()
 	pLineColorProp->EnableOtherButton(_T("Other..."));
 	pLineColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_WINDOW)); // Window Bakcground Color
 	pMisc->AddSubItem(pLineColorProp);
-	m_wndPropList.AddProperty(pMisc);
-	pProp = new CMFCPropertyGridProperty(_T("Dash Line Type"), _T(""), _T("Specifies the type of dash line"));
+	pProp = new CMFCPropertyGridProperty(_T("Arrow Type"), _T("None"), _T("Specifies the type of arrow"));
+	pProp->AddOption(_T("None"));
+	pProp->AddOption(_T("Left"));
+	pProp->AddOption(_T("Right"));
+	pProp->AddOption(_T("LeftRight"));
+	pProp->AllowEdit(FALSE);
+	pMisc->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Dash Line Type"), _T("Solid"), _T("Specifies the type of dash line"));
 	pProp->AddOption(_T("Solid"));
 	pProp->AddOption(_T("Dot"));
 	pProp->AddOption(_T("Dash"));
@@ -266,14 +272,7 @@ void CPropertiesWnd::InitPropList()
 	pProp->AllowEdit(FALSE);
 	pMisc->AddSubItem(pProp);
 	m_wndPropList.AddProperty(pMisc);
-	pProp = new CMFCPropertyGridProperty(_T("Arrow Type"), _T(""), _T("Specifies the type of arrow line"));
-	pProp->AddOption(_T("None"));
-	pProp->AddOption(_T("Left"));
-	pProp->AddOption(_T("Right"));
-	pProp->AddOption(_T("Left Right"));
-	pProp->AllowEdit(FALSE);
-	pMisc->AddSubItem(pProp);
-	m_wndPropList.AddProperty(pMisc);
+
 
 	CMFCPropertyGridProperty* pGlobalMisc = new CMFCPropertyGridProperty(_T("Global Misc"));
 	pGlobalMisc->AddSubItem(new CMFCPropertyGridProperty(_T("View Names"), (_variant_t)false, _T("Specifies the object's name visibility")));
