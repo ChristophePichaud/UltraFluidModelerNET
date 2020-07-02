@@ -15,6 +15,7 @@
 #include "Element.h"
 #include "Modeler1Doc.h"
 #include "Modeler1View.h"
+#include "ElementContainer.h"
 
 class COutlookBar : public CMFCOutlookBar
 {
@@ -81,6 +82,10 @@ public:
 	{
 		return m_pModelerView;
 	}
+
+public:
+	// Clipboard objects
+	CElementContainer m_clipboard;
 
 // Extra
 public:

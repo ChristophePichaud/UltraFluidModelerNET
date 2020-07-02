@@ -261,23 +261,38 @@ void CElementManager::OnFontSize(CModeler1View * pView)
 void CElementManager::OnEditCut(CModeler1View * pView)
 {
 	// the clipboard is cleared
-	m_clipboard.RemoveAll();
+	//m_clipboard.RemoveAll();
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->m_clipboard.RemoveAll();
+
 	// the current selection is cleared
 	RemoveSelectedObjects(pView);
 }
 
 void CElementManager::OnEditCopy(CModeler1View * pView)
 {
-	m_clipboard.RemoveAll();
-	//m_selection.ChangeInnerAttributes();
-	m_clipboard.Clone(m_selection);
-	//m_clipboard.ChangeInnerAttributes();
+	//m_clipboard.RemoveAll();
+	////m_selection.ChangeInnerAttributes();
+	//m_clipboard.Clone(m_selection);
+	////m_clipboard.ChangeInnerAttributes();
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->m_clipboard.RemoveAll();
+	pMainFrame->m_clipboard.Clone(m_selection);
 }
 
 void CElementManager::OnEditPaste(CModeler1View * pView)
 {
-	m_objects.Clone(m_clipboard);
-	for( vector<std::shared_ptr<CElement>>::const_iterator itSel = m_clipboard.m_objects.begin() ; itSel!=m_clipboard.m_objects.end() ; itSel++ )
+	//m_objects.Clone(m_clipboard);
+	//for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_clipboard.m_objects.begin(); itSel != m_clipboard.m_objects.end(); itSel++)
+	//{
+	//	std::shared_ptr<CElement> pElement = *itSel;
+	//	Select(pElement);
+	//}
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+
+	m_objects.Clone(pMainFrame->m_clipboard);
+	for( vector<std::shared_ptr<CElement>>::const_iterator itSel = pMainFrame->m_clipboard.m_objects.begin() ; itSel!= pMainFrame->m_clipboard.m_objects.end() ; itSel++ )
 	{
 		std::shared_ptr<CElement> pElement = *itSel;
 		Select(pElement);
@@ -4280,7 +4295,7 @@ void CElementManager::OnFileLoadDatabase(CModeler1View* pView)
 void CElementManager::OnOperationDelete(CModeler1View* pView)
 {
 	// the clipboard is cleared
-	m_clipboard.RemoveAll();
+	//m_clipboard.RemoveAll();
 	// the current selection is cleared
 	RemoveSelectedObjects(pView);
 }

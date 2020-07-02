@@ -508,7 +508,9 @@ void CModeler1View::OnEditPaste()
 void CModeler1View::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
-	if( GetManager()->m_clipboard.GetCount() > 0 )
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	//if( GetManager()->m_clipboard.GetCount() > 0 )
+	if (pMainFrame->m_clipboard.GetCount() > 0)
 	{
 		pCmdUI->Enable(TRUE);
 	}
