@@ -229,11 +229,18 @@ void CElementManager::OnFont(CModeler1View * pView)
 
 	std::shared_ptr<CElement> pElement = m_selection.GetHead();
 	pElement->m_fontName = T2W((LPTSTR)(LPCTSTR)fontName);
-
 	UpdatePropertyGrid(pView, pElement);
-
 	// Redraw the element
-	InvalObj(pView, pElement);
+	//InvalObj(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+		pObj->m_fontName = T2W((LPTSTR)(LPCTSTR)fontName);
+		// Redraw the element
+		InvalObj(pView, pObj);
+	}
+
 }
 
 void CElementManager::OnFontSize(CModeler1View * pView)
@@ -251,11 +258,18 @@ void CElementManager::OnFontSize(CModeler1View * pView)
 
 	std::shared_ptr<CElement> pElement = m_selection.GetHead();
 	pElement->m_fontSize = iFontSize;
-
 	UpdatePropertyGrid(pView, pElement);
-
 	// Redraw the element
-	InvalObj(pView, pElement);
+	//InvalObj(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+		pObj->m_fontSize = iFontSize;
+		// Redraw the element
+		InvalObj(pView, pObj);
+	}
+
 }
 
 void CElementManager::OnEditCut(CModeler1View * pView)
@@ -1800,13 +1814,13 @@ void CElementManager::Update(CModeler1View * pView, LPARAM lHint, CObject* pHint
 	switch (lHint)
 	{
 	case HINT_UPDATE_WINDOW:    // redraw entire window
-		pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_WINDOW"));
+		//pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_WINDOW"));
 		pView->Invalidate(FALSE);
 		break;
 
 	case HINT_UPDATE_DRAWOBJ:   // a single object has changed
 		{
-			pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_DRAWOBJ"));
+			//pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_DRAWOBJ"));
 			CElement * p = (CElement *)pHint;
 			InvalObj(pView, std::shared_ptr<CElement>(p));
 		}
@@ -1814,7 +1828,7 @@ void CElementManager::Update(CModeler1View * pView, LPARAM lHint, CObject* pHint
 
 	case HINT_UPDATE_SELECTION: // an entire selection has changed
 		{
-			pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_SELECTION"));
+			//pView->LogDebug(_T("CElementManager::Update HINT_UPDATE_SELECTION"));
 			pView->Invalidate(FALSE);
 			//CElementContainer * pList = pHint != NULL ? (CElementContainer*)pHint : &m_selection;
 			//POSITION pos = pList->m_objects.GetHeadPosition();
@@ -2245,7 +2259,7 @@ void CElementManager::DebugDumpObjects(CModeler1View * pView)
 	m_selection.DebugDumpObjects(pView);
 }
 
-void CElementManager::NoFillColor(CModeler1View * pView)
+void CElementManager::NoFillColor(CModeler1View* pView)
 {
 	//POSITION pos = m_selection.m_objects.GetHeadPosition();
 	//while (pos != NULL)
@@ -2262,8 +2276,19 @@ void CElementManager::NoFillColor(CModeler1View * pView)
 	{
 		pElement->m_bColorFill = FALSE;
 	}
+	//Invalidate(pView);
+	UpdatePropertyGrid(pView, pElement);
 
-	Invalidate(pView);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->CanChangeFillColor())
+		{
+			pObj->m_bColorFill = FALSE;
+			InvalObj(pView, pObj);
+		}
+	}
 }
 
 void CElementManager::FillColor(CModeler1View * pView)
@@ -2292,8 +2317,21 @@ void CElementManager::FillColor(CModeler1View * pView)
 		pElement->m_colorFill = color;
 		pElement->m_bColorFill = true;
 	}
+	//Invalidate(pView);
 
-	Invalidate(pView);
+	UpdatePropertyGrid(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->CanChangeFillColor())
+		{
+			pObj->m_colorFill = color;
+			pObj->m_bColorFill = true;
+			InvalObj(pView, pObj);
+		}
+	}
 }
 
 void CElementManager::LineColor(CModeler1View * pView)
@@ -2322,8 +2360,21 @@ void CElementManager::LineColor(CModeler1View * pView)
 		pElement->m_colorLine = color;
 		pElement->m_bColorLine = true;
 	}
+	//Invalidate(pView);
 
-	Invalidate(pView);
+	UpdatePropertyGrid(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->CanChangeLineColor())
+		{
+			pObj->m_colorLine = color;
+			pObj->m_bColorLine = true;
+			InvalObj(pView, pObj);
+		}
+	}
 }
 
 void CElementManager::LineWidth(CModeler1View * pView, UINT nID)
@@ -2372,8 +2423,21 @@ void CElementManager::LineWidth(CModeler1View * pView, UINT nID)
 		pElement->m_bLineWidth = weight > 0;
 		pElement->m_lineWidth = weight;
 	}
+	//Invalidate(pView);
 
-	Invalidate(pView);
+	UpdatePropertyGrid(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->CanChangeLineWidth())
+		{
+			pObj->m_bLineWidth = weight > 0;
+			pObj->m_lineWidth = weight;
+			InvalObj(pView, pObj);
+		}
+	}
 }
 
 void CElementManager::PageColor(CModeler1View * pView)
@@ -3375,11 +3439,23 @@ void CElementManager::OnFontBold(CModeler1View* pView)
 	{
 		pElement->m_bBold = true;
 	}
-
+	//InvalObj(pView, pElement);
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->m_bBold == true)
+		{
+			pObj->m_bBold = false;
+		}
+		else
+		{
+			pObj->m_bBold = true;
+		}
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontItalic(CModeler1View* pView)
@@ -3393,11 +3469,23 @@ void CElementManager::OnFontItalic(CModeler1View* pView)
 	{
 		pElement->m_bItalic = true;
 	}
-
+	//InvalObj(pView, pElement);
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->m_bItalic == true)
+		{
+			pObj->m_bItalic = false;
+		}
+		else
+		{
+			pObj->m_bItalic = true;
+		}
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontUnderline(CModeler1View* pView)
@@ -3411,11 +3499,24 @@ void CElementManager::OnFontUnderline(CModeler1View* pView)
 	{
 		pElement->m_bUnderline = true;
 	}
-
+	// Redraw the element
+	//InvalObj(pView, pElement);
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->m_bUnderline == true)
+		{
+			pObj->m_bUnderline = false;
+		}
+		else
+		{
+			pObj->m_bUnderline = true;
+		}
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontStrikeThrough(CModeler1View* pView)
@@ -3429,11 +3530,24 @@ void CElementManager::OnFontStrikeThrough(CModeler1View* pView)
 	{
 		pElement->m_bStrikeThrough = true;
 	}
-
+	// Redraw the element
+	//InvalObj(pView, pElement);
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		if (pObj->m_bStrikeThrough == true)
+		{
+			pObj->m_bStrikeThrough = false;
+		}
+		else
+		{
+			pObj->m_bStrikeThrough = true;
+		}
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontGrowFont(CModeler1View* pView)
@@ -3463,10 +3577,18 @@ void CElementManager::OnFontGrowFont(CModeler1View* pView)
 	_stprintf_s(sz, _T("%d"), pElement->m_fontSize);
 	pFontCombo->SelectItem(sz);
 
+	// Redraw the element
+	//InvalObj(pView, pElement);
+
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_fontSize = iFontSize;
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontShrink(CModeler1View* pView)
@@ -3496,10 +3618,18 @@ void CElementManager::OnFontShrink(CModeler1View* pView)
 	_stprintf_s(sz, _T("%d"), pElement->m_fontSize);
 	pFontCombo->SelectItem(sz);
 
+	// Redraw the element
+	//InvalObj(pView, pElement);
+
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_fontSize = iFontSize;
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontClearFormat(CModeler1View* pView)
@@ -3521,7 +3651,25 @@ void CElementManager::OnFontClearFormat(CModeler1View* pView)
 	UpdateRibbonUI(pView, pElement);
 
 	// Redraw the element
-	InvalObj(pView, pElement);
+	//InvalObj(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_fontName = _T("Calibri");
+		pObj->m_fontSize = 12;
+		pObj->m_bBold = false;
+		pObj->m_bItalic = false;
+		pObj->m_bUnderline = false;
+		pObj->m_bStrikeThrough = false;
+		pObj->m_colorText = RGB(0, 0, 0);
+		pObj->m_colorFill = RGB(255, 255, 255);
+		pObj->m_bColorFill = true;
+		pObj->m_bColorLine = false;
+		pObj->m_bSolidColorFill = true;
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontColor(CModeler1View* pView)
@@ -3539,7 +3687,16 @@ void CElementManager::OnFontColor(CModeler1View* pView)
 	pElement->m_colorText = color;
 
 	// Redraw the element
-	InvalObj(pView, pElement);
+	//InvalObj(pView, pElement);
+	UpdatePropertyGrid(pView, pElement);
+
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_colorText = color;
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontTextHighlight(CModeler1View* pView)
@@ -3559,10 +3716,21 @@ void CElementManager::OnFontTextHighlight(CModeler1View* pView)
 	pElement->m_bColorLine = false;
 	pElement->m_bSolidColorFill = true;
 
+	// Redraw the element
+	//InvalObj(pView, pElement);
+
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_colorFill = color;
+		pObj->m_bColorFill = true;
+		pObj->m_bColorLine = false;
+		pObj->m_bSolidColorFill = true;
+		InvalObj(pView, pObj);
+	}
 }
 
 void CElementManager::OnFontChangeCase(CModeler1View* pView)
@@ -3586,10 +3754,18 @@ void CElementManager::OnFontChangeCase(CModeler1View* pView)
 	pElement->m_text = text;
 	pElement->BuildVChar();
 
+	// Redraw the element
+	//InvalObj(pView, pElement);
+
 	UpdatePropertyGrid(pView, pElement);
 
-	// Redraw the element
-	InvalObj(pView, pElement);
+	for (vector<std::shared_ptr<CElement>>::const_iterator itSel = m_selection.m_objects.begin(); itSel != m_selection.m_objects.end(); itSel++)
+	{
+		std::shared_ptr<CElement> pObj = *itSel;
+
+		pObj->m_text = text;
+		pObj->BuildVChar();
+	}
 }
 
 void CElementManager::OnActionElements(CModeler1View* pView)
