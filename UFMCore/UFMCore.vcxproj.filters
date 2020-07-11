@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\UFMCore">
+      <UniqueIdentifier>{1ae3d77f-1ef1-45a6-84a8-dd643da702e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UFMCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Element.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modeler1View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modeler1Doc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modeler1SourceView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScintillaCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScintillaDocView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCodeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextControlDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="calendarbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RibbonListButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modeler1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingElements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UFMCore.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="res\UFMCore.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\Element.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ElementContainer.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ElementFactory.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ElementManager.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\Modeler1View.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\MainFrm.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\Modeler1Doc.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\TabbedView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\Modeler1SourceView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\XMLData.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ScintillaCtrl.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ScintillaDocView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\SourceCodeView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\CTextControlDialog.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\calendarbar.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ClassView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\FileView.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\OutputWnd.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\PropertiesWnd.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\Modeler1.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\GlobalData.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\AppInit.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\ChildFrm.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\DrawingContext.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\DrawingElements.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UFMCore.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

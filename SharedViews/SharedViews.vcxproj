@@ -107,7 +107,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SharedViews.def</ModuleDefinitionFile>
       <ImportLibrary>..\Lib\$(TargetName).lib</ImportLibrary>
-      <OutputFile>..\Lib\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -153,7 +153,7 @@
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\SharedViews.def</ModuleDefinitionFile>
       <ImportLibrary>..\Lib\$(TargetName)D.lib</ImportLibrary>
-      <OutputFile>..\Lib\$(TargetName)D$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)D$(TargetExt)</OutputFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -192,6 +192,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CDialogDatabaseSearch.cpp" />
+    <ClCompile Include="CDialogDatabaseSettings.cpp" />
     <ClCompile Include="CDialogLoadDatabase.cpp" />
     <ClCompile Include="CDialogSaveDatabase.cpp" />
     <ClCompile Include="dllmain.cpp">
@@ -215,6 +217,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SharedViews.cpp" />
+    <ClCompile Include="SplashWnd.cpp" />
     <ClCompile Include="SQLiteTools.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -222,9 +225,12 @@
     <None Include="SharedViews.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogDatabaseSearch.h" />
+    <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogDatabaseSettings.h" />
     <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogLoadDatabase.h" />
     <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogSaveDatabase.h" />
     <ClInclude Include="..\Include\SharedViews\SQL\SQLiteTools.h" />
+    <ClInclude Include="..\Include\SharedViews\Views\SplashWnd.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />

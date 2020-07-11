@@ -96,6 +96,7 @@ using namespace std;
 
 #include <afx.h>
 
+
 #include "cpprest/json.h"
     
 #ifdef _WIN64
@@ -105,7 +106,6 @@ using namespace std;
         #pragma comment (lib, "Lib\\cpprest_2_10.lib")
     #endif
 #endif
-
 
 
 #include "common/SQLiteWrapper.h"
@@ -130,6 +130,15 @@ using namespace std;
         #pragma comment(lib, "SharedViewsD.lib")
     #else    
         #pragma comment(lib, "SharedViews.lib")
+    #endif
+#endif
+
+
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment(lib, "UFMCoreD.lib")
+    #else    
+        #pragma comment(lib, "UFMCore.lib")
     #endif
 #endif
 

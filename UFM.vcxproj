@@ -189,72 +189,16 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AppInit.h" />
-    <ClInclude Include="calendarbar.h" />
-    <ClInclude Include="CDialogDatabaseSearch.h" />
-    <ClInclude Include="CDialogDatabaseSettings.h" />
-    <ClInclude Include="ChildFrm.h" />
-    <ClInclude Include="ClassView.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="CTextControlDialog.h" />
-    <ClInclude Include="DrawingContext.h" />
-    <ClInclude Include="DrawingElements.h" />
-    <ClInclude Include="Element.h" />
-    <ClInclude Include="ElementContainer.h" />
-    <ClInclude Include="ElementFactory.h" />
-    <ClInclude Include="ElementManager.h" />
-    <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="GlobalData.h" />
-    <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="Modeler1.h" />
-    <ClInclude Include="Modeler1Doc.h" />
-    <ClInclude Include="Modeler1SourceView.h" />
-    <ClInclude Include="Modeler1View.h" />
-    <ClInclude Include="OutputWnd.h" />
-    <ClInclude Include="PropertiesWnd.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="RibbonListButton.h" />
-    <ClInclude Include="ScintillaCtrl.h" />
-    <ClInclude Include="ScintillaDocView.h" />
-    <ClInclude Include="SourceCodeView.h" />
-    <ClInclude Include="SplashWnd.h" />
+    <ClInclude Include="PropertyFormat.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TabbedView.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="XMLData.h" />
+    <ClInclude Include="UFMAppStart.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppInit.cpp" />
-    <ClCompile Include="calendarbar.cpp" />
-    <ClCompile Include="CDialogDatabaseSearch.cpp" />
-    <ClCompile Include="CDialogDatabaseSettings.cpp" />
-    <ClCompile Include="ChildFrm.cpp" />
-    <ClCompile Include="ClassView.cpp" />
-    <ClCompile Include="CTextControlDialog.cpp" />
-    <ClCompile Include="DrawingContext.cpp" />
-    <ClCompile Include="DrawingElements.cpp" />
-    <ClCompile Include="Element.cpp" />
-    <ClCompile Include="ElementContainer.cpp" />
-    <ClCompile Include="ElementFactory.cpp" />
-    <ClCompile Include="ElementManager.cpp" />
-    <ClCompile Include="FileView.cpp" />
-    <ClCompile Include="GlobalData.cpp" />
-    <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="Modeler1.cpp" />
-    <ClCompile Include="Modeler1Doc.cpp" />
-    <ClCompile Include="Modeler1SourceView.cpp" />
-    <ClCompile Include="Modeler1View.cpp" />
-    <ClCompile Include="OutputWnd.cpp" />
-    <ClCompile Include="PropertiesWnd.cpp" />
-    <ClCompile Include="RibbonListButton.cpp" />
-    <ClCompile Include="ScintillaCtrl.cpp" />
-    <ClCompile Include="ScintillaDocView.cpp" />
-    <ClCompile Include="SourceCodeView.cpp" />
-    <ClCompile Include="SplashWnd.cpp" />
+    <ClCompile Include="PropertyFormat.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TabbedView.cpp" />
-    <ClCompile Include="XMLData.cpp" />
+    <ClCompile Include="UFMAppStart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UFM.rc" />

@@ -42,6 +42,15 @@
     <ClCompile Include="SQLiteTools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CDialogDatabaseSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDialogDatabaseSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SharedViews.def">
@@ -72,6 +81,15 @@
     </ClInclude>
     <ClInclude Include="..\Include\SharedViews\SQL\SQLiteTools.h">
       <Filter>Header Files\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogDatabaseSearch.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\SharedViews\Dialogs\CDialogDatabaseSettings.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\SharedViews\Views\SplashWnd.h">
+      <Filter>Header Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,10 +3,15 @@
 // Used by SharedViews.rc
 //
 
+#define IDD_DIALOG_DATABASE             803
 #define IDD_DIALOG_SAVE_DATABASE        805
 #define IDD_DIALOG_LOAD_DATABASE        807
+#define IDD_CDialogDatabaseSearch       809
 #define IDC_DIAGRAM_NAME                1001
 #define IDC_LIST_DIAGRAM                1005
+#define IDC_DATABASE_FILE               1001
+#define IDC_FOLDERS                     1003
+#define IDC_SET_DATABASE                1004
 
 // Next default values for new objects
 //
