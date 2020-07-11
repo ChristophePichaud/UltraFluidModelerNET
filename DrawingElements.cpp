@@ -1029,13 +1029,13 @@ void CTextElement::Draw(CDrawingContext & ctxt)
 			stringFormat.SetAlignment(StringAlignmentFar);
 		}
 
-		if (HasColorFill())
-		{
-			if (IsSolidColorFill())
-			{
-				graphics->FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
-			}
-		}
+		//if (HasColorFill())
+		//{
+		//	if (IsSolidColorFill())
+		//	{
+		//		graphics->FillRectangle(&solidBrush, rect.left, rect.top, rect.Width(), rect.Height());
+		//	}
+		//}
 
 		Color color;
 		color.SetFromCOLORREF(m_colorText);

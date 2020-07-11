@@ -1,10 +1,10 @@
-#include "stdafx.h"
-#include "Element.h"
-#include "ElementManager.h"
-#include "Modeler1View.h"
-#include "MainFrm.h"
-#include "XMLData.h"
-#include "SQLiteTools.h"
+#include "pch.h"
+//#include "Element.h"
+//#include "ElementManager.h"
+//#include "Modeler1View.h"
+//#include "MainFrm.h"
+//#include "XMLData.h"
+#include "SharedViews\SQL\SQLiteTools.h"
 
 //
 // SQLiteTools
@@ -163,17 +163,15 @@ bool SQLiteTools::IndexFiles(std::string path, std::string database)
     return true;
 }
 
-bool SQLiteTools::AddFileToDatabase(std::string filename, std::string database)
-{
-    return true;
-}
-
-bool SQLiteTools::InsertJson(CModeler1View* pView)
-{
-    return true;
-}
-
-
+//bool SQLiteTools::AddFileToDatabase(std::string filename, std::string database)
+//{
+//    return true;
+//}
+//
+//bool SQLiteTools::InsertJson(CModeler1View* pView)
+//{
+//    return true;
+//}
 
 //
 // SQLiteQueryString

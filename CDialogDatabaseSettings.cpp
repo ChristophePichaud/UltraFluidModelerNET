@@ -4,7 +4,7 @@
 #include "StdAfx.h"
 #include "CDialogDatabaseSettings.h"
 #include "afxdialogex.h"
-#include "SQLiteTools.h"
+#include "SharedViews\SQL\SQLiteTools.h"
 #include "resource.h"
 
 // CDialogDatabaseSettings dialog

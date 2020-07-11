@@ -22,6 +22,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite", "sqlite\sqlite.vcxproj", "{5C104574-96C1-4453-B07F-DD1B0C3AB089}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SharedViews", "SharedViews\SharedViews.vcxproj", "{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C104574-96C1-4453-B07F-DD1B0C3AB089} = {5C104574-96C1-4453-B07F-DD1B0C3AB089}
+		{AE59CDA0-369A-42C7-8F8D-866055D718CB} = {AE59CDA0-369A-42C7-8F8D-866055D718CB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -62,6 +68,14 @@ Global
 		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x64.Build.0 = Release|x64
 		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x86.ActiveCfg = Release|Win32
 		{5C104574-96C1-4453-B07F-DD1B0C3AB089}.Release|x86.Build.0 = Release|Win32
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Debug|x64.ActiveCfg = Debug|x64
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Debug|x64.Build.0 = Debug|x64
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Debug|x86.ActiveCfg = Debug|Win32
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Debug|x86.Build.0 = Debug|Win32
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Release|x64.ActiveCfg = Release|x64
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Release|x64.Build.0 = Release|x64
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Release|x86.ActiveCfg = Release|Win32
+		{E7EE8602-3C50-47AC-BC8D-00AE8A0AC2ED}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

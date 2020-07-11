@@ -193,8 +193,6 @@
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CDialogDatabaseSearch.h" />
     <ClInclude Include="CDialogDatabaseSettings.h" />
-    <ClInclude Include="CDialogLoadDatabase.h" />
-    <ClInclude Include="CDialogSaveDatabase.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="Constants.h" />
@@ -221,7 +219,6 @@
     <ClInclude Include="ScintillaDocView.h" />
     <ClInclude Include="SourceCodeView.h" />
     <ClInclude Include="SplashWnd.h" />
-    <ClInclude Include="SQLiteTools.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TabbedView.h" />
     <ClInclude Include="targetver.h" />
@@ -232,8 +229,6 @@
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CDialogDatabaseSearch.cpp" />
     <ClCompile Include="CDialogDatabaseSettings.cpp" />
-    <ClCompile Include="CDialogLoadDatabase.cpp" />
-    <ClCompile Include="CDialogSaveDatabase.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CTextControlDialog.cpp" />
@@ -257,7 +252,6 @@
     <ClCompile Include="ScintillaDocView.cpp" />
     <ClCompile Include="SourceCodeView.cpp" />
     <ClCompile Include="SplashWnd.cpp" />
-    <ClCompile Include="SQLiteTools.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TabbedView.cpp" />
     <ClCompile Include="XMLData.cpp" />

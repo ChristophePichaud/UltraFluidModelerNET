@@ -12,9 +12,9 @@
 #include "TabbedView.h"
 #include "Modeler1SourceView.h"
 #include "XMLData.h"
-#include "CDialogSaveDatabase.h"
-#include "CDialogLoadDatabase.h"
-#include "SQLiteTools.h"
+#include "SharedViews\Dialogs\CDialogSaveDatabase.h"
+#include "SharedViews\Dialogs\CDialogLoadDatabase.h"
+#include "SharedViews\SQL\SQLiteTools.h"
 
 //
 // CElementManager
@@ -57,6 +57,10 @@ CElementManager::CElementManager()
 
 	// Initiate the connection with the Property Window
 	ConnectToPropertyGrid();
+
+	std::wstring imagePath = L"Images\\Custom\\background2.png";
+	m_ptrImageBackground = make_shared<Image>(CStringW(imagePath.c_str()));
+
 }
 
 CElementManager::CElementManager(const CElementManager& elementManager)
@@ -704,15 +708,12 @@ void CElementManager::DrawPaperLines(CModeler1View* pView, CDC* pDC)
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);
 	CSize size = GetSize();
 
-	std::wstring imagePath = L"Images\\Custom\\background2.png";
-	Image image(CStringW(imagePath.c_str()));
-
-	for (int x = 0; x < size.cx; x+= image.GetWidth())
+	for (int x = 0; x < size.cx; x+= m_ptrImageBackground->GetWidth())
 	{
-		for (int y = 0; y < size.cy; y+=image.GetHeight())
+		for (int y = 0; y < size.cy; y+= m_ptrImageBackground->GetHeight())
 		{
 			Point p1(x,y);
-			graphics.DrawImage(&image, p1);
+			graphics.DrawImage(m_ptrImageBackground.get(), p1);
 		}
 	}
 }

@@ -1,9 +1,8 @@
 // CDialogSaveDatabase.cpp : implementation file
 //
 
-#include "StdAfx.h"
-#include "CDialogSaveDatabase.h"
-#include "afxdialogex.h"
+#include "pch.h"
+#include "SharedViews\Dialogs\CDialogSaveDatabase.h"
 #include "resource.h"
 
 

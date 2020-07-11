@@ -1,8 +1,8 @@
 #pragma once
 
-class CModeler1View;
+//class CModeler1View;
 
-class SQLiteQueryString
+class AFX_EXT_CLASS SQLiteQueryString
 {
 protected:
 
@@ -50,7 +50,7 @@ public:
 public:
 };
 
-class SQLiteTools
+class AFX_EXT_CLASS SQLiteTools
 {
 public:
     SQLiteTools();
@@ -59,12 +59,11 @@ public:
 public:
     bool CreateDatabase(std::string filename);
     bool IndexFiles(std::string path, std::string database);
-    bool AddFileToDatabase(std::string filename, std::string database);
-
-    bool InsertJson(CModeler1View* pView);
+    //bool AddFileToDatabase(std::string filename, std::string database);
+    //bool InsertJson(CModeler1View* pView);
 };
 
-class SQLiteDiagramEntity
+class AFX_EXT_CLASS SQLiteDiagramEntity
 {
 public:
     SQLiteDiagramEntity();

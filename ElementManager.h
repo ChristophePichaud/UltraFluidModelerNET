@@ -73,6 +73,7 @@ public:
 	bool m_bTextDialogOpen;
 	bool m_ShowBackground;
 	CBitmap m_bmpCaret;
+	shared_ptr<Image> m_ptrImageBackground;
 	
 public:
 	// Selection 1st point

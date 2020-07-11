@@ -3,7 +3,7 @@
 
 // CDialogSaveDatabase dialog
 
-class CDialogSaveDatabase : public CDialogEx
+class AFX_EXT_CLASS CDialogSaveDatabase : public CDialogEx
 {
 	DECLARE_DYNAMIC(CDialogSaveDatabase)
 

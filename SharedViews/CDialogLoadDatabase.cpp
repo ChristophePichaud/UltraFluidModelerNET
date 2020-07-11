@@ -1,11 +1,10 @@
 // CDialogLoadDatabase.cpp : implementation file
 //
 
-#include "StdAfx.h"
-#include "CDialogLoadDatabase.h"
-#include "afxdialogex.h"
+#include "pch.h"
+#include "SharedViews\Dialogs\CDialogLoadDatabase.h"
 #include "resource.h"
-#include "SQLiteTools.h"
+#include "SharedViews\SQL\SQLiteTools.h"
 
 
 // CDialogLoadDatabase dialog

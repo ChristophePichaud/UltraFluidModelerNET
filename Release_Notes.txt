@@ -1,3 +1,10 @@
+	Release Notes v 1.11.07.2020
+		- SharedViews DLL for views and dialogs
+	Release Notes v 1.02.07.2020
+		- Clipboard available on multiple diagrams
+		- Multiple operations on selections
+		- Add Scintilla Text Editor
+		- Add Code Tabbed View
 	Release Notes v 1.28.05.2020
 		- Diagrams fixed in databasse
 		- Arrow Type in Property Grid

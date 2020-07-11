@@ -125,6 +125,15 @@ using namespace std;
 #endif
 
 
+#ifdef _WIN64
+    #ifdef _DEBUG
+        #pragma comment(lib, "SharedViewsD.lib")
+    #else    
+        #pragma comment(lib, "SharedViews.lib")
+    #endif
+#endif
+
+
 #define USE_SCINTILLA
 #define SCI_NAMESPACE
 #ifdef USE_SCINTILLA
@@ -132,6 +141,7 @@ using namespace std;
 #include <scintilla\scintilla.h>
 #include <scintilla\SciLexer.h>
 #endif
+
 
 
 #define VERSION_COMMUNITY

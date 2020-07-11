@@ -5,7 +5,7 @@
 
 class SQLiteDiagramEntity;
 
-class CDialogLoadDatabase : public CDialogEx
+class AFX_EXT_CLASS CDialogLoadDatabase : public CDialogEx
 {
 	DECLARE_DYNAMIC(CDialogLoadDatabase)
 
