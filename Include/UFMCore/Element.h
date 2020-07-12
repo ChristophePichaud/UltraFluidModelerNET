@@ -41,7 +41,7 @@ enum ElementType : int
 };
 
 #define OffsetShapes_Simple			0
-#define OffsetShapes_Image			50
+#define OffsetShapes_Image			60
 #define OffsetShapes_Infrastructure 100
 #define OffsetShapes_Text			200
 #define OffsetShapes_Development	300
@@ -81,12 +81,32 @@ enum ShapeType : int
 	courbe2_bis,
 	patate,
 	curve_fuzzy,
-	basic_rectangle = 30,
-	basic_rectangle2,
-	basic_rectangle3,
-	basic_losange,
+	basic_rectangle,
 	basic_round_rectangle,
-	basic_database = 42,
+	basic_losange,
+	basic_rectangle2,
+	process_1,
+	process_2,
+	process_3,
+	round_circle1,
+	round_circle2,
+	rectangle_2,
+	circle1,
+	basic_rectangle3,
+	basic_folder,
+	basic_file, 
+	circle2,
+	circle3,
+	losange2,
+	losange3,
+	triangle1,
+	triangle2,
+	process_4,
+	UnD,
+	UnQ,
+	basic_database,
+	basic_database2,
+	rectangle4,
 	// Image
 	image_fixed = OffsetShapes_Image,
 	image_scaled,

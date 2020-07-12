@@ -245,3 +245,20 @@ public:
 	virtual void Draw(CDrawingContext& ctxt);
 };
 
+class AFX_EXT_CLASS CProcess1Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class AFX_EXT_CLASS CProcess2Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};
+
+class AFX_EXT_CLASS CProcess3Element : public CElement
+{
+public:
+	virtual void Draw(CDrawingContext& ctxt);
+};

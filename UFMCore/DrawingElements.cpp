@@ -1989,3 +1989,87 @@ void CConnectorSingleRightElement::Draw(CDrawingContext& ctxt)
 	}
 }
 
+//
+// CProcess1Element class
+//
+void CProcess1Element::Draw(CDrawingContext& ctxt)
+{
+	CRect rect = m_rect;
+	Graphics* graphics = ctxt.GetGraphics();
+	Pen& colorPen = ctxt.GetPenColor();
+	SolidBrush& solidBrush = ctxt.GetBrushColor();
+	LinearGradientBrush& lgBrush = ctxt.GetGradientBrushColor();
+
+	// 1 2/1 * * * * * * 2/1 2
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// * * * * * * * * * *
+	// 4 3/4  * * * * * 3/4 3
+
+	BuildPen(colorPen);
+
+	int step1_10_x = rect.Width() / 10;
+	int step1_10_y = rect.Height() / 10;
+
+	Point points[5] = {/*1*/ Point(rect.left + step1_10_x * 0, rect.top),
+		/*2*/ Point(rect.left + step1_10_x * 1, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 1, rect.bottom),
+		/*4*/ Point(rect.left + step1_10_x * 0, rect.bottom),
+		/*5*/ Point(rect.left + step1_10_x * 0, rect.top) };
+	int npoints = 5;
+
+	Point points2[5] = {/*1*/ Point(rect.left + step1_10_x * 1, rect.top),
+		/*2*/ Point(rect.left + step1_10_x * 9, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 9, rect.bottom),
+		/*4*/ Point(rect.left + step1_10_x * 1, rect.bottom),
+		/*5*/ Point(rect.left + step1_10_x * 1, rect.top) };
+	npoints = 5;
+
+	Point points3[5] = {/*1*/ Point(rect.left + step1_10_x * 9, rect.top),
+		/*2*/ Point(rect.left + step1_10_x * 10, rect.top),
+		/*3*/ Point(rect.left + step1_10_x * 10, rect.bottom),
+		/*4*/ Point(rect.left + step1_10_x * 9, rect.bottom),
+		/*5*/ Point(rect.left + step1_10_x * 9, rect.top) };
+	npoints = 5;
+
+	if (HasColorFill())
+	{
+		if (IsSolidColorFill())
+		{
+			graphics->FillPolygon(&solidBrush, points, npoints);
+			graphics->FillPolygon(&solidBrush, points2, npoints);
+			graphics->FillPolygon(&solidBrush, points3, npoints);
+		}
+		else
+		{
+			graphics->FillPolygon(&lgBrush, points, npoints);
+			graphics->FillPolygon(&lgBrush, points2, npoints);
+			graphics->FillPolygon(&lgBrush, points3, npoints);
+		}
+	}
+	if (HasColorLine())
+	{
+		graphics->DrawPolygon(&colorPen, points, npoints);
+		graphics->DrawPolygon(&colorPen, points2, npoints);
+		graphics->DrawPolygon(&colorPen, points3, npoints);
+	}
+}
+
+//
+// CProcess2Element class
+//
+void CProcess2Element::Draw(CDrawingContext& ctxt)
+{
+}
+
+//
+// CProcess3Element class
+//
+void CProcess3Element::Draw(CDrawingContext& ctxt)
+{
+}

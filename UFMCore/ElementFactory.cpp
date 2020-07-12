@@ -187,6 +187,24 @@ std::shared_ptr<CElement> CFactory::CreateElementOfType(ElementType type, ShapeT
 				pNewElement = apNewElement;
 				break;
 			}
+			case process_1:
+			{
+				std::shared_ptr<CElement> apNewElement(new CProcess1Element());
+				pNewElement = apNewElement;
+				break;
+			}
+			case process_2:
+			{
+				std::shared_ptr<CElement> apNewElement(new CProcess2Element());
+				pNewElement = apNewElement;
+				break;
+			}
+			case process_3:
+			{
+				std::shared_ptr<CElement> apNewElement(new CProcess3Element());
+				pNewElement = apNewElement;
+				break;
+			}
 			case notimp_igloo:
 			case notimpl_multi_line:
 			default:

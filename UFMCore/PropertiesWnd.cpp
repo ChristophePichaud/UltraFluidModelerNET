@@ -370,6 +370,7 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 
 void CPropertiesWnd::SetPropListFont()
 {
+	/*
 	::DeleteObject(m_fntPropList.Detach());
 
 	LOGFONT lf;
@@ -390,6 +391,7 @@ void CPropertiesWnd::SetPropListFont()
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 
 	//m_wndPropList.Init();
+	*/
 }
 
 void CPropertiesWnd::UpdateProperties(std::shared_ptr<CElement> pObj)

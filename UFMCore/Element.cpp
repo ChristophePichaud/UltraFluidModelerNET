@@ -52,7 +52,27 @@ ShapeType CShapeType::ToShapeType(int value)
 		case basic_rectangle3:
 		case basic_losange:
 		case basic_round_rectangle:
+		case process_1:
+		case process_2:
+		case process_3:
+		case round_circle1:
+		case round_circle2:
+		case rectangle_2:
+		case circle1:
+		case basic_folder:
+		case basic_file:
+		case circle2:
+		case circle3:
+		case losange2:
+		case losange3:
+		case triangle1:
+		case triangle2:
+		case process_4:
+		case UnD:
+		case UnQ:
 		case basic_database:
+		case basic_database2:
+		case rectangle4:
 			ret = (ShapeType)value;
 			break;
 		case image_fixed:
@@ -933,8 +953,68 @@ CString CElement::static_ToString(ShapeType type)
 		case basic_round_rectangle:
 			str = _T("basic_round_rectangle");
 			break;
+		case process_1:
+			str = _T("process_1");
+			break;
+		case process_2:
+			str = _T("process_2");
+			break;
+		case process_3:
+			str = _T("process_3");
+			break;
+		case round_circle1:
+			str = _T("round_circle1");
+			break;
+		case round_circle2:
+			str = _T("round_circle2");
+			break;
+		case rectangle_2:
+			str = _T("rectangle_2");
+			break;
+		case circle1:
+			str = _T("circle1");
+			break;
+		case basic_folder:
+			str = _T("basic_folder");
+			break;
+		case basic_file:
+			str = _T("basic_file");
+			break;
+		case circle2:
+			str = _T("circle2");
+			break;
+		case circle3:
+			str = _T("circle3");
+			break;
+		case losange2:
+			str = _T("losange2");
+			break;
+		case losange3:
+			str = _T("losange3");
+			break;
+		case triangle1:
+			str = _T("triangle1");
+			break;
+		case triangle2:
+			str = _T("triangle2");
+			break;
+		case process_4:
+			str = _T("process_4");
+			break;
+		case UnD:
+			str = _T("UnD");
+			break;
+		case UnQ:
+			str = _T("UnQ");
+			break;
 		case basic_database:
 			str = _T("basic_database");
+			break;
+		case basic_database2:
+			str = _T("basic_database2");
+			break;
+		case rectangle4:
+			str = _T("");
 			break;
 
 		case image_fixed:

@@ -392,11 +392,11 @@ void CMainFrame::InitMainButton()
 	pInsertShapesBtn->SetIconsInRow(12);
 	pInsertShapesBtn->AddGroup(_T("Recently Used Shapes"), IDB_SHAPE1, 20);
 	pInsertShapesBtn->AddGroup(_T("Lines"), IDB_SHAPE2, 20);
-	pInsertShapesBtn->AddGroup(_T("Basic Shapes"), IDB_SHAPE3, 20);
-	pInsertShapesBtn->AddGroup(_T("Block Arrows"), IDB_SHAPE4, 20);
+	//pInsertShapesBtn->AddGroup(_T("Basic Shapes"), IDB_SHAPE3, 20);
+	//pInsertShapesBtn->AddGroup(_T("Block Arrows"), IDB_SHAPE4, 20);
 	pInsertShapesBtn->AddGroup(_T("Flowchart"), IDB_SHAPE5, 20);
-	pInsertShapesBtn->AddGroup(_T("Callouts"), IDB_SHAPE6, 20);
-	pInsertShapesBtn->AddGroup(_T("Stars and Banners"), IDB_SHAPE7, 20);
+	//pInsertShapesBtn->AddGroup(_T("Callouts"), IDB_SHAPE6, 20);
+	//pInsertShapesBtn->AddGroup(_T("Stars and Banners"), IDB_SHAPE7, 20);
 	pInsertShapesBtn->AddSubItem(new CMFCRibbonButton(ID_DESIGN_SHAPES_NEW, _T("&New Drawing Canvas"), 29, -1));
 	pPanelDesign->Add(pInsertShapesBtn);
 
