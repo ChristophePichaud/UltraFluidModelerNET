@@ -1,0 +1,332 @@
+@startuml
+skinparam linetype ortho
+hide circle
+hide stereotypes
+skinparam dpi 120
+
+entity ViewEtude {
+  * Name : text
+  * Id : uuid
+  * Nature : int
+  * Valeur : float
+}
+
+entity ViewStructureElemV1_8 {
+  * Id : uuid
+  * ProjectId : uuid
+  * Reference : text
+  * Pays : uuid
+  * AffaireId : uuid
+  * NomAffaire : text
+  * SiteId : uuid
+  * MoaId : uuid
+  * FinancerId : uuid
+  * Name : text
+  * InvestmentAmount : float
+  * QuantityUF : float
+  * WorkStartingYear : int
+  * StudyId : uuid
+  * StudyStatus : text
+  * SimulationId : uuid
+  * Status : text
+  * SimulationName : text
+  * Coef 0 : float
+  * Coef 1 : float
+  * Coef 2 : float
+  * Coef 3 : float
+  * Coef 4 : float
+  * Coef 5 : float
+  * Coef 6 : float
+  * Coef 7 : float
+  * Coef 8 : float
+  * Coef 9 : float
+  * Coef 10 : float
+  * RefElementId : uuid
+  * WorkNatureId : uuid
+  * WorkTypeId : uuid
+  * WorkSubTypeId : uuid
+  * UnitUFId : uuid
+  * AnnualReduc : float
+  * TransversHyp : float
+  * Nb UF : float
+}
+
+entity ViewM1_Travail {
+  * Id : uuid
+  * ProjectName : text
+  * NomAffaire : text
+  * StudyElementName : text
+  * WorkTypeName : text
+  * Year : int
+  * EmissionsAbsolues : float
+  * UnitUFName : text
+  * ConstrucMat : float
+  * ConstrucEner : float
+  * EnergyCons : float
+  * EnergyEtretien : float
+  * EnergyFinVie : float
+  * Coef 0 ACV : float
+  * Coef 0 : float
+  * Coef 1 : float
+  * Coef 2 : float
+  * Coef 3 : float
+  * Coef 4 : float
+  * Coef 5 : float
+  * Coef 6 : float
+  * Coef 7 : float
+  * Coef 8 : float
+  * Coef 9 : float
+  * Coef 10 : float
+}
+
+entity ViewM2_Travail1 {
+  * Id : uuid
+  * Year : int
+  * ConstrucMat : float
+  * ConstrucEner : float
+  * EnergyCons : float
+  * EnergyEtretien : float
+  * EnergyFinVie : float
+  * EmissionsAbsolues : float
+  * IntensityMoyenne : float
+  * IntensityAmbitieuse : float
+  * Nb composants : int
+  * RefMaterialId : uuid
+  * Matériaux : text
+  * ConstrucMatInt : float
+  * QuantityMaterial : float
+}
+
+entity ViewM2_FEMatCalcul {
+  * Id : uuid
+  * AutreFE : float
+}
+
+entity ViewEtude_Affectation {
+  * AffectationId : uuid
+  * ViewEtudeId : uuid
+  * Auteur : text
+  * Rôle : text
+  * DateAffectation : date
+}
+
+entity ViewAdmin_Structure {
+  * StructureId : uuid
+  * NomStructure : text
+  * Responsable : text
+  * CrééLe : datetime
+  * TypeStructure : text
+}
+
+entity ViewAdmin_Audit {
+  * AuditId : uuid
+  * AuditName : text
+  * Date : date
+  * Auteur : text
+  * TypeAudit : text
+  * NbCommentaires : int
+}
+
+' Poursuite des entités
+
+entity ViewM1_Simulation {
+  * ConstrucEner : float
+  * ConstrucMat : float
+  * EnergyCons : float
+  * EnergyEtretien : float
+  * EnergyFinVie : float
+  * NomAffaire : text
+  * ProjectName : text
+  * ProjectId : uuid
+  * SimulationId : uuid
+  * SimulationName : text
+  * StudyStatus : text
+  * ID - StudyElementName : text
+  * WorkTypeName : text
+  * Year : int
+  * EmissionsAbsolues : float
+  * Coef 0 à 10 : float
+}
+
+entity View_Materiaux {
+  * Id : uuid
+  * Quantity : float
+  * RefMaterialId : uuid
+  * RefElementId : uuid
+}
+
+entity ViewM2_FEMaterial {
+  * Id : uuid
+  * CoefEnergieChantier : float
+  * RefMaterialId : uuid
+  * Quantity : float
+  * ElementFE : float
+  * MaterialFE : float
+  * FEMaterialPond : float
+}
+
+entity ViewM2_1_1_3 {
+  * Id : uuid
+  * ProjectName : text
+  * StudyElementName : text
+  * Nb UF Year : float
+  * Autre : float
+  * Valeur Intensité : float
+  * AverageTrajectoryId : uuid
+  * OptimisticTrajectoryId : uuid
+}
+
+entity ViewM2_2_1_6 {
+  * Id : uuid
+  * Year : int
+  * ConstrucMatPond : float
+  * EmissionsAbsoluesP : float
+  * IntensityMoyenne : float
+  * IntensityAmbitieuse : float
+  * Matériaux : text
+  * Intensity-Absolu : text
+}
+
+entity View_nbcomp {
+  * Id : uuid
+  * Nb composants : int
+}
+
+entity ViewAccess {
+  * Email : text
+  * MoasId : uuid
+  * SiteId : uuid
+}
+
+entity ViewIHM_Synthese {
+  * Id : uuid
+  * ProjectId : uuid
+  * AffaireId : uuid
+  * Materiau : float
+  * NRJConstruc : float
+  * ConsoNRJ : float
+  * Maintenance : float
+  * FinVie : float
+}
+
+entity ViewACV_BaseCalcV1_1 {
+  * Id : uuid
+  * Value : float
+  * baseNRJACV : float
+  * baseTotalACV : float
+  * basePourcentACV : float
+}
+
+entity ViewACV_Coef {
+  * Id : uuid
+  * Value : float
+  * TotalNRJACV : float
+  * baseTotalACV : float
+  * CoefACV : float
+}
+
+entity ViewACV_CoefElement {
+  * Id : uuid
+  * Value : float
+  * TotalNRJACV : float
+  * baseTotalACV : float
+  * CoefACV : float
+  * StudyElementId : uuid
+}
+
+entity ViewM1_ConstructionResultatACVV1_9 {
+  * Id : uuid
+  * ConstrucMatACV : float
+  * ConstrucEnerACV : float
+  * EnergyEtretienACV : float
+  * EnergyFinVieACV : float
+  * Coef 0 ACV : float
+}
+
+entity ViewM2_Pourcentage {
+  * Year : int
+  * NomAffaire : text
+  * MoaName : text
+  * WorkNatureName : text
+  * ProjectName : text
+  * TotalQtMat : float
+  * TotalQtInten : float
+}
+
+entity ViewM2_RefTrajectory {
+  * Id : uuid
+  * StartYear : int
+  * MaterialBuildEmissions : float
+  * EnergyBuildEmissions : float
+  * EnergyConsumptionEmissions : float
+  * MaintenanceEmissions : float
+  * EmissionsAbsolues : float
+}
+
+entity View_Trajectory {
+  * Id : uuid
+  * Year : int
+  * Value : float
+  * Key : text
+}
+
+entity ViewM2_FEMatResti {
+  * Id : uuid
+  * StudyElementId : uuid
+  * StudyElementName : text
+  * WorkNatureId : uuid
+  * WorkTypeId : uuid
+  * WorkSubTypeId : uuid
+  * Matériaux : text
+  * AutreFE : float
+}
+
+entity ViewAdmin_RefElem {
+  * Id : uuid
+  * RatioEnergy : float
+  * Coef 0 à 10 : float
+  * AutreFE : float
+  * RefMaterialId : uuid
+  * Quantity : float
+  * Matériaux : text
+}
+
+entity ViewAdmin_RefEnergy {
+  * Year : int
+  * Value : float
+  * Unit : text
+  * Site : text
+  * Type : text
+  * Site - Type : text
+}
+
+entity ViewAdmin_RefTrajHypo {
+  * AverageTrajectoryId : uuid
+  * OptimisticTrajectoryId : uuid
+  * AverageTrajValue : float
+  * OptimisticTrajValue : float
+  * Year : int
+  * Matériaux : text
+}
+
+
+
+ViewStructureElemV1_8 --> ViewEtude
+ViewM1_Travail --> ViewStructureElemV1_8
+ViewM1_Travail --> ViewEtude
+ViewM2_Travail1 --> ViewM1_Travail
+ViewM2_Travail1 --> ViewM2_FEMatCalcul
+ViewEtude_Affectation --> ViewEtude
+ViewAdmin_Structure --> ViewEtude
+ViewAdmin_Audit --> ViewAdmin_Structure
+
+ViewM1_Simulation --> ViewM1_Travail
+ViewM2_FEMaterial --> View_Materiaux
+ViewM2_1_1_3 --> ViewM1_Travail
+ViewM2_2_1_6 --> ViewM2_1_1_3
+ViewM2_Travail1 --> ViewM2_2_1_6
+ViewACV_CoefElement --> ViewACV_Coef
+ViewACV_CoefElement --> ViewStructureElemV1_8
+ViewM1_ConstructionResultatACVV1_9 --> ViewACV_CoefElement
+ViewAdmin_RefElem --> ViewM2_FEMatCalcul
+ViewAdmin_RefElem --> ViewStructureElemV1_8

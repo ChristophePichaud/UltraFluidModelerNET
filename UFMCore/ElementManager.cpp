@@ -14,6 +14,7 @@
 #include "SharedViews\Dialogs\CDialogSaveDatabase.h"
 #include "SharedViews\Dialogs\CDialogLoadDatabase.h"
 #include "SharedViews\SQL\SQLiteTools.h"
+#include "../PlantUML-CLI/PlantUMLProcessor.h"
 
 //
 // CElementManager
@@ -3853,6 +3854,105 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	file.close();
 
 	//AfxMessageBox(json.c_str());
+}
+
+void CElementManager::OnFileImportPUML(CModeler1View* pView)
+{
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+	CStringW fileName = dlg.GetPathName();
+	wstring doc = (LPTSTR)(LPCTSTR)fileName;
+
+	wstring json = GetFileContent(doc);
+
+
+	using namespace PlantUML;
+
+	// Convert wstring to string for processing
+	string input(doc.begin(), doc.end());
+
+	// Parse the PlantUML file
+	PlantUMLProcessor processor(input); // "PlantUML1.puml");
+	processor.process();
+	// Dump vers la console
+	processor.dumpEntities(std::cout);
+	processor.dumpRelations(std::cout);
+
+	// Clear existing objects
+	m_objects.RemoveAll();
+
+	int count = 0;
+	for (const auto& entity : processor.getEntities())
+	{
+		std::cout << "Entity: " << entity.name << "\n";
+
+		// Create a new element based on the entity type
+		shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(ElementType::type_shapes_development, ShapeType::development_class);
+		if (pNewElement == nullptr)
+		{
+			AfxMessageBox(L"Error creating element from PlantUML entity type.");
+			return;
+		}
+
+		pNewElement->m_caption = wstring(entity.name.begin(), entity.name.end());
+
+		int elementsCount = 1;
+
+		std::string text = "Entity: " + entity.name + "\n";
+		if (entity.type == EntityType::Enum)
+		{
+			for (const auto& val : entity.enumValues)
+			{
+				std::cout << "  EnumValue: " << val << "\n";
+				text += "  EnumValue: " + val + "\n";
+				elementsCount++;
+			}
+		}
+		else 
+		{
+			for (const auto& attr : entity.attributes)
+			{
+				std::cout << "  Attribute: " << attr.visibility << attr.name << " : " << attr.type << "\n";
+				text += attr.visibility + attr.name + " : " + attr.type + "\n";
+				elementsCount++;
+			}
+			for (const auto& method : entity.methods)
+			{
+				std::cout << "  Method: " << method.visibility << method.name << "()\n";
+				text += method.visibility + method.name + "()\n";
+				elementsCount++;
+			}
+		}
+
+		// Set properties for the new element
+		pNewElement->m_text = wstring(text.begin(), text.end());
+
+		CalcAutoPointRect(count, pNewElement);
+		pNewElement->m_rect.bottom = pNewElement->m_point.y + (30 * elementsCount);
+
+
+		pNewElement->m_pManager = this;
+		pNewElement->m_pView = pView;
+
+		// Add an object
+		m_objects.AddTail(pNewElement);
+		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
+
+		++count;
+	}
+
+	Invalidate(pView);
+
+}
+
+void CElementManager::OnFileExportPUML(CModeler1View* pView)
+{
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+	CStringW fileName = dlg.GetPathName();
+	wstring doc = (LPTSTR)(LPCTSTR)fileName;
 }
 
 void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)

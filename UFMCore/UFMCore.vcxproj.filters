@@ -105,6 +105,18 @@
     <ClCompile Include="DrawingElements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphLayoutEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantUMLProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantUMLTokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantUMLParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="UFMCore.def">
@@ -200,6 +212,18 @@
       <Filter>Header Files\UFMCore</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\UFMCore\DrawingElements.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\PlantUMLTokenizer.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\GraphLayoutEngine.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\PlantUMLProcessor.h">
+      <Filter>Header Files\UFMCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\UFMCore\PlantUMLParser.h">
       <Filter>Header Files\UFMCore</Filter>
     </ClInclude>
   </ItemGroup>

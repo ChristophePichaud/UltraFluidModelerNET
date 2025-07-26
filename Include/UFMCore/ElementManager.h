@@ -236,6 +236,8 @@ public:
 	void OnFileExportPNG(CModeler1View* pView);
 	void OnFileImportJSON(CModeler1View* pView);
 	void OnFileExportJSON(CModeler1View* pView);
+	void OnFileImportPUML(CModeler1View* pView);
+	void OnFileExportPUML(CModeler1View* pView);
 	void OnFileSaveDatabase(CModeler1View* pView);
 	void OnFileLoadDatabase(CModeler1View* pView);
 

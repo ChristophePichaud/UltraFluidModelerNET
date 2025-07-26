@@ -1,0 +1,84 @@
+@startuml
+'skinparam linetype ortho
+'skinparam dpi 120
+'hide stereotypes
+
+' === VUES M1 ===
+entity ViewEtude {
+}
+entity ViewStructureElemV1_8 {
+}
+
+entity ViewM1_ConstructionV1_8
+entity ViewM1_ConstructionEmissionV1_8
+entity ViewEnergyValue
+entity ViewMaxEnergyYear
+entity ViewM1_ConstructionResultatV1_8
+entity ViewM1_Synthese
+entity ViewACV_BaseCalcV1_1
+entity ViewACV_Coef
+entity ViewACV_CoefElement
+entity ViewM1_ConstructionResultatACVV1_9
+entity ViewM1_Travail
+entity ViewIHM_Synthese
+entity ViewM1_Simulation
+
+' === VUES M2 ===
+entity View_Materiaux
+entity ViewM2_FEMaterial
+entity ViewM2_FEMatCalcul
+entity View_nbcomp
+entity ViewM2_1_1_3
+entity ViewM2_2_1_6
+entity ViewM2_Travail1
+entity ViewM2_Pourcentage
+entity ViewM2_RefTrajectory
+entity ViewM2_Trajectory
+
+' === VUES ADMIN ===
+entity ViewM2_FEMatResti
+entity ViewAdmin_RefElem
+entity ViewAdmin_RefEnergy
+entity ViewAdmin_RefTrajHypo
+
+' === DIVERS & UI ===
+entity ViewAccess
+
+' === DÉPENDANCES — M1
+ViewStructureElemV1_8 --> ViewEtude
+ViewM1_ConstructionV1_8 --> ViewStructureElemV1_8
+ViewM1_ConstructionEmissionV1_8 --> ViewM1_ConstructionV1_8
+ViewEnergyValue --> ViewMaxEnergyYear
+ViewM1_ConstructionResultatV1_8 --> ViewStructureElemV1_8
+ViewM1_ConstructionResultatV1_8 --> ViewEnergyValue
+ViewM1_ConstructionResultatV1_8 --> ViewM1_ConstructionV1_8
+ViewM1_ConstructionResultatV1_8 --> ViewM1_ConstructionEmissionV1_8
+ViewM1_Synthese --> ViewM1_ConstructionResultatV1_8
+ViewACV_BaseCalcV1_1 --> ViewM1_Synthese
+ViewACV_Coef --> ViewACV_BaseCalcV1_1
+ViewACV_CoefElement --> ViewACV_Coef
+ViewM1_ConstructionResultatACVV1_9 --> ViewM1_ConstructionResultatV1_8
+ViewM1_ConstructionResultatACVV1_9 --> ViewACV_CoefElement
+ViewM1_Travail --> ViewM1_ConstructionResultatACVV1_9
+ViewIHM_Synthese --> ViewM1_Travail
+ViewM1_Simulation --> ViewM1_Travail
+
+' === DÉPENDANCES — M2
+ViewM2_FEMaterial --> View_Materiaux
+ViewM2_FEMatCalcul --> ViewM2_FEMaterial
+ViewM2_1_1_3 --> ViewM1_Travail
+ViewM2_1_1_3 --> View_Materiaux
+ViewM2_1_1_3 --> ViewM2_FEMatCalcul
+ViewM2_2_1_6 --> ViewM2_1_1_3
+ViewM2_2_1_6 --> View_nbcomp
+ViewM2_Travail1 --> ViewM2_2_1_6
+ViewM2_Pourcentage --> ViewM2_Travail1
+
+' === DÉPENDANCES — ADMIN
+ViewM2_FEMatResti --> ViewM2_FEMatCalcul
+ViewAdmin_RefElem --> ViewM2_FEMatCalcul
+ViewAdmin_RefElem --> View_Materiaux
+ViewAdmin_RefEnergy --> ViewEnergyValue
+ViewAdmin_RefTrajHypo --> ViewM2_Trajectory
+
+@enduml

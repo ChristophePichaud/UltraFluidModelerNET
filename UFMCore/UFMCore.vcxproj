@@ -220,6 +220,7 @@
     <ClCompile Include="ElementManager.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="GlobalData.cpp" />
+    <ClCompile Include="GraphLayoutEngine.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="Modeler1.cpp" />
     <ClCompile Include="Modeler1Doc.cpp" />
@@ -232,6 +233,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PlantUMLParser.cpp" />
+    <ClCompile Include="PlantUMLProcessor.cpp" />
+    <ClCompile Include="PlantUMLTokenizer.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="RibbonListButton.cpp" />
     <ClCompile Include="ScintillaCtrl.cpp" />
@@ -259,12 +263,16 @@
     <ClInclude Include="..\Include\UFMCore\ElementManager.h" />
     <ClInclude Include="..\Include\UFMCore\FileView.h" />
     <ClInclude Include="..\Include\UFMCore\GlobalData.h" />
+    <ClInclude Include="..\Include\UFMCore\GraphLayoutEngine.h" />
     <ClInclude Include="..\Include\UFMCore\MainFrm.h" />
     <ClInclude Include="..\Include\UFMCore\Modeler1.h" />
     <ClInclude Include="..\Include\UFMCore\Modeler1Doc.h" />
     <ClInclude Include="..\Include\UFMCore\Modeler1SourceView.h" />
     <ClInclude Include="..\Include\UFMCore\Modeler1View.h" />
     <ClInclude Include="..\Include\UFMCore\OutputWnd.h" />
+    <ClInclude Include="..\Include\UFMCore\PlantUMLParser.h" />
+    <ClInclude Include="..\Include\UFMCore\PlantUMLProcessor.h" />
+    <ClInclude Include="..\Include\UFMCore\PlantUMLTokenizer.h" />
     <ClInclude Include="..\Include\UFMCore\PropertiesWnd.h" />
     <ClInclude Include="..\Include\UFMCore\ScintillaCtrl.h" />
     <ClInclude Include="..\Include\UFMCore\ScintillaDocView.h" />

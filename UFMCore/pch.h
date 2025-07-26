@@ -118,7 +118,7 @@ using namespace std;
 #endif
 
 
-#define VERSION_COMMUNITY
+//#define VERSION_COMMUNITY
 #define MAX_SHAPES          50
 
 #endif //PCH_H
