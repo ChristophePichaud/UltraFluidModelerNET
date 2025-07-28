@@ -1,0 +1,667 @@
+@startuml
+entity Affair {
+  * Id : Int32
+  * CAPEX : Nullable`1
+  * CommissioningDate : Nullable`1
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * FinancerId : Nullable`1
+  * InvestPost : String
+  * MoaId : Nullable`1
+  * Name : String
+  * NumAffair : String
+  * ProjectId : Int32
+  * ProjectStatusId : Int32
+  * SiteId : Int32
+  * StartingDate : Nullable`1
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Lang {
+  * Id : Int32
+  * Value : String
+}
+
+entity Project {
+  * Id : Int32
+  * CountryId : Nullable`1
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * IsBlocked : Boolean
+  * Reference : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity ProjectInput {
+  * Id : Int32
+  * CAPEX : Nullable`1
+  * CodePI : String
+  * CommissioningDate : Nullable`1
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * FinancerId : Nullable`1
+  * InputType : ProjectInputType
+  * MainNumAffair : String
+  * MoaId : Nullable`1
+  * Name : String
+  * ProjectId : Int32
+  * SiteId : Nullable`1
+  * StartingDate : Nullable`1
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity RefConstruction {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Quantity : Single
+  * RefElementId : Int32
+  * RefMaterialId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity RefElement {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * RatioEnergy : Single
+  * Status : Status
+  * UnitId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * WorkNatureId : Int32
+  * WorkSubTypeId : Int32
+  * WorkTypeId : Int32
+}
+
+entity RefEnergy {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * EnergyId : Int32
+  * SiteId : Int32
+  * Status : Status
+  * UnitId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity RefEnergyValue {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * RefEnergyId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * Value : Single
+  * Year : Int32
+}
+
+entity RefHypothesis {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Nature : HypothesisNature
+  * RefElementId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * Value : Single
+}
+
+entity RefMaterial {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * FE : Single
+  * MaterialCategoryId : Int32
+  * MaterialId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Simultation {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Name : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * UserId : Int32
+}
+
+entity Study {
+  * Id : Int32
+  * AnnualEmissionReduction : Nullable`1
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Description : String
+  * ProjectId : Int32
+  * SimulationId : Nullable`1
+  * Status : Status
+  * StudyStatus : StudyStatus
+  * Title : String
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity StudyAcv {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * Value : Single
+}
+
+entity StudyConstruction {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * OverwrittenQuantity : Nullable`1
+  * RefConstructionId : Int32
+  * Status : Status
+  * StudyElementId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity StudyElement {
+  * Id : Int32
+  * AffairId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * InvestmentAmount : Decimal
+  * Name : String
+  * ProcessId : Int32
+  * QuantityUF : Nullable`1
+  * RefElementId : Int32
+  * Status : Status
+  * StudyAcvId : Nullable`1
+  * StudyId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * WorkStartingYear : Nullable`1
+}
+
+entity StudyHypothesis {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * OverwrittenValue : Nullable`1
+  * RefHypothesisId : Int32
+  * Status : Status
+  * StudyElementId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity StudyUF {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Percentage : Single
+  * StudyElementId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * Year : Int32
+}
+
+entity TrajHypothesis {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * EnergyBuildEmissions : Nullable`1
+  * EnergyConsumptionEmissions : Nullable`1
+  * MaintenanceEmissions : Nullable`1
+  * MaterialBuildEmissions : Nullable`1
+  * MoaId : Int32
+  * StartYear : Nullable`1
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * WorkNatureId : Int32
+  * WorkTypeId : Int32
+}
+
+entity TrajIntensity {
+  * Id : Int32
+  * AverageTrajectoryId : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * MaterialId : Int32
+  * OptimisticTrajectoryId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Trajectory {
+  * Id : Int32
+  * ApproachId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * GeographyId : Int32
+  * Key : String
+  * MaterialCategoryId : Int32
+  * MoaId : Int32
+  * Segmentation1Id : Int32
+  * Segmentation2Id : Int32
+  * SourceTrajectoryId : Int32
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity TrajectoryValue {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Status : Status
+  * TrajectoryId : Int32
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * Value : Single
+  * Year : Int32
+}
+
+entity Approach {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Country {
+  * Id : Int32
+  * AnnualEmissionReduction : Nullable`1
+  * CountryCode : String
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Currency : String
+  * DefaultValue : String
+  * Status : Status
+  * TransverseHypothesis : Nullable`1
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity DataOrigin {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Energy {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Financer {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Geography {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Material {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity MaterialCategory {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Moa {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Process {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity ProjectStatus {
+  * Id : Int32
+  * Code : String
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Segmentation1 {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Segmentation2 {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity SegmentationUnit {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Site {
+  * Id : Int32
+  * CountryId : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * IATACode : String
+  * OACICode : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity SourceTrajectory {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity Translation {
+  * Id : Int32
+  * ApproachId : Nullable`1
+  * CountryId : Nullable`1
+  * DataOriginId : Nullable`1
+  * EnergyId : Nullable`1
+  * FinancerId : Nullable`1
+  * GeographyId : Nullable`1
+  * LangId : Int32
+  * MaterialCategoryId : Nullable`1
+  * MaterialId : Nullable`1
+  * MoaId : Nullable`1
+  * ProcessId : Nullable`1
+  * ProjectStatusId : Nullable`1
+  * Segmentation1Id : Nullable`1
+  * Segmentation2Id : Nullable`1
+  * SegmentationUnitId : Nullable`1
+  * SiteId : Nullable`1
+  * SourceTrajectoryId : Nullable`1
+  * TranslatedValue : String
+  * UnitId : Nullable`1
+  * WorkNatureId : Nullable`1
+  * WorkSubTypeId : Nullable`1
+  * WorkTypeId : Nullable`1
+}
+
+entity Unit {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity WorkNature {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity WorkSubType {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity WorkType {
+  * Id : Int32
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * DefaultValue : String
+  * Status : Status
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity User {
+  * Id : Int32
+  * CountryId : Nullable`1
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * Email : String
+  * FirstName : String
+  * LastConnection : Nullable`1
+  * LastName : String
+  * LastRoleModification : Nullable`1
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+  * UserIdentifier : String
+  * UserRoleId : Int32
+}
+
+entity UserRole {
+  * Id : Int32
+  * CanAccessResults : Boolean
+  * CanAccessTrajectory : Boolean
+  * CanBlockProject : Boolean
+  * CanConsultProject : Boolean
+  * CanConsultRef : Boolean
+  * CanDeleteProject : Boolean
+  * CanEditAcv : Boolean
+  * CanEditProject : Boolean
+  * CanEditRef : Boolean
+  * CanExportProject : Boolean
+  * CanImportData : Boolean
+  * CanImportProject : Boolean
+  * CanPostProject : Boolean
+  * CanPrintProject : Boolean
+  * CanRefuseProject : Boolean
+  * CanSearchProject : Boolean
+  * CanSimulateTrajectory : Boolean
+  * CanTransferProject : Boolean
+  * CreatedBy : String
+  * CreatedOn : DateTime
+  * IsAdmin : Boolean
+  * IsGlobalAdmin : Boolean
+  * Name : String
+  * UpdatedBy : String
+  * UpdatedOn : DateTime
+}
+
+entity MoaUser {
+  * MoasId : Int32
+  * UsersId : Int32
+}
+
+entity SiteUser {
+  * SiteId : Int32
+  * UsersId : Int32
+}
+
+
+
+Affair --> Financer : FinancerId
+Affair --> Moa : MoaId
+Affair --> Project : ProjectId
+Affair --> ProjectStatus : ProjectStatusId
+Affair --> Site : SiteId
+Project --> Country : CountryId
+ProjectInput --> Financer : FinancerId
+ProjectInput --> Moa : MoaId
+ProjectInput --> Project : ProjectId
+ProjectInput --> Site : SiteId
+RefConstruction --> RefElement : RefElementId
+RefConstruction --> RefMaterial : RefMaterialId
+RefElement --> Country : CountryId
+RefElement --> Unit : UnitId
+RefElement --> WorkNature : WorkNatureId
+RefElement --> WorkSubType : WorkSubTypeId
+RefElement --> WorkType : WorkTypeId
+RefEnergy --> Country : CountryId
+RefEnergy --> Energy : EnergyId
+RefEnergy --> Site : SiteId
+RefEnergy --> Unit : UnitId
+RefEnergyValue --> RefEnergy : RefEnergyId
+RefHypothesis --> RefElement : RefElementId
+RefMaterial --> Country : CountryId
+RefMaterial --> MaterialCategory : MaterialCategoryId
+RefMaterial --> Material : MaterialId
+Simultation --> User : UserId
+Study --> Project : ProjectId
+Study --> Simultation : SimulationId
+StudyConstruction --> RefConstruction : RefConstructionId
+StudyConstruction --> StudyElement : StudyElementId
+StudyElement --> Affair : AffairId
+StudyElement --> Process : ProcessId
+StudyElement --> RefElement : RefElementId
+StudyElement --> StudyAcv : StudyAcvId
+StudyElement --> Study : StudyId
+StudyHypothesis --> RefHypothesis : RefHypothesisId
+StudyHypothesis --> StudyElement : StudyElementId
+StudyUF --> StudyElement : StudyElementId
+TrajHypothesis --> Country : CountryId
+TrajHypothesis --> Moa : MoaId
+TrajHypothesis --> WorkNature : WorkNatureId
+TrajHypothesis --> WorkType : WorkTypeId
+TrajIntensity --> Trajectory : AverageTrajectoryId
+TrajIntensity --> Country : CountryId
+TrajIntensity --> Material : MaterialId
+TrajIntensity --> Trajectory : OptimisticTrajectoryId
+Trajectory --> Approach : ApproachId
+Trajectory --> Geography : GeographyId
+Trajectory --> MaterialCategory : MaterialCategoryId
+Trajectory --> Moa : MoaId
+Trajectory --> Segmentation1 : Segmentation1Id
+Trajectory --> Segmentation2 : Segmentation2Id
+Trajectory --> SourceTrajectory : SourceTrajectoryId
+TrajectoryValue --> Trajectory : TrajectoryId
+DataOrigin --> Country : CountryId
+Financer --> Country : CountryId
+Moa --> Country : CountryId
+ProjectStatus --> Country : CountryId
+Site --> Country : CountryId
+Translation --> Approach : ApproachId
+Translation --> Country : CountryId
+Translation --> DataOrigin : DataOriginId
+Translation --> Energy : EnergyId
+Translation --> Financer : FinancerId
+Translation --> Geography : GeographyId
+Translation --> Lang : LangId
+Translation --> MaterialCategory : MaterialCategoryId
+Translation --> Material : MaterialId
+Translation --> Moa : MoaId
+Translation --> Process : ProcessId
+Translation --> ProjectStatus : ProjectStatusId
+Translation --> Segmentation1 : Segmentation1Id
+Translation --> Segmentation2 : Segmentation2Id
+Translation --> SegmentationUnit : SegmentationUnitId
+Translation --> Site : SiteId
+Translation --> SourceTrajectory : SourceTrajectoryId
+Translation --> Unit : UnitId
+Translation --> WorkNature : WorkNatureId
+Translation --> WorkSubType : WorkSubTypeId
+Translation --> WorkType : WorkTypeId
+User --> Country : CountryId
+User --> UserRole : UserRoleId
+MoaUser --> Moa : MoasId
+MoaUser --> User : UsersId
+SiteUser --> Site : SiteId
+SiteUser --> User : UsersId
+@enduml
