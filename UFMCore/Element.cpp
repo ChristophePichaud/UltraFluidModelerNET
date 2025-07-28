@@ -209,6 +209,8 @@ CElement::CElement()
 
 	//m_bControlsCreated = false;
 
+	m_ElementsCounts = 0;
+
 	m_bMoving = false;
 
 	m_type = ElementType::type_unknown;
@@ -1713,6 +1715,11 @@ CPoint CElement::GetHandle(int nHandle)
 
 	case 8:
 		x = rect.left;
+		y = yCenter;
+		break;
+
+	case 9:
+		x = xCenter;
 		y = yCenter;
 		break;
 	}
