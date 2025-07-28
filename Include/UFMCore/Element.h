@@ -367,6 +367,9 @@ public:
 	PointF m_lastCaretPoint;
 	PointF m_pointF;
 
+	// UML Features
+	int m_ElementsCounts;
+
 // Methods for Attributes
 public:
 	bool IsLine();

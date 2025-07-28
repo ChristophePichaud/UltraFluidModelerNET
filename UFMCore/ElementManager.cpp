@@ -14,6 +14,8 @@
 #include "SharedViews\Dialogs\CDialogSaveDatabase.h"
 #include "SharedViews\Dialogs\CDialogLoadDatabase.h"
 #include "SharedViews\SQL\SQLiteTools.h"
+#include "UFMCore\PlantUMLProcessor.h"
+#include "UFMCore\GraphLayoutEngine.h"
 
 //
 // CElementManager
@@ -3853,6 +3855,193 @@ void CElementManager::OnFileExportJSON(CModeler1View* pView)
 	file.close();
 
 	//AfxMessageBox(json.c_str());
+}
+
+void CElementManager::OnFileImportPUML(CModeler1View* pView)
+{
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+	CStringW fileName = dlg.GetPathName();
+	wstring doc = (LPTSTR)(LPCTSTR)fileName;
+
+	wstring json = GetFileContent(doc);
+
+
+	using namespace PlantUML;
+
+	// Convert wstring to string for processing
+	string input(doc.begin(), doc.end());
+
+	// Parse the PlantUML file
+	PlantUMLProcessor processor(input); // "PlantUML1.puml");
+	processor.process();
+	// Dump vers la console
+	processor.dumpEntities(std::cout);
+	processor.dumpRelations(std::cout);
+
+	// Clear existing objects
+	m_objects.RemoveAll();
+
+	int count = 0;
+	for (const auto& entity : processor.getEntities())
+	{
+		std::cout << "Entity: " << entity.name << "\n";
+
+		// Create a new element based on the entity type
+		shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(ElementType::type_shapes_development, ShapeType::development_class);
+		if (pNewElement == nullptr)
+		{
+			AfxMessageBox(L"Error creating element from PlantUML entity type.");
+			return;
+		}
+
+		pNewElement->m_caption = wstring(entity.name.begin(), entity.name.end());
+		pNewElement->m_name = wstring(entity.name.begin(), entity.name.end());
+
+		int elementsCount = 1;
+
+		std::string text = "Entity: " + entity.name + "\n";
+		if (entity.type == EntityType::Enum)
+		{
+			for (const auto& val : entity.enumValues)
+			{
+				std::cout << "  EnumValue: " << val << "\n";
+				text += "  EnumValue: " + val + "\n";
+				elementsCount++;
+			}
+		}
+		else 
+		{
+			for (const auto& attr : entity.attributes)
+			{
+				std::cout << "  Attribute: " << attr.visibility << attr.name << " : " << attr.type << "\n";
+				text += attr.visibility + attr.name + " : " + attr.type + "\n";
+				elementsCount++;
+			}
+			for (const auto& method : entity.methods)
+			{
+				std::cout << "  Method: " << method.visibility << method.name << "()\n";
+				text += method.visibility + method.name + "()\n";
+				elementsCount++;
+			}
+		}
+
+		// Set properties for the new element
+		pNewElement->m_text = wstring(text.begin(), text.end());
+		pNewElement->m_pManager = this;
+		pNewElement->m_pView = pView;
+		pNewElement->m_ElementsCounts = elementsCount;
+
+		// Add an object
+		m_objects.AddTail(pNewElement);
+		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
+
+		++count;
+	}
+
+	for (const auto& rel : processor.getRelations()) 
+	{
+	    std::cout << "Relation: " << rel.from << " " << rel.type << " " << rel.to << "\n";
+
+		/*
+			if( m_shapeType == ShapeType::line ||  m_shapeType == ShapeType::line2 ||
+				m_shapeType == ShapeType::line_left_right ||
+				m_shapeType == ShapeType::line_broken ||  m_shapeType == line_broken_right ||
+				m_shapeType == ShapeType::line_right || m_shapeType == ShapeType::line_right2 || //)
+				m_shapeType == ShapeType::line_left_right ||
+				m_shapeType == ShapeType::development_association ||
+				m_shapeType == ShapeType::development_aggregation ||
+				m_shapeType == ShapeType::development_composition ||
+				m_shapeType == ShapeType::development_dependency ||
+				m_shapeType == ShapeType::development_inheritance ||
+				m_shapeType == ShapeType::development_package_import ||
+				m_shapeType == ShapeType::line_broken2 ||
+				m_shapeType == ShapeType::line_broken_right2 ||
+				m_shapeType == ShapeType::line_broken_left_right )
+		*/
+
+		shared_ptr<CElement> pNewElement = CFactory::CreateElementOfType(ElementType::type_shapes_simple, ShapeType::line);
+		pNewElement->m_pManager = this;
+		pNewElement->m_pView = pView;
+		// Set the connector properties
+		wstring connector1 = wstring(rel.from.begin(), rel.from.end());
+		wstring connector2 = wstring(rel.to.begin(), rel.to.end());
+
+		pNewElement->m_pConnector->m_pElement1 = m_objects.FindElementByName(connector1);
+		if (pNewElement->m_pConnector->m_pElement1 == nullptr)
+			continue;
+
+		pNewElement->m_pConnector->m_pElement2 = m_objects.FindElementByName(connector2);
+		if (pNewElement->m_pConnector->m_pElement2 == nullptr)
+			continue;
+
+		pNewElement->m_connectorDragHandle1 = pNewElement->DragHandleFromString(_T("Center"));
+		pNewElement->m_connectorDragHandle2 = pNewElement->DragHandleFromString(_T("Center"));
+
+		CPoint p1 = pNewElement->m_pConnector->m_pElement1->m_rect.CenterPoint();
+		CPoint p2 = pNewElement->m_pConnector->m_pElement2->m_rect.CenterPoint();
+		pNewElement->m_rect = CRect(p1, p2);
+
+		// Add an object
+		m_objects.AddTail(pNewElement);
+		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
+	}
+
+	// Step 1: Define canvas size
+	int canvasWidth = 1000; // m_size.cx;
+	int canvasHeight = 1000; // m_size.cy;
+	
+	//GraphLayoutEngine engine;
+	GraphLayoutEngine engine(canvasWidth, canvasHeight);
+	
+	// Process layout and relationships
+	for (auto& e : m_objects.m_objects)
+	{
+		engine.AddElement(e);
+	}
+
+	for (auto& pElement : m_objects.m_objects)
+	{
+		if (pElement->m_pConnector->m_pElement1 != nullptr && pElement->m_pConnector->m_pElement2 != nullptr)
+		{
+			engine.AddConnector(pElement->m_pConnector->m_pElement1, pElement->m_pConnector->m_pElement2);
+		}
+	}
+
+	// Run the layout engine
+	engine.RunLayout();
+
+	// Update positions of elements based on the layout calculed by RunLayout()
+	for (auto pElement : m_objects.m_objects)
+	{
+		if (pElement->m_pConnector->m_pElement1 != nullptr && pElement->m_pConnector->m_pElement2 != nullptr)
+		{
+			// Update positions based on layout
+			CPoint p1 = pElement->m_pConnector->m_pElement1->m_rect.CenterPoint();
+			CPoint p2 = pElement->m_pConnector->m_pElement2->m_rect.CenterPoint();
+			pElement->m_rect = CRect(p1, p2);
+
+			// Move the element to the back of the view
+			SelectNone();
+			Select(pElement);
+			MoveToBack(pView);
+		}
+
+	}
+
+	// Update positions based on layout
+	Invalidate(pView);
+
+}
+
+void CElementManager::OnFileExportPUML(CModeler1View* pView)
+{
+	CFileDialog dlg(TRUE);
+	if (dlg.DoModal() != IDOK)
+		return;
+	CStringW fileName = dlg.GetPathName();
+	wstring doc = (LPTSTR)(LPCTSTR)fileName;
 }
 
 void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)

@@ -1,0 +1,26 @@
+enum Status {
+    OK
+    ERROR
+    UNKNOWN
+}
+
+interface ILogger {
+    +log(message : string)
+}
+
+class User {
+    +id : int
+    +name : string
+    -password : string
+    +login()
+    +logout()
+}
+
+class Admin extends User {
+    +level : int
+    +banUser(userId : int)
+}
+
+User --> ILogger
+Admin --> Status
+

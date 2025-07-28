@@ -355,6 +355,9 @@ void CMainFrame::InitMainButton()
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_IMPORT_JSON, _T("Import &JSON..."), 1, 1));
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_EXPORT_JSON, _T("Export As &JSON..."), 2, 2));
 	pMainPanel->AddSeparator();
+	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_IMPORT_PUML, _T("Import &PlantUML..."), 1, 1));
+	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_EXPORT_PUML, _T("Export As &PlantUML..."), 2, 2));
+	pMainPanel->AddSeparator();
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_EXPORT_PNG, _T("Export As &PNG..."), 2, 2));
 	pMainPanel->AddSeparator();
 	pMainPanel->Add(new CMFCRibbonButton(ID_FILE_CLOSE, _T("&Close"), 8, 8));

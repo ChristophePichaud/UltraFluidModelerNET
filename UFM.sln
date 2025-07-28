@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UFM", "UFM.vcxproj", "{FB7E9697-6819-4F3D-88E8-F20305644D58}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -36,6 +36,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UFMCore", "UFMCore\UFMCore.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UFMDrawing", "UFMDrawing\UFMDrawing.vcxproj", "{86B92567-1BAA-469B-9978-9928919B416E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlantUML-CLI", "PlantUML-CLI\PlantUML-CLI.vcxproj", "{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,14 @@ Global
 		{86B92567-1BAA-469B-9978-9928919B416E}.Release|x64.Build.0 = Release|x64
 		{86B92567-1BAA-469B-9978-9928919B416E}.Release|x86.ActiveCfg = Release|Win32
 		{86B92567-1BAA-469B-9978-9928919B416E}.Release|x86.Build.0 = Release|Win32
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Debug|x64.ActiveCfg = Debug|x64
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Debug|x64.Build.0 = Debug|x64
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Debug|x86.ActiveCfg = Debug|Win32
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Debug|x86.Build.0 = Debug|Win32
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Release|x64.ActiveCfg = Release|x64
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Release|x64.Build.0 = Release|x64
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Release|x86.ActiveCfg = Release|Win32
+		{1AB5F368-6F69-4002-BB0E-FB3E9ACB0A7E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
