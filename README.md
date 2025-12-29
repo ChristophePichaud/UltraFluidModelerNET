@@ -4,8 +4,7 @@ UltraFluidModelerNET is my open-source contribution for the Microsoft MVP progra
 
 Christophe Pichaud - christophep@cpixxi.com
 
-Download the latest release -> dec 2025
-Open the data file JBB1 from data folder...
+Download the latest release -> dec 2025 and Open the data file JBB1 from data folder...
 
 Overview:
 ![Global View](./Images/Various/UFM1.png)
