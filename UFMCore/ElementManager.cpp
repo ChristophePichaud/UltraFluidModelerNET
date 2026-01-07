@@ -51,7 +51,7 @@ CElementManager::CElementManager()
 	m_pDialog = nullptr;
 	m_bTextDialogOpen = false;
 
-	m_ShowBackground = true;
+	m_ShowBackground = false; // default instead of true;
 
 	m_diagramId = 0;
 	m_diagramName = _T("");
@@ -2550,6 +2550,32 @@ void CalcAutoPointRect(int count, std::shared_ptr<CElement> pNewElement)
 	}
 }
 
+void CalcAutoPointRectEx(int count, std::shared_ptr<CElement> pNewElement, 
+							int X_STEP = 8, int Y_STEP = 30, 
+							int X_LARGE = 175, int Y_LARGE = 75, int X_SPACE = 150, int Y_SPACE = 30)
+{
+	int c = 0;
+	for (int y = 0; y < Y_STEP; y++)
+	{
+		for (int x = 0; x < X_STEP; x++)
+		{
+			if (count % 1000 == c)
+			{
+				pNewElement->m_point.x = X_LARGE * x;
+				pNewElement->m_point.y = Y_LARGE * y;
+
+				pNewElement->m_rect.left = pNewElement->m_point.x;
+				pNewElement->m_rect.top = pNewElement->m_point.y;
+				pNewElement->m_rect.right = pNewElement->m_point.x + X_SPACE;
+				pNewElement->m_rect.bottom = pNewElement->m_point.y + Y_SPACE;
+				return;
+			}
+
+			c++;
+		}
+	}
+}
+
 CString CElementManager::SearchDrive(const CString& strFile, const CString& strFilePath, const bool& bRecursive, const bool& bStopWhenFound)
 {
 	USES_CONVERSION;
@@ -2695,8 +2721,11 @@ void CElementManager::LoadFolders(CModeler1View* pView)
 			pNewElement->m_documentType = DocumentType::document_folder;
 			pNewElement->m_documentTypeText = _T("Folder");
 		}
-		
+
+		// Calculate position for the new element
 		CalcAutoPointRect(count, pNewElement);
+
+		// Set properties for the new element
 		pNewElement->m_pManager = this;
 		pNewElement->m_pView = pView;
 		pNewElement->m_text = file->_name;
@@ -3901,7 +3930,8 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 
 		int elementsCount = 1;
 
-		std::string text = "Entity: " + entity.name + "\n";
+		//std::string text = "Entity: " + entity.name + "\n";
+		std::string text = entity.name + "\n";
 		if (entity.type == EntityType::Enum)
 		{
 			for (const auto& val : entity.enumValues)
@@ -3926,6 +3956,9 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 				elementsCount++;
 			}
 		}
+
+		// Calculate position for the new element
+		CalcAutoPointRectEx(count, pNewElement, 8, 30, 300, 200, 150, 50);
 
 		// Set properties for the new element
 		pNewElement->m_text = wstring(text.begin(), text.end());
@@ -3976,8 +4009,8 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 		if (pNewElement->m_pConnector->m_pElement2 == nullptr)
 			continue;
 
-		pNewElement->m_connectorDragHandle1 = pNewElement->DragHandleFromString(_T("Center"));
-		pNewElement->m_connectorDragHandle2 = pNewElement->DragHandleFromString(_T("Center"));
+		pNewElement->m_connectorDragHandle1 = pNewElement->DragHandleFromString(_T("TopCenter"));
+		pNewElement->m_connectorDragHandle2 = pNewElement->DragHandleFromString(_T("TopCenter"));
 
 		CPoint p1 = pNewElement->m_pConnector->m_pElement1->m_rect.CenterPoint();
 		CPoint p2 = pNewElement->m_pConnector->m_pElement2->m_rect.CenterPoint();
@@ -3988,9 +4021,14 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 		pView->LogDebug(_T("object created ->") + pNewElement->ToString());
 	}
 
+
+	// Update positions based on layout
+	Invalidate(pView);
+	return;
+
 	// Step 1: Define canvas size
-	int canvasWidth = 1000; // m_size.cx;
-	int canvasHeight = 1000; // m_size.cy;
+	int canvasWidth = 2000; // m_size.cx;
+	int canvasHeight = 1500; // m_size.cy;
 	
 	//GraphLayoutEngine engine;
 	GraphLayoutEngine engine(canvasWidth, canvasHeight);
@@ -4025,7 +4063,9 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 			// Move the element to the back of the view
 			SelectNone();
 			Select(pElement);
-			MoveToBack(pView);
+			
+			// Move the selected element to back
+			//MoveToBack(pView);
 		}
 
 	}

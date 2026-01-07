@@ -80,7 +80,7 @@ public:
 
     void AddElement(shared_ptr<CElement> el);
     void AddConnector(shared_ptr<CElement> from, shared_ptr<CElement> to);
-    void RunLayout(int iterations = 100);
+    void RunLayout(int iterations = 1);
 
 private:
     int maxWidth;

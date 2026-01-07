@@ -1,0 +1,251 @@
+@startuml
+title VCXPROJ Include & Dependency Graph (Sanitized Vertical)
+
+' Force vertical layout
+top to bottom direction
+skinparam ranksep 80
+skinparam nodesep 20
+skinparam packageStyle rectangle
+
+package "Projects" {
+  class "Base_vcxproj"
+  class "DDLGen2_vcxproj"
+  class "domgen_vcxproj"
+  class "DSM_vcxproj"
+  class "FIST_vcxproj"
+  class "GUI_vcxproj"
+  class "HFTHistorizEOD_vcxproj"
+  class "HFTrader_vcxproj"
+  class "HFTraderUtil_vcxproj"
+  class "HFTService_vcxproj"
+  class "KOPHFTrader_vcxproj"
+  class "MTMEOD_vcxproj"
+  class "PURM_vcxproj"
+  class "ZFIN_vcxproj"
+  class "ZGUI_vcxproj"
+  class "ZML_vcxproj"
+  class "ZModel_vcxproj"
+  class "znllib_vcxproj"
+  class "ZReport_vcxproj"
+  class "ZTradeUpload_vcxproj"
+  class "ZUtil_vcxproj"
+  class "ZValue_vcxproj"
+}
+
+package "Includes" {
+  class "DEVTOOLS_SourcePro_ED12"
+  class "rel_dot_dot_lib"
+  class "C_HFTSrc_common_lib"
+  class "rel_zbase_lib"
+  class "rel_common_lib"
+  class "rel_zanalytics_lib"
+  class "DEVTOOLS_cygnifi_ALIB_code_include"
+  class "DEVTOOLS_gprime"
+  class "DEVTOOLS_xerces_include"
+  class "DEVTOOLS_SourcePro_ED12_VS2010"
+  class "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include"
+  class "DEVTOOLS_Stingray_2010_Include"
+  class "DEVTOOLS_Stingray_2010_RWUXTheme_Include"
+  class "DEVTOOLS_crystal"
+  class "rel_SSO_include"
+  class "DEVTOOLS_xerces_include_dup"
+  class "DEVTOOLS_cygnifi_alib_code_include_dup"
+  class "rel_dot_dot_lib_alt"
+  class "ProjectDir"
+  class "DEVTOOLS_Rendez_vous_include"
+  class "DEVTOOLS_zcm_SSO_Lib"
+}
+
+package "Libraries" {
+  class "tls100_m_lib"
+  class "dbt80_m_lib"
+  class "Ws2_32_lib"
+  class "odbc32_lib"
+  class "odbccp32_lib"
+  class "Base_g_lib"
+  class "tls100_md_lib"
+  class "sync42_m_lib"
+  class "dbt80_md_lib"
+  class "WTSapi32_lib"
+  class "libtibrvcpp_lib"
+  class "libtibrv_lib"
+  class "alib_lib"
+  class "albtools_lib"
+  class "SSOAgent_lib"
+  class "xerces_c_2_lib"
+  class "alib_g_lib"
+  class "albtools_g_lib"
+  class "primedll_lib"
+  class "Mpr_lib"
+  class "odbc32_lib_dup"
+  class "odbccp32_lib_dup"
+}
+
+' Relationships (projects -> includes) — sanitized names
+"Base_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"Base_vcxproj" --> "rel_dot_dot_lib" : includes
+"DDLGen2_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"domgen_vcxproj" --> "C_HFTSrc_common_lib" : includes
+"domgen_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"DSM_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"DSM_vcxproj" --> "rel_zbase_lib" : includes
+"DSM_vcxproj" --> "rel_common_lib" : includes
+"DSM_vcxproj" --> "rel_zanalytics_lib" : includes
+"DSM_vcxproj" --> "DEVTOOLS_cygnifi_ALIB_code_include" : includes
+"DSM_vcxproj" --> "DEVTOOLS_gprime" : includes
+"DSM_vcxproj" --> "DEVTOOLS_xerces_include" : includes
+"FIST_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"FIST_vcxproj" --> "rel_common_lib" : includes
+"FIST_vcxproj" --> "rel_zbase_lib" : includes
+"FIST_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"FIST_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"FIST_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"FIST_vcxproj" --> "DEVTOOLS_SourcePro_ED12_VS2010" : includes
+"GUI_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"GUI_vcxproj" --> "rel_common_lib" : includes
+"GUI_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"GUI_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"HFTHistorizEOD_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"HFTHistorizEOD_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"HFTrader_vcxproj" --> "rel_common_lib" : includes
+"HFTrader_vcxproj" --> "rel_zbase_lib" : includes
+"HFTrader_vcxproj" --> "rel_zanalytics_lib" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_gprime" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_zcm_SSO_Lib" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"HFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"HFTraderUtil_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"HFTraderUtil_vcxproj" --> "rel_common_lib" : includes
+"HFTraderUtil_vcxproj" --> "rel_zbase_lib" : includes
+"HFTraderUtil_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"HFTraderUtil_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"HFTraderUtil_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"HFTService_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"HFTService_vcxproj" --> "ProjectDir" : includes
+"HFTService_vcxproj" --> "rel_common_lib" : includes
+"HFTService_vcxproj" --> "rel_zbase_lib" : includes
+"HFTService_vcxproj" --> "DEVTOOLS_gprime" : includes
+"HFTService_vcxproj" --> "DEVTOOLS_Rendez_vous_include" : includes
+"KOPHFTrader_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"KOPHFTrader_vcxproj" --> "rel_common_lib" : includes
+"KOPHFTrader_vcxproj" --> "rel_zbase_lib" : includes
+"KOPHFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"KOPHFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"KOPHFTrader_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"MTMEOD_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"MTMEOD_vcxproj" --> "rel_common_lib" : includes
+"MTMEOD_vcxproj" --> "rel_zbase_lib" : includes
+"MTMEOD_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"MTMEOD_vcxproj" --> "rel_zanalytics_lib" : includes
+"MTMEOD_vcxproj" --> "DEVTOOLS_gprime" : includes
+"MTMEOD_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"MTMEOD_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"PURM_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"PURM_vcxproj" --> "rel_common_lib" : includes
+"PURM_vcxproj" --> "rel_zbase_lib" : includes
+"PURM_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"ZFIN_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZFIN_vcxproj" --> "rel_common_lib" : includes
+"ZFIN_vcxproj" --> "rel_zbase_lib" : includes
+"ZFIN_vcxproj" --> "rel_zanalytics_lib" : includes
+"ZFIN_vcxproj" --> "DEVTOOLS_cygnifi_ALIB_code_include" : includes
+"ZGUI_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZGUI_vcxproj" --> "rel_common_lib" : includes
+"ZGUI_vcxproj" --> "rel_zbase_lib" : includes
+"ZGUI_vcxproj" --> "DEVTOOLS_Stingray_2010_Include" : includes
+"ZGUI_vcxproj" --> "DEVTOOLS_crystal" : includes
+"ZGUI_vcxproj" --> "DEVTOOLS_gprime" : includes
+"ZGUI_vcxproj" --> "rel_SSO_include" : includes
+"ZGUI_vcxproj" --> "DEVTOOLS_Stingray_2010_RWUXTheme_Include" : includes
+"ZML_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZML_vcxproj" --> "DEVTOOLS_xerces_include" : includes
+"ZML_vcxproj" --> "rel_common_lib" : includes
+"ZModel_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZModel_vcxproj" --> "rel_common_lib" : includes
+"ZModel_vcxproj" --> "rel_zbase_lib" : includes
+"ZModel_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"znllib_vcxproj" --> "DEVTOOLS_cygnifi_alib_code_include_dup" : includes
+"znllib_vcxproj" --> "rel_dot_dot_lib_alt" : includes
+"ZReport_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZReport_vcxproj" --> "rel_common_lib" : includes
+"ZReport_vcxproj" --> "rel_zbase_lib" : includes
+"ZReport_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"ZReport_vcxproj" --> "DEVTOOLS_gprime" : includes
+"ZTradeUpload_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZTradeUpload_vcxproj" --> "rel_common_lib" : includes
+"ZTradeUpload_vcxproj" --> "rel_zbase_lib" : includes
+"ZTradeUpload_vcxproj" --> "DEVTOOLS_Stingray_2010_ObjectiveStudio_Include" : includes
+"ZTradeUpload_vcxproj" --> "DEVTOOLS_crystal" : includes
+"ZUtil_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZUtil_vcxproj" --> "rel_common_lib" : includes
+"ZUtil_vcxproj" --> "rel_zbase_lib" : includes
+"ZValue_vcxproj" --> "DEVTOOLS_SourcePro_ED12" : includes
+"ZValue_vcxproj" --> "rel_common_lib" : includes
+"ZValue_vcxproj" --> "rel_zbase_lib" : includes
+"ZValue_vcxproj" --> "DEVTOOLS_gprime" : includes
+
+' Relationships (projects -> libraries) — sanitized names
+"Base_vcxproj" --> "tls100_m_lib" : links
+"Base_vcxproj" --> "dbt80_m_lib" : links
+"Base_vcxproj" --> "Ws2_32_lib" : links
+"DDLGen2_vcxproj" --> "odbc32_lib" : links
+"DDLGen2_vcxproj" --> "odbccp32_lib" : links
+"DDLGen2_vcxproj" --> "tls100_m_lib" : links
+"domgen_vcxproj" --> "Base_g_lib" : links
+"domgen_vcxproj" --> "tls100_md_lib" : links
+"DSM_vcxproj" --> "tls100_m_lib" : links
+"DSM_vcxproj" --> "dbt80_m_lib" : links
+"DSM_vcxproj" --> "Ws2_32_lib" : links
+"DSM_vcxproj" --> "sync42_m_lib" : links
+"FIST_vcxproj" --> "tls100_md_lib" : links
+"FIST_vcxproj" --> "dbt80_md_lib" : links
+"GUI_vcxproj" --> "tls100_m_lib" : links
+"GUI_vcxproj" --> "dbt80_m_lib" : links
+"HFTHistorizEOD_vcxproj" --> "tls100_md_lib" : links
+"HFTHistorizEOD_vcxproj" --> "dbt80_md_lib" : links
+"HFTrader_vcxproj" --> "tls100_m_lib" : links
+"HFTrader_vcxproj" --> "dbt80_m_lib" : links
+"HFTrader_vcxproj" --> "WTSapi32_lib" : links
+"HFTraderUtil_vcxproj" --> "tls100_m_lib" : links
+"HFTraderUtil_vcxproj" --> "dbt80_m_lib" : links
+"HFTService_vcxproj" --> "tls100_m_lib" : links
+"HFTService_vcxproj" --> "libtibrvcpp_lib" : links
+"HFTService_vcxproj" --> "libtibrv_lib" : links
+"KOPHFTrader_vcxproj" --> "tls100_m_lib" : links
+"KOPHFTrader_vcxproj" --> "dbt80_m_lib" : links
+"MTMEOD_vcxproj" --> "tls100_md_lib" : links
+"MTMEOD_vcxproj" --> "dbt80_md_lib" : links
+"PURM_vcxproj" --> "tls100_m_lib" : links
+"PURM_vcxproj" --> "dbt80_m_lib" : links
+"ZFIN_vcxproj" --> "tls100_m_lib" : links
+"ZFIN_vcxproj" --> "dbt80_m_lib" : links
+"ZFIN_vcxproj" --> "alib_lib" : links
+"ZFIN_vcxproj" --> "albtools_lib" : links
+"ZFIN_vcxproj" --> "Ws2_32_lib" : links
+"ZGUI_vcxproj" --> "tls100_m_lib" : links
+"ZGUI_vcxproj" --> "Ws2_32_lib" : links
+"ZGUI_vcxproj" --> "dbt80_m_lib" : links
+"ZGUI_vcxproj" --> "SSOAgent_lib" : links
+"ZML_vcxproj" --> "xerces_c_2_lib" : links
+"znllib_vcxproj" --> "odbc32_lib" : links
+"znllib_vcxproj" --> "odbccp32_lib" : links
+"znllib_vcxproj" --> "alib_g_lib" : links
+"znllib_vcxproj" --> "albtools_g_lib" : links
+"znllib_vcxproj" --> "Ws2_32_lib" : links
+"ZReport_vcxproj" --> "tls100_m_lib" : links
+"ZReport_vcxproj" --> "dbt80_m_lib" : links
+"ZReport_vcxproj" --> "Ws2_32_lib" : links
+"ZReport_vcxproj" --> "primedll_lib" : links
+"ZTradeUpload_vcxproj" --> "tls100_m_lib" : links
+"ZTradeUpload_vcxproj" --> "dbt80_m_lib" : links
+"ZUtil_vcxproj" --> "tls100_m_lib" : links
+"ZUtil_vcxproj" --> "Ws2_32_lib" : links
+"ZUtil_vcxproj" --> "Mpr_lib" : links
+"ZValue_vcxproj" --> "tls100_m_lib" : links
+"ZValue_vcxproj" --> "dbt80_m_lib" : links
+"ZValue_vcxproj" --> "Ws2_32_lib" : links
+"ZValue_vcxproj" --> "primedll_lib" : links
+
+@enduml
