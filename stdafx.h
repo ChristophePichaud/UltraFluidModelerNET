@@ -153,7 +153,7 @@ using namespace std;
 
 
 
-#define VERSION_COMMUNITY
+//#define VERSION_COMMUNITY
 #define MAX_SHAPES          50
 
 #ifdef _UNICODE

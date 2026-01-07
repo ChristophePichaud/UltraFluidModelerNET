@@ -704,6 +704,10 @@ void CElementManager::DrawPaperLines(CModeler1View* pView, CDC* pDC)
 	{
 		return;
 	}
+
+	// Disable anti-aliasing for background drawing
+	// Too slow...
+	return;
 	
 	Graphics graphics(pDC->m_hDC);
 	graphics.ScaleTransform(m_fZoomFactor, m_fZoomFactor);

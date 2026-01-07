@@ -1,0 +1,212 @@
+@startuml "eCARB Schema (Avancé)"
+
+' Définition des stéréotypes
+hide circle
+skinparam classAttributeIconSize 0
+
+' DOMAINES PRINCIPAUX
+package "Affaires & Projets" {
+  class Affair {
+    +Id : Int
+    +NumAffair : String
+    +Name : String
+    +CAPEX : Float
+    +CommissioningDate : Date
+    +StartingDate : Date
+    +CreatedOn : DateTime
+    +UpdatedOn : DateTime
+    +CreatedBy : String
+    +UpdatedBy : String
+    +Status : Status
+  }
+
+  class Project {
+    +Id : Int
+    +Reference : String
+    +IsBlocked : Boolean
+    +CreatedOn : DateTime
+    +UpdatedOn : DateTime
+    +CreatedBy : String
+    +UpdatedBy : String
+    +Status : Status
+  }
+
+  class ProjectInput {
+    +Id : Int
+    +Name : String
+    +CodePI : String
+    +MainNumAffair : String
+    +CAPEX : Float
+    +CommissioningDate : Date
+    +StartingDate : Date
+    +InputType : ProjectInputType
+    +CreatedOn : DateTime
+    +UpdatedOn : DateTime
+    +CreatedBy : String
+    +UpdatedBy : String
+    +Status : Status
+  }
+
+  class ProjectStatus {
+    +Id : Int
+    +Code : String
+    +DefaultValue : String
+  }
+}
+
+package "Référentiels Techniques" {
+  class RefElement {
+    +Id : Int
+    +RatioEnergy : Float
+    +CountryId : Int
+    +UnitId : Int
+    +WorkTypeId : Int
+    +WorkSubTypeId : Int
+    +WorkNatureId : Int
+  }
+
+  class RefMaterial {
+    +Id : Int
+    +FE : Float
+    +MaterialId : Int
+    +MaterialCategoryId : Int
+    +CountryId : Int
+  }
+
+  class RefConstruction {
+    +Id : Int
+    +Quantity : Float
+    +RefElementId : Int
+    +RefMaterialId : Int
+  }
+
+  class RefEnergy {
+    +Id : Int
+    +EnergyId : Int
+    +CountryId : Int
+    +SiteId : Int
+    +UnitId : Int
+  }
+
+  class RefEnergyValue {
+    +Id : Int
+    +RefEnergyId : Int
+    +Value : Float
+    +Year : Int
+  }
+
+  class RefHypothesis {
+    +Id : Int
+    +Nature : HypothesisNature
+    +RefElementId : Int
+    +Value : Float
+  }
+}
+
+package "Études & ACV" {
+  class Study {
+    +Id : Int
+    +Title : String
+    +Description : String
+    +AnnualEmissionReduction : Float
+  }
+
+  class StudyElement {
+    +Id : Int
+    +Name : String
+    +InvestmentAmount : Decimal
+    +QuantityUF : Float
+    +WorkStartingYear : Int
+  }
+
+  class StudyAcv {
+    +Id : Int
+    +Value : Float
+  }
+
+  class StudyConstruction {
+    +Id : Int
+    +OverwrittenQuantity : Float
+  }
+
+  class StudyHypothesis {
+    +Id : Int
+    +OverwrittenValue : Float
+  }
+
+  class StudyUF {
+    +Id : Int
+    +Percentage : Float
+    +Year : Int
+  }
+
+  class Simulation {
+    +Id : Int
+    +Name : String
+  }
+}
+
+package "Trajectoires & Hypothèses" {
+  class TrajHypothesis {
+    +Id : Int
+    +StartYear : Int
+    +MaterialBuildEmissions : Float
+    +EnergyBuildEmissions : Float
+    +EnergyConsumptionEmissions : Float
+    +MaintenanceEmissions : Float
+  }
+
+  class TrajIntensity {
+    +Id : Int
+    +MaterialId : Int
+  }
+
+  class Trajectory {
+    +Id : Int
+    +Key : String
+  }
+
+  class TrajectoryValue {
+    +Id : Int
+    +Value : Float
+    +Year : Int
+  }
+}
+
+package "Utilisateurs & Traduction" {
+  class User {
+    +Id : Int
+    +FirstName : String
+    +LastName : String
+    +Email : String
+    +UserIdentifier : String
+  }
+
+  class UserRole {
+    +Id : Int
+    +Name : String
+    +IsAdmin : Boolean
+    +IsGlobalAdmin : Boolean
+  }
+
+  class Translation {
+    +Id : Int
+    +TranslatedValue : String
+  }
+}
+
+' === Associations principales simplifiées ===
+Affair --> Project : projet associé
+ProjectInput --> Project : intégré au projet
+Study --> Project : étude sur
+Study --> Simulation : simulation liée
+StudyElement --> Study : élément d'étude
+StudyElement --> RefElement : référence technique
+StudyConstruction --> RefConstruction : basé sur
+StudyHypothesis --> RefHypothesis : hypothèse utilisée
+StudyUF --> StudyElement : unité fonctionnelle
+TrajectoryValue --> Trajectory : valeur temporelle
+User --> UserRole : rôle
+Translation --> Lang : en langue
+
+@enduml
