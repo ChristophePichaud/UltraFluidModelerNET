@@ -6,6 +6,8 @@ class AFX_EXT_CLASS XMLData
 {
 };
 
+#ifdef USE_XML_SERIALIZATION
+
 class CSimpleShape;
 class CMainData;
 class CShapeCollection;
@@ -259,3 +261,4 @@ public:
 
 BOOST_CLASS_VERSION(CSimpleShape, 1)
 
+#endif // USE_XML_SERIALIZATION

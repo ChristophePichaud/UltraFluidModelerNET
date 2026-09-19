@@ -105,7 +105,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\UFMDrawing.def</ModuleDefinitionFile>
-      <OutputFile>..\Lib\$(TargetName)D$(TargetExt)</OutputFile>
+      <OutputFile>..\Lib\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Lib\$(TargetName)D.lib</ImportLibrary>
     </Link>
     <Midl>

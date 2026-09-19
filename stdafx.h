@@ -57,6 +57,8 @@ using namespace Gdiplus;
 using namespace std;
 
 
+#define USE_XML_SERIALIZATION // not using 
+#ifdef USE_XML_SERIALIZATION
 //
 // Boost section
 //
@@ -84,15 +86,16 @@ using namespace std;
 
 #ifdef _WIN64
     #ifdef _DEBUG
-        #pragma comment (lib, "boost_container-vc140-mt-gd.lib")
-        #pragma comment (lib, "boost_serialization-vc140-mt-gd.lib")
-        #pragma comment (lib, "boost_wserialization-vc140-mt-gd.lib")
+        #pragma comment (lib, "boost_container-vc143-mt-gd-x64-1_89.lib")
+        #pragma comment (lib, "boost_serialization-vc143-mt-gd-x64-1_89.lib")
+        #pragma comment (lib, "boost_wserialization-vc143-mt-gd-x64-1_89.lib")
     #else    
-        #pragma comment (lib, "boost_container-vc140-mt.lib")
-        #pragma comment (lib, "boost_serialization-vc140-mt.lib")
-        #pragma comment (lib, "boost_wserialization-vc140-mt.lib")
+        #pragma comment (lib, "boost_container-vc143-mt-x64-1_89.lib")
+        #pragma comment (lib, "boost_serialization-vc143-mt-x64-1_89.lib")
+        #pragma comment (lib, "boost_wserialization-vc143-mt-x64-1_89.lib")
     #endif
 #endif
+#endif // USE_XML_SERIALIZATION
 
 #include <afx.h>
 
@@ -101,9 +104,9 @@ using namespace std;
     
 #ifdef _WIN64
     #ifdef _DEBUG
-        #pragma comment (lib, "Lib\\cpprest_2_10d.lib")
+        #pragma comment (lib, "cpprest_2_10d.lib")
     #else    
-        #pragma comment (lib, "Lib\\cpprest_2_10.lib")
+        #pragma comment (lib, "cpprest_2_10.lib")
     #endif
 #endif
 

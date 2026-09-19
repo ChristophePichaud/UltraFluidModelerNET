@@ -4090,6 +4090,7 @@ void CElementManager::OnFileExportPUML(CModeler1View* pView)
 
 void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 {
+#ifdef USE_XML_SERIALIZATION
 	USES_CONVERSION;
 
 	CFileDialog dlg(FALSE);
@@ -4194,11 +4195,13 @@ void CElementManager::Serialize_SaveAsXML(CModeler1View* pView)
 	std::ofstream xofs(filename.c_str());
 	boost::archive::xml_oarchive xoa(xofs);
 	xoa << BOOST_SERIALIZATION_NVP(data);
+#endif
 
 }
 
 void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 {
+#ifdef USE_XML_SERIALIZATION
 	USES_CONVERSION;
 
 	boost::shared_ptr<CShapeCollection> data(new CShapeCollection());
@@ -4334,6 +4337,7 @@ void CElementManager::Serialize_LoadAsXML(CModeler1View* pView)
 
 	// Redraw the view
 	Invalidate(pView);
+#endif
 
 }
 

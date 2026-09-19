@@ -42,6 +42,9 @@ using namespace std;
 #define BOOST_SERIALIZATION_DYN_LINK TRUE
 #define BOOST_ALL_DYN_LINK TRUE
 
+#undef USE_XML_SERIALIZATION // not using 
+#ifdef USE_XML_SERIALIZATION
+
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/archive/tmpdir.hpp>
 #include <boost/serialization/nvp.hpp>
@@ -62,16 +65,16 @@ using namespace std;
 
 #ifdef _WIN64
     #ifdef _DEBUG
-        #pragma comment (lib, "boost_container-vc140-mt-gd.lib")
-        #pragma comment (lib, "boost_serialization-vc140-mt-gd.lib")
-        #pragma comment (lib, "boost_wserialization-vc140-mt-gd.lib")
+        #pragma comment (lib, "boost_container-vc143-mt-gd-x64-1_89.lib")
+        #pragma comment (lib, "boost_serialization-vc143-mt-gd-x64-1_89.lib")
+        #pragma comment (lib, "boost_wserialization-vc143-mt-gd-x64-1_89.lib")
     #else    
-        #pragma comment (lib, "boost_container-vc140-mt.lib")
-        #pragma comment (lib, "boost_serialization-vc140-mt.lib")
-        #pragma comment (lib, "boost_wserialization-vc140-mt.lib")
+        #pragma comment (lib, "boost_container-vc143-mt-x64-1_89.lib")
+        #pragma comment (lib, "boost_serialization-vc143-mt-x64-1_89.lib")
+        #pragma comment (lib, "boost_wserialization-vc143-mt-x64-1_89.lib")
     #endif
 #endif
-
+#endif
 
 #include "common/SQLiteWrapper.h"
 #include "common/Database.h"
