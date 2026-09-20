@@ -190,6 +190,14 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnUpdateElementsScalePlus)
 	ON_COMMAND(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnElementsScaleMoins)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnUpdateElementsScaleMoins)
+	ON_COMMAND(ID_ELEMENTS_SCALE_WIDTH_PLUS, &CModeler1View::OnElementsScaleWidthPlus)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_WIDTH_PLUS, &CModeler1View::OnUpdateElementsScaleWidthPlus)
+	ON_COMMAND(ID_ELEMENTS_SCALE_WIDTH_MOINS, &CModeler1View::OnElementsScaleWidthMoins)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_WIDTH_MOINS, &CModeler1View::OnUpdateElementsScaleWidthMoins)
+	ON_COMMAND(ID_ELEMENTS_SCALE_HEIGHT_PLUS, &CModeler1View::OnElementsScaleHeightPlus)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_HEIGHT_PLUS, &CModeler1View::OnUpdateElementsScaleHeightPlus)
+	ON_COMMAND(ID_ELEMENTS_SCALE_HEIGHT_MOINS, &CModeler1View::OnElementsScaleHeightMoins)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_HEIGHT_MOINS, &CModeler1View::OnUpdateElementsScaleHeightMoins)
 	ON_COMMAND(ID_FORMAT_ROTATE_RIGHT90, &CModeler1View::OnFomatRotateRight90)
 	ON_UPDATE_COMMAND_UI(ID_FORMAT_ROTATE_RIGHT90, &CModeler1View::OnUpdateFomatRotateRight90)
 	ON_COMMAND(ID_FORMAT_ROTATE_LEFT90, &CModeler1View::OnFomatRotateLeft90)
@@ -1421,6 +1429,46 @@ void CModeler1View::OnElementsScaleMoins()
 }
 
 void CModeler1View::OnUpdateElementsScaleMoins(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnElementsScaleWidthPlus()
+{
+	GetManager()->OnElementsScaleWidthPlus(this);
+}
+
+void CModeler1View::OnUpdateElementsScaleWidthPlus(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnElementsScaleWidthMoins()
+{
+	GetManager()->OnElementsScaleWidthMoins(this);
+}
+
+void CModeler1View::OnUpdateElementsScaleWidthMoins(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnElementsScaleHeightPlus()
+{
+	GetManager()->OnElementsScaleHeightPlus(this);
+}
+
+void CModeler1View::OnUpdateElementsScaleHeightPlus(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(GetManager()->HasSelection() == true);
+}
+
+void CModeler1View::OnElementsScaleHeightMoins()
+{
+	GetManager()->OnElementsScaleHeightMoins(this);
+}
+
+void CModeler1View::OnUpdateElementsScaleHeightMoins(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetManager()->HasSelection() == true);
 }

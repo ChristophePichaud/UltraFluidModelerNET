@@ -618,6 +618,10 @@ void CMainFrame::InitMainButton()
 	CMFCRibbonPanel* pPanelElements = pFormatCategory->AddPanel(_T("Elements\nzd"), m_PanelImages.ExtractIcon(2));
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_PLUS, _T("Scale+\nc"), 52));
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_MOINS, _T("Scale-\nc"), 53));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_WIDTH_PLUS, _T("Scale Width+\nc"), 52));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_WIDTH_MOINS, _T("Scale Width-\nc"), 53));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_HEIGHT_PLUS, _T("Scale Height+\nc"), 52));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_HEIGHT_MOINS, _T("Scale Height-\nc"), 53));
 
 	//
 	// Category Features

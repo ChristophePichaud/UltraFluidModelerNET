@@ -217,6 +217,14 @@ public:
 	afx_msg void OnUpdateElementsScalePlus(CCmdUI* pCmdUI);
 	afx_msg void OnElementsScaleMoins();
 	afx_msg void OnUpdateElementsScaleMoins(CCmdUI* pCmdUI);
+	afx_msg void OnElementsScaleWidthPlus();
+	afx_msg void OnUpdateElementsScaleWidthPlus(CCmdUI* pCmdUI);
+	afx_msg void OnElementsScaleWidthMoins();
+	afx_msg void OnUpdateElementsScaleWidthMoins(CCmdUI* pCmdUI);
+	afx_msg void OnElementsScaleHeightPlus();
+	afx_msg void OnUpdateElementsScaleHeightPlus(CCmdUI* pCmdUI);
+	afx_msg void OnElementsScaleHeightMoins();
+	afx_msg void OnUpdateElementsScaleHeightMoins(CCmdUI* pCmdUI);
 	afx_msg void OnFomatRotateRight90();
 	afx_msg void OnUpdateFomatRotateRight90(CCmdUI* pCmdUI);
 	afx_msg void OnFomatRotateLeft90();

@@ -2707,7 +2707,10 @@ void CElementManager::LoadFolders(CModeler1View* pView)
 
 	CString strPath = dlg.GetFolderPath();
 	_files.clear();
-	SearchDrive(_T("*.*"), strPath, false, false);
+
+	// Try CPi 20/09/2026
+	//SearchDrive(_T("*.*"), strPath, false, false);
+	SearchDrive(_T("*.*"), strPath, true, false);
 
 	int count = 0;
 	for (shared_ptr<CCodeFile> file : _files)
@@ -2733,8 +2736,9 @@ void CElementManager::LoadFolders(CModeler1View* pView)
 		pNewElement->m_pManager = this;
 		pNewElement->m_pView = pView;
 		pNewElement->m_text = file->_name;
+		
 		// Read file content
-		//pNewElement->m_code = GetFileContent(file);
+		pNewElement->m_code = GetFileContent(file);
 		pNewElement->m_document = file->_path;
 
 		// Add an object
@@ -2753,6 +2757,7 @@ void CElementManager::OpenFolder(CModeler1View* pView)
 
 	CString strPath = pElement->m_document.c_str();;
 	_files.clear();
+
 	SearchDrive(_T("*.*"), strPath, false, false);
 
 	m_objects.RemoveAll();
@@ -4391,6 +4396,127 @@ void CElementManager::OnElementsScaleMoins(CModeler1View* pView)
 		int x2 = pElement->m_rect.right;
 		int y2 = pElement->m_rect.bottom;
 		x2 = x1 + (pElement->m_rect.Width() / 1.25);
+		y2 = y1 + (pElement->m_rect.Height() / 1.25);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
+}
+
+void CElementManager::OnElementsScaleWidthPlus(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		//int fontSize = pElement->m_fontSize;
+		//fontSize = fontSize + 4;
+		//if (fontSize > 20 && (fontSize % 2 != 0))
+		//{
+		//	fontSize++;
+		//}
+		//pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		x2 = x1 + (pElement->m_rect.Width() * 1.25);
+		//y2 = y1 + (pElement->m_rect.Height() * 1.25);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
+}
+
+
+void CElementManager::OnElementsScaleWidthMoins(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		//int fontSize = pElement->m_fontSize;
+		//fontSize = fontSize - 4;
+		//if (fontSize > 20 && (fontSize % 2 != 0))
+		//{
+		//	fontSize++;
+		//}
+		//pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		x2 = x1 + (pElement->m_rect.Width() / 1.25);
+		//y2 = y1 + (pElement->m_rect.Height() / 1.25);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
+}
+
+void CElementManager::OnElementsScaleHeightPlus(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		//int fontSize = pElement->m_fontSize;
+		//fontSize = fontSize + 4;
+		//if (fontSize > 20 && (fontSize % 2 != 0))
+		//{
+		//	fontSize++;
+		//}
+		//pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		//x2 = x1 + (pElement->m_rect.Width() * 1.25);
+		y2 = y1 + (pElement->m_rect.Height() * 1.25);
+		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
+		pElement->m_rect = rect;
+	}
+
+	shared_ptr<CElement> pElement = m_selection.GetHead();
+	UpdateUI(pView, pElement);
+	pView->Invalidate();
+}
+
+void CElementManager::OnElementsScaleHeightMoins(CModeler1View* pView)
+{
+	// For each elements, x2 the font size
+	for (shared_ptr<CElement> pElement : m_selection.m_objects)
+	{
+		// m_ font size
+		//int fontSize = pElement->m_fontSize;
+		//fontSize = fontSize - 4;
+		//if (fontSize > 20 && (fontSize % 2 != 0))
+		//{
+		//	fontSize++;
+		//}
+		//pElement->m_fontSize = fontSize;
+
+		// m_rect
+		int x1 = pElement->m_rect.left;
+		int y1 = pElement->m_rect.top;
+		int x2 = pElement->m_rect.right;
+		int y2 = pElement->m_rect.bottom;
+		//x2 = x1 + (pElement->m_rect.Width() / 1.25);
 		y2 = y1 + (pElement->m_rect.Height() / 1.25);
 		CRect rect(CPoint(x1, y1), CPoint(x2, y2));
 		pElement->m_rect = rect;

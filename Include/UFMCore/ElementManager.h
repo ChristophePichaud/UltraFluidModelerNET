@@ -260,6 +260,10 @@ public:
 	void BuildElementsCombo(CModeler1View* pView);
 	void OnElementsScalePlus(CModeler1View* pView);
 	void OnElementsScaleMoins(CModeler1View* pView);
+	void OnElementsScaleWidthPlus(CModeler1View* pView);
+	void OnElementsScaleWidthMoins(CModeler1View* pView);
+	void OnElementsScaleHeightPlus(CModeler1View* pView);
+	void OnElementsScaleHeightMoins(CModeler1View* pView);
 	void OnShapesLeftTop(CModeler1View* pView, ShapeType shapeType);
 	void OnShapesCenter(CModeler1View* pView, ShapeType shapeType);
 
