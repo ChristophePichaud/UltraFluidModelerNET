@@ -186,6 +186,8 @@ BEGIN_MESSAGE_MAP(CModeler1View, CScrollView)
 	ON_COMMAND(ID_FILE_EXPORT_JSON, &CModeler1View::OnFileExportJSON)
 	ON_COMMAND(ID_FILE_IMPORT_PUML, &CModeler1View::OnFileImportPUML)
 	ON_COMMAND(ID_FILE_EXPORT_PUML, &CModeler1View::OnFileExportPUML)
+	ON_COMMAND(ID_ELEMENTS_AUTO_LAYOUT, &CModeler1View::OnElementsAutoLayout)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_AUTO_LAYOUT, &CModeler1View::OnUpdateElementsAutoLayout)
 	ON_COMMAND(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnElementsScalePlus)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENTS_SCALE_PLUS, &CModeler1View::OnUpdateElementsScalePlus)
 	ON_COMMAND(ID_ELEMENTS_SCALE_MOINS, &CModeler1View::OnElementsScaleMoins)
@@ -1411,6 +1413,16 @@ void CModeler1View::OnFileImportPUML()
 void CModeler1View::OnFileExportPUML()
 {
 	GetManager()->OnFileExportPUML(this);
+}
+
+void CModeler1View::OnElementsAutoLayout()
+{
+	GetManager()->OnElementsAutoLayout(this);
+}
+
+void CModeler1View::OnUpdateElementsAutoLayout(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(TRUE);
 }
 
 void CModeler1View::OnElementsScalePlus()

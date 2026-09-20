@@ -369,6 +369,9 @@ public:
 
 	// UML Features
 	int m_ElementsCounts;
+public:
+	void CalcElementsCount();
+
 
 // Methods for Attributes
 public:

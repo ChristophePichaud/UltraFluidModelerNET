@@ -4032,8 +4032,8 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 
 
 	// Update positions based on layout
-	Invalidate(pView);
-	return;
+	//Invalidate(pView);
+	//return;
 
 	// Step 1: Define canvas size
 	int canvasWidth = 2000; // m_size.cx;
@@ -4082,6 +4082,56 @@ void CElementManager::OnFileImportPUML(CModeler1View* pView)
 	// Update positions based on layout
 	Invalidate(pView);
 
+}
+void CElementManager::OnElementsAutoLayout(CModeler1View* pView)
+{
+	// Step 1: Define canvas size
+	int canvasWidth = 2000; // m_size.cx;
+	int canvasHeight = 1500; // m_size.cy;
+
+	//GraphLayoutEngine engine;
+	GraphLayoutEngine engine(canvasWidth, canvasHeight);
+
+	// Process layout and relationships
+	for (auto& e : m_objects.m_objects)
+	{
+		e->CalcElementsCount();
+		engine.AddElement(e);
+	}
+
+	for (auto& pElement : m_objects.m_objects)
+	{
+		if (pElement->m_pConnector->m_pElement1 != nullptr && pElement->m_pConnector->m_pElement2 != nullptr)
+		{
+			engine.AddConnector(pElement->m_pConnector->m_pElement1, pElement->m_pConnector->m_pElement2);
+		}
+	}
+
+	// Run the layout engine
+	engine.RunLayout();
+
+	// Update positions of elements based on the layout calculed by RunLayout()
+	for (auto pElement : m_objects.m_objects)
+	{
+		if (pElement->m_pConnector->m_pElement1 != nullptr && pElement->m_pConnector->m_pElement2 != nullptr)
+		{
+			// Update positions based on layout
+			CPoint p1 = pElement->m_pConnector->m_pElement1->m_rect.CenterPoint();
+			CPoint p2 = pElement->m_pConnector->m_pElement2->m_rect.CenterPoint();
+			pElement->m_rect = CRect(p1, p2);
+
+			// Move the element to the back of the view
+			SelectNone();
+			Select(pElement);
+
+			// Move the selected element to back
+			//MoveToBack(pView);
+		}
+
+	}
+
+	// Update positions based on layout
+	Invalidate(pView);
 }
 
 void CElementManager::OnFileExportPUML(CModeler1View* pView)

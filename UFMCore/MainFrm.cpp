@@ -622,6 +622,7 @@ void CMainFrame::InitMainButton()
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_WIDTH_MOINS, _T("Scale Width-\nc"), 53));
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_HEIGHT_PLUS, _T("Scale Height+\nc"), 52));
 	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_SCALE_HEIGHT_MOINS, _T("Scale Height-\nc"), 53));
+	pPanelElements->Add(new CMFCRibbonButton(ID_ELEMENTS_AUTO_LAYOUT, _T("Auto layout\nc"), 58));
 
 	//
 	// Category Features

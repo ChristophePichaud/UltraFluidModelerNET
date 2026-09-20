@@ -213,6 +213,8 @@ public:
 	afx_msg void OnFileExportJSON();
 	afx_msg void OnFileImportPUML();
 	afx_msg void OnFileExportPUML();
+	afx_msg void OnElementsAutoLayout();
+	afx_msg void OnUpdateElementsAutoLayout(CCmdUI* pCmdUI);
 	afx_msg void OnElementsScalePlus();
 	afx_msg void OnUpdateElementsScalePlus(CCmdUI* pCmdUI);
 	afx_msg void OnElementsScaleMoins();

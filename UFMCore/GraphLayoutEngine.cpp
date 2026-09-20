@@ -211,7 +211,9 @@ void GraphLayoutEngine::ApplyPositions()
         node->element->m_rect.top = node->element->m_point.y;
         node->element->m_rect.left = node->element->m_point.x;
         node->element->m_rect.right = node->element->m_point.x + 100 + 50;
-        node->element->m_rect.bottom = node->element->m_point.y + (30 * node->element->m_ElementsCounts);
+        node->element->m_rect.bottom = node->element->m_point.y + 30 * node->element->m_ElementsCounts;
+        //node->element->m_rect.right = node->element->m_point.x + 100 + 50;
+        //node->element->m_rect.bottom = node->element->m_point.y + (30);// *node->element->m_ElementsCounts);
 
         // dump
         wprintf(L"Element %s at (%d, %d)\n", node->element->m_name.c_str(), node->element->m_point.x, node->element->m_point.y);

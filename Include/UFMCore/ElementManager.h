@@ -266,6 +266,7 @@ public:
 	void OnElementsScaleHeightMoins(CModeler1View* pView);
 	void OnShapesLeftTop(CModeler1View* pView, ShapeType shapeType);
 	void OnShapesCenter(CModeler1View* pView, ShapeType shapeType);
+	void OnElementsAutoLayout(CModeler1View* pView);
 
 // Rotation
 public:

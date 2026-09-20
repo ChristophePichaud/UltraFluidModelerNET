@@ -2577,5 +2577,17 @@ void CElement::Draw(CModeler1View * pView, CDC* pDC)
 	
 }
 
+void CElement::CalcElementsCount()
+{
+	// Find number of occurence of '\n' inside the text member
+	std::wstring text = this->m_text; 
+	
+	size_t newline_count = std::count(text.begin(), text.end(), L'\n');
+	
+	if (newline_count == 0)
+		m_ElementsCounts = 1;
+	else
+	m_ElementsCounts = (int)newline_count;
+}
 
 
