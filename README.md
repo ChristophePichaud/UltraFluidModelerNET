@@ -4,6 +4,9 @@ UltraFluidModelerNET is my open-source contribution for the Microsoft MVP progra
 
 Christophe Pichaud - christophep@cpixxi.com
 
+Download September 2026 Release -> better compiling systems updated
+<img width="1204" height="785" alt="UFM_zcm-dependencies" src="https://github.com/user-attachments/assets/c48351b4-6b06-46bd-8299-87d16b6d20a0" />
+
 Download the latest release -> dec 2025 and Open the data file JBB1 from data folder...
 ![Global View](./Images/Various/JBB1.png)
 
